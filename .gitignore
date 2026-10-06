@@ -1,0 +1,11 @@
+# 원본 CSV는 1GB 이상(GitHub 100MB 제한 초과) → 저장소에 올리지 않음. 각자 data/raw에 직접 다운로드
+data/raw/*
+!data/raw/.gitkeep
+
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
