@@ -1,0 +1,74 @@
+﻿node_id,district_code,district_name,location_info,exists_in_2025_06_08,match_status
+22-0001,22,서초,서초구 방배천로 54앞 전용맨홀(방배경찰서앞~청도빌딩앞 보도내),True,MATCHED
+22-0002,22,서초,서초구 서운로164~서운로162사이 골목앞 전용맨홀(진흥아파트6~7동옆 중앙차선내),True,MATCHED
+22-0003,22,서초,서초구 서초대로23길 77앞 사거리내 맨홀<언제나처음처럼~방배시티아파트101동옆(서초대로23길74) 사거리>,True,MATCHED
+22-0004,22,서초,서초구 방배천로 16옆 보도내 전용맨홀(호림수산옆 방배복개공영주차장 방배천로4길측 보도내),True,MATCHED
+22-0005,22,서초,서초구 방배로19길 14옆 전용사각맨홀(외환은행 방배동지점뒤),True,MATCHED
+22-0006,22,서초,서초구 주흥3길 20앞 맨홀(현대빌라앞~일호자동차공업사앞),True,MATCHED
+22-0007,22,서초,서초구 논현로31길 44앞 맨홀(혜인빌딩~세원빌딩간),True,MATCHED
+22-0008,22,서초,서초구 방배중앙로 121앞 (방배빗물펌프장유입박스 천장),True,MATCHED
+22-0009,22,서초,서초구 서초4동 1305-8 (동일빌딩 옆),True,MATCHED
+22-0010,22,서초,서초구 강남대로 399앞 맨홀(강남역#9출입구 뒤 보도내),True,MATCHED
+22-0011,22,서초,"서초구 강남대로 375앞 맨홀(강남역#6번출입구옆, 서초현대타워앞)",True,MATCHED
+22-0012,22,서초,"서초구 서운로21길 2앞 전용사각(서초빗물펌프장내 박스, 서일중학교체육관 뒤)",True,MATCHED
+22-0013,22,서초,"서초구 고무래로 94월편 보도내 작업구 하수박스 천장 (현대4차아파트301동옆 월편, 삼호가든아파트 다동옆)",True,MATCHED
+22-0014,22,서초,"서초구 서초대로78길38앞 (서초동1396) 삼성화재 맞은편, 2018/07/06편집_장비제원업데이트요망",True,MATCHED
+22-0015,22,서초,,True,NO_LOCATION
+22-0016,22,서초,,True,NO_LOCATION
+22-0017,22,서초,,True,NO_LOCATION
+22-0018,22,서초,,True,NO_LOCATION
+22-0019,22,서초,,True,NO_LOCATION
+22-0020,22,서초,서울특별시 서초구 잠원동 32-9,True,MATCHED
+22-0021,22,서초,,True,NO_LOCATION
+22-0022,22,서초,,True,NO_LOCATION
+22-0023,22,서초,서초구 잠원로 37-48,True,MATCHED
+22-0024,22,서초,,True,NO_LOCATION
+22-0025,22,서초,서울 서초구 서초중앙로 255,True,MATCHED
+22-0026,22,서초,,True,NO_LOCATION
+22-0027,22,서초,,True,NO_LOCATION
+22-0028,22,서초,,True,NO_LOCATION
+22-0029,22,서초,,True,NO_LOCATION
+22-0030,22,서초,,True,NO_LOCATION
+22-0031,22,서초,,True,NO_LOCATION
+22-0032,22,서초,,True,NO_LOCATION
+22-0033,22,서초,,True,NO_LOCATION
+22-0034,22,서초,,True,NO_LOCATION
+22-0035,22,서초,,True,NO_LOCATION
+22-0036,22,서초,,True,NO_LOCATION
+22-0037,22,서초,서울 서초구 서초대로 279,True,MATCHED
+22-0038,22,서초,,True,NO_LOCATION
+22-0039,22,서초,,True,NO_LOCATION
+22-0040,22,서초,,True,NO_LOCATION
+22-0041,22,서초,,True,NO_LOCATION
+22-0042,22,서초,,True,NO_LOCATION
+22-0043,22,서초,,True,NO_LOCATION
+22-0044,22,서초,,True,NO_LOCATION
+22-0045,22,서초,,True,NO_LOCATION
+22-0046,22,서초,,True,NO_LOCATION
+22-0047,22,서초,,True,NO_LOCATION
+22-0048,22,서초,,True,NO_LOCATION
+22-0049,22,서초,서울 서초구 서초대로78길 52,True,MATCHED
+22-0050,22,서초,,True,NO_LOCATION
+22-0051,22,서초,서울 서초구 효령로 394,True,MATCHED
+22-0052,22,서초,,True,NO_LOCATION
+22-0053,22,서초,서울 서초구 서초대로70길 6,True,MATCHED
+22-0054,22,서초,서울 서초구 서초동 1324-1,True,MATCHED
+22-0055,22,서초,,True,NO_LOCATION
+22-0056,22,서초,,True,NO_LOCATION
+22-0057,22,서초,,True,NO_LOCATION
+22-0058,22,서초,,True,NO_LOCATION
+22-0059,22,서초,,True,NO_LOCATION
+22-0070,22,서초,방배동 836-11,False,LOCATION_ONLY
+22-0071,22,서초,방배동 836-13,False,LOCATION_ONLY
+22-0072,22,서초,방배동 936-23,False,LOCATION_ONLY
+22-0073,22,서초,방배동 927-36,False,LOCATION_ONLY
+22-0074,22,서초,방배동 910-18,False,LOCATION_ONLY
+22-0075,22,서초,방배동 3151-4,False,LOCATION_ONLY
+22-0076,22,서초,방배동 493-1,False,LOCATION_ONLY
+22-0078,22,서초,서초동 1738-8,False,LOCATION_ONLY
+22-0079,22,서초,서초동 1379,False,LOCATION_ONLY
+22-0080,22,서초,서초동 1379,False,LOCATION_ONLY
+22-0081,22,서초,서초동 1377,False,LOCATION_ONLY
+22-0082,22,서초,서초동 1380,False,LOCATION_ONLY
+22-0084,22,서초,염곡동 305,False,LOCATION_ONLY
+22-1000,22,서초,,True,NO_LOCATION
