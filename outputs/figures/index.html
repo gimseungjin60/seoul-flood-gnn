@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gangnam Figures</title>
+<style>
+:root { --bg:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --line:#e4e3df; }
+@media (prefers-color-scheme: dark) { :root { --bg:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --line:#383835; } }
+body { margin:0; padding:16px; background:var(--bg); color:var(--ink); font:14px/1.5 system-ui, "Malgun Gothic", sans-serif; }
+h1 { font-size:18px; margin:0 0 4px; } p { color:var(--ink2); margin:0 0 16px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap:16px; }
+figure { margin:0; border:1px solid var(--line); border-radius:8px; padding:8px; background:#fcfcfb; }
+img { width:100%; height:auto; display:block; } figcaption { color:#52514e; font-size:12px; margin-top:6px; }
+</style></head><body>
+<h1>강남구 하수관로 수위 연구 — 결과 그림</h1>
+<p>모든 그림은 data/processed의 기존 결과에서 생성. 기준 모델 성능은 GNN 결과가 아님. 그래프 간선은 도로망 근접 관계(실제 하수관로 아님).</p>
+<div class="grid">
+<figure><a href="fig1_spatial_graph_k3.png"><img src="fig1_spatial_graph_k3.png" alt="fig1_spatial_graph_k3" loading="lazy"></a><figcaption>fig1_spatial_graph_k3.png</figcaption></figure>
+<figure><a href="fig2_water_levels_full.png"><img src="fig2_water_levels_full.png" alt="fig2_water_levels_full" loading="lazy"></a><figcaption>fig2_water_levels_full.png</figcaption></figure>
+<figure><a href="fig2_water_levels_zoom.png"><img src="fig2_water_levels_zoom.png" alt="fig2_water_levels_zoom" loading="lazy"></a><figcaption>fig2_water_levels_zoom.png</figcaption></figure>
+<figure><a href="fig3_baseline_mae.png"><img src="fig3_baseline_mae.png" alt="fig3_baseline_mae" loading="lazy"></a><figcaption>fig3_baseline_mae.png</figcaption></figure>
+<figure><a href="fig3_baseline_rmse.png"><img src="fig3_baseline_rmse.png" alt="fig3_baseline_rmse" loading="lazy"></a><figcaption>fig3_baseline_rmse.png</figcaption></figure>
+<figure><a href="fig4_observation_availability.png"><img src="fig4_observation_availability.png" alt="fig4_observation_availability" loading="lazy"></a><figcaption>fig4_observation_availability.png</figcaption></figure>
+</div></body></html>

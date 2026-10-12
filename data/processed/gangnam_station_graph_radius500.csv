@@ -1,0 +1,5 @@
+﻿node_a,node_b,road_dist_m,straight_dist_m,detour_ratio,selected_by,mutual,edge_type,involves_facility_proxy,involves_review_node,long_edge,large_detour
+23-0001,23-0002,254.8,179.2,1.422,road_dist<=500m,True,approx_road_proximity,False,False,False,False
+23-0007,23-0008,273.5,205.7,1.33,road_dist<=500m,True,approx_road_proximity,True,True,False,False
+23-0012,23-0013,219.3,187.9,1.167,road_dist<=500m,True,approx_road_proximity,False,False,False,False
+23-0014,23-0015,200.4,160.9,1.245,road_dist<=500m,True,approx_road_proximity,True,True,False,False

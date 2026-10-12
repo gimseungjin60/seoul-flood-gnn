@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_85b9217b8a7c4cf724317b9ee3d9d993 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    <div style="position:fixed;bottom:24px;left:24px;z-index:9999;background:#fff;padding:10px 12px;border:1px solid #999;border-radius:6px;font:13px sans-serif;color:#111"><b>강남 수위 관측 지점 (18개 표시)</b><div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#2563eb;margin-right:6px"></span>주소 기반 좌표</div><div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f59e0b;margin-right:6px"></span>시설 위치 대용 좌표 (검토 필요)</div><div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#dc2626;margin-right:6px"></span>검증 경고 있음 (근접·이상치·범위 밖 등)</div><div style="margin-top:4px">검은 테두리 = needs_review=True</div><div>좌표 없음(마커 없음): 23-0011, 23-0018</div></div>
+    
+            <div class="folium-map" id="map_85b9217b8a7c4cf724317b9ee3d9d993" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_85b9217b8a7c4cf724317b9ee3d9d993 = L.map(
+                "map_85b9217b8a7c4cf724317b9ee3d9d993",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 1,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_da0bb8ce061516f906323ec5a82f687c = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_da0bb8ce061516f906323ec5a82f687c.addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+            var circle_marker_190fe5dad3bc337915d2295d2b9c7e6a = L.circleMarker(
+                [37.5246926724877, 127.024594802584],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_0db87fb3104c7a905c74805fc86de79d = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_6578c46a358f825e037c17f231f949b6 = $(`<div id="html_6578c46a358f825e037c17f231f949b6" style="width: 100.0%; height: 100.0%;"><b>23-0001</b><br>원본 위치정보: 강남구 압구정로20길 6앞 맨홀&amp;lt;한스빌딩(더플랜성형외과)앞~백상빌딩간 횡단보도내&amp;gt;<br>검색된 주소: 서울 강남구 압구정로20길 6<br>위도: 37.524693<br>경도: 127.024595<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_0db87fb3104c7a905c74805fc86de79d.setContent(html_6578c46a358f825e037c17f231f949b6);
+            
+        
+
+        circle_marker_190fe5dad3bc337915d2295d2b9c7e6a.bindPopup(popup_0db87fb3104c7a905c74805fc86de79d)
+        ;
+
+        
+    
+    
+            circle_marker_190fe5dad3bc337915d2295d2b9c7e6a.bindTooltip(
+                `<div>
+                     23-0001
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4d5b40e517f7f690f46a8964bb9264f1 = L.circleMarker(
+                [37.5239873738344, 127.022767362856],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_a5cd1003222b58e6c7a09780cdc88e4e = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_454f52233f22e0c3234c62c433dca13a = $(`<div id="html_454f52233f22e0c3234c62c433dca13a" style="width: 100.0%; height: 100.0%;"><b>23-0002</b><br>원본 위치정보: 강남구 압구정로128앞 맨홀(신사동주민센터앞 횡단보도내, 현대고 서측정문앞)<br>검색된 주소: 서울 강남구 압구정로 128<br>위도: 37.523987<br>경도: 127.022767<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_a5cd1003222b58e6c7a09780cdc88e4e.setContent(html_454f52233f22e0c3234c62c433dca13a);
+            
+        
+
+        circle_marker_4d5b40e517f7f690f46a8964bb9264f1.bindPopup(popup_a5cd1003222b58e6c7a09780cdc88e4e)
+        ;
+
+        
+    
+    
+            circle_marker_4d5b40e517f7f690f46a8964bb9264f1.bindTooltip(
+                `<div>
+                     23-0002
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b3f1b16128bcb7c771264f8538b12b09 = L.circleMarker(
+                [37.4945603877761, 127.062632515245],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_3a01686a7341c8028e02041cf1b5d79b = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_358911a8f431401eb1362dde5f034dce = $(`<div id="html_358911a8f431401eb1362dde5f034dce" style="width: 100.0%; height: 100.0%;"><b>23-0003</b><br>원본 위치정보: 강남구 남부순환로2947앞(재경빌딩앞 횡단보도내, 대치역사거리)<br>검색된 주소: 서울 강남구 남부순환로 2947<br>위도: 37.494560<br>경도: 127.062633<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_3a01686a7341c8028e02041cf1b5d79b.setContent(html_358911a8f431401eb1362dde5f034dce);
+            
+        
+
+        circle_marker_b3f1b16128bcb7c771264f8538b12b09.bindPopup(popup_3a01686a7341c8028e02041cf1b5d79b)
+        ;
+
+        
+    
+    
+            circle_marker_b3f1b16128bcb7c771264f8538b12b09.bindTooltip(
+                `<div>
+                     23-0003
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_831d1556dd8c1cf8eeb9f5e7382b3428 = L.circleMarker(
+                [37.4996157705058, 127.065915414443],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_66dd86f767687960a996c1ae66334d75 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_cf3cdd93f3799efac0d347e8c939739f = $(`<div id="html_cf3cdd93f3799efac0d347e8c939739f" style="width: 100.0%; height: 100.0%;"><b>23-0004</b><br>원본 위치정보: 강남구 삼성로212앞 맨홀(은마아파트1동~미도아파트208동간,중안차로 안전지대내)<br>검색된 주소: 서울 강남구 삼성로 212<br>위도: 37.499616<br>경도: 127.065915<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_66dd86f767687960a996c1ae66334d75.setContent(html_cf3cdd93f3799efac0d347e8c939739f);
+            
+        
+
+        circle_marker_831d1556dd8c1cf8eeb9f5e7382b3428.bindPopup(popup_66dd86f767687960a996c1ae66334d75)
+        ;
+
+        
+    
+    
+            circle_marker_831d1556dd8c1cf8eeb9f5e7382b3428.bindTooltip(
+                `<div>
+                     23-0004
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a487fd978bf06a8573d6326d01abfac3 = L.circleMarker(
+                [37.5066259555806, 127.054608224693],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_854ca752b7d55c8bbe9fb0a75cc689e4 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_87fc9a4e49c4c9dff038b6a17ea5b188 = $(`<div id="html_87fc9a4e49c4c9dff038b6a17ea5b188" style="width: 100.0%; height: 100.0%;"><b>23-0005</b><br>원본 위치정보: 테헤란로435앞 맨홀(대종빌딩~삼영빌딩간 횡단보도앞 테헤란로측)<br>검색된 주소: 서울 강남구 테헤란로 435<br>위도: 37.506626<br>경도: 127.054608<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_854ca752b7d55c8bbe9fb0a75cc689e4.setContent(html_87fc9a4e49c4c9dff038b6a17ea5b188);
+            
+        
+
+        circle_marker_a487fd978bf06a8573d6326d01abfac3.bindPopup(popup_854ca752b7d55c8bbe9fb0a75cc689e4)
+        ;
+
+        
+    
+    
+            circle_marker_a487fd978bf06a8573d6326d01abfac3.bindTooltip(
+                `<div>
+                     23-0005
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_30352365711ab5a6f7b7557893c23cce = L.circleMarker(
+                [37.4937267992669, 127.033275307218],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_f1009b9065f24f38a4021eb6f9ce0c8d = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_9fe82e8574686ae001941e7d1f89f119 = $(`<div id="html_9fe82e8574686ae001941e7d1f89f119" style="width: 100.0%; height: 100.0%;"><b>23-0006</b><br>원본 위치정보: 강남구 역삼로 124앞 맨홀(청보빌딩앞 정지선앞~역삼로123 인정빌딩월편)<br>검색된 주소: 서울 강남구 역삼로 124<br>위도: 37.493727<br>경도: 127.033275<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_f1009b9065f24f38a4021eb6f9ce0c8d.setContent(html_9fe82e8574686ae001941e7d1f89f119);
+            
+        
+
+        circle_marker_30352365711ab5a6f7b7557893c23cce.bindPopup(popup_f1009b9065f24f38a4021eb6f9ce0c8d)
+        ;
+
+        
+    
+    
+            circle_marker_30352365711ab5a6f7b7557893c23cce.bindTooltip(
+                `<div>
+                     23-0006
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1c40579d8679b6c436ae2e1b3d08e9cc = L.circleMarker(
+                [37.5288584438343, 127.034383434065],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_5cdc09921c985f78497d70d01de11d1f = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_a4d8550c71524a6be3b7f46137ed6bfb = $(`<div id="html_a4d8550c71524a6be3b7f46137ed6bfb" style="width: 100.0%; height: 100.0%;"><b>23-0007</b><br>원본 위치정보: 서울특별시 강남구 성수대교남단 교차로 윤호병원 보도 앞<br>검색된 주소: 서울 강남구 압구정로 304<br>매칭 시설: 윤호병원<br>위도: 37.528858<br>경도: 127.034383<br>좌표 출처: FACILITY_PROXY<br>검토 필요: True<br>검증 경고: 없음</div>`)[0];
+                popup_5cdc09921c985f78497d70d01de11d1f.setContent(html_a4d8550c71524a6be3b7f46137ed6bfb);
+            
+        
+
+        circle_marker_1c40579d8679b6c436ae2e1b3d08e9cc.bindPopup(popup_5cdc09921c985f78497d70d01de11d1f)
+        ;
+
+        
+    
+    
+            circle_marker_1c40579d8679b6c436ae2e1b3d08e9cc.bindTooltip(
+                `<div>
+                     23-0007
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b2ea7676ed44460cd0c6c31e16fd8192 = L.circleMarker(
+                [37.528391947359, 127.036640212616],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_e7f6bf0d4638f1f5e4df967049db0cbf = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_f480a73e2f9009c149d6a2c2fffeac8e = $(`<div id="html_f480a73e2f9009c149d6a2c2fffeac8e" style="width: 100.0%; height: 100.0%;"><b>23-0008</b><br>원본 위치정보: 서울특별시 강남구 압구정로 46길 4 스틱윗미 도로 앞<br>검색된 주소: 서울 강남구 압구정로46길 4<br>위도: 37.528392<br>경도: 127.036640<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_e7f6bf0d4638f1f5e4df967049db0cbf.setContent(html_f480a73e2f9009c149d6a2c2fffeac8e);
+            
+        
+
+        circle_marker_b2ea7676ed44460cd0c6c31e16fd8192.bindPopup(popup_e7f6bf0d4638f1f5e4df967049db0cbf)
+        ;
+
+        
+    
+    
+            circle_marker_b2ea7676ed44460cd0c6c31e16fd8192.bindTooltip(
+                `<div>
+                     23-0008
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a3847e518c84b01633cadecc903338d5 = L.circleMarker(
+                [37.5242522547063, 127.037053134925],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_cc96ae4c6371e5dc0bb72f7085315efa = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_0137cca39d106c66235b4eabe1937144 = $(`<div id="html_0137cca39d106c66235b4eabe1937144" style="width: 100.0%; height: 100.0%;"><b>23-0009</b><br>원본 위치정보: 서울특별시 강남구 도산대로49길 21 셀코스메트 도산 공원 부티크 도로 앞<br>검색된 주소: 서울 강남구 도산대로49길 21<br>위도: 37.524252<br>경도: 127.037053<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_cc96ae4c6371e5dc0bb72f7085315efa.setContent(html_0137cca39d106c66235b4eabe1937144);
+            
+        
+
+        circle_marker_a3847e518c84b01633cadecc903338d5.bindPopup(popup_cc96ae4c6371e5dc0bb72f7085315efa)
+        ;
+
+        
+    
+    
+            circle_marker_a3847e518c84b01633cadecc903338d5.bindTooltip(
+                `<div>
+                     23-0009
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_17965ea91098024283ca137195d93ce2 = L.circleMarker(
+                [37.5280778934736, 127.050258887695],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_79f4950cb656e661c22ef738663abd58 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_63a9b4b117058023af4a8032dd0e2169 = $(`<div id="html_63a9b4b117058023af4a8032dd0e2169" style="width: 100.0%; height: 100.0%;"><b>23-0010</b><br>원본 위치정보: 서울특별시 강남구 도산대로85길 56 현대한강아파트 도로 옆<br>검색된 주소: 서울 강남구 도산대로85길 56<br>위도: 37.528078<br>경도: 127.050259<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_79f4950cb656e661c22ef738663abd58.setContent(html_63a9b4b117058023af4a8032dd0e2169);
+            
+        
+
+        circle_marker_17965ea91098024283ca137195d93ce2.bindPopup(popup_79f4950cb656e661c22ef738663abd58)
+        ;
+
+        
+    
+    
+            circle_marker_17965ea91098024283ca137195d93ce2.bindTooltip(
+                `<div>
+                     23-0010
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b54b24cc725e42b0f8f247e560d66dcd = L.circleMarker(
+                [37.5192294745262, 127.04683575181],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_80cb3221d1432148fec42c0303675483 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_2f0a398b5c9b3bf321c2b35d824d5b47 = $(`<div id="html_2f0a398b5c9b3bf321c2b35d824d5b47" style="width: 100.0%; height: 100.0%;"><b>23-0012</b><br>원본 위치정보: 서울특별시 강남구 학동로 67길 14 이마트24 도로 앞<br>검색된 주소: 서울 강남구 학동로67길 14<br>위도: 37.519229<br>경도: 127.046836<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_80cb3221d1432148fec42c0303675483.setContent(html_2f0a398b5c9b3bf321c2b35d824d5b47);
+            
+        
+
+        circle_marker_b54b24cc725e42b0f8f247e560d66dcd.bindPopup(popup_80cb3221d1432148fec42c0303675483)
+        ;
+
+        
+    
+    
+            circle_marker_b54b24cc725e42b0f8f247e560d66dcd.bindTooltip(
+                `<div>
+                     23-0012
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9680057506d8d0750bda4872a867d042 = L.circleMarker(
+                [37.5181537765035, 127.045191941905],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_80ac6bc039098b4112f54f6268e86540 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_ac1455d691630cb9d5ad32b7bd7f6c6c = $(`<div id="html_ac1455d691630cb9d5ad32b7bd7f6c6c" style="width: 100.0%; height: 100.0%;"><b>23-0013</b><br>원본 위치정보: 서울특별시 강남구 학동로 413 보도 앞<br>검색된 주소: 서울 강남구 학동로 413<br>위도: 37.518154<br>경도: 127.045192<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_80ac6bc039098b4112f54f6268e86540.setContent(html_ac1455d691630cb9d5ad32b7bd7f6c6c);
+            
+        
+
+        circle_marker_9680057506d8d0750bda4872a867d042.bindPopup(popup_80ac6bc039098b4112f54f6268e86540)
+        ;
+
+        
+    
+    
+            circle_marker_9680057506d8d0750bda4872a867d042.bindTooltip(
+                `<div>
+                     23-0013
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d8bf64762cc72edd6d041ecba94947cf = L.circleMarker(
+                [37.4944316258578, 127.086240256651],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_11a03d518f8529c8558b4ec596a6a24b = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_28b6aee4d4905ebc3a060c833b352a43 = $(`<div id="html_28b6aee4d4905ebc3a060c833b352a43" style="width: 100.0%; height: 100.0%;"><b>23-0014</b><br>원본 위치정보: 서울특별시 강남구 개포로 140길 현대블루핸즈 도로 앞<br>검색된 주소: 서울 강남구 개포로140길 18<br>매칭 시설: 현대자동차블루핸즈 일원점<br>위도: 37.494432<br>경도: 127.086240<br>좌표 출처: FACILITY_PROXY<br>검토 필요: True<br>검증 경고: 없음</div>`)[0];
+                popup_11a03d518f8529c8558b4ec596a6a24b.setContent(html_28b6aee4d4905ebc3a060c833b352a43);
+            
+        
+
+        circle_marker_d8bf64762cc72edd6d041ecba94947cf.bindPopup(popup_11a03d518f8529c8558b4ec596a6a24b)
+        ;
+
+        
+    
+    
+            circle_marker_d8bf64762cc72edd6d041ecba94947cf.bindTooltip(
+                `<div>
+                     23-0014
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9ac215f88f9c0219518e4b828a0660c1 = L.circleMarker(
+                [37.4929972293278, 127.086478108746],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_73d82263a2fdccf8c52c35f9731b7c8c = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_411830659eda65d111b6b3de9ed314d4 = $(`<div id="html_411830659eda65d111b6b3de9ed314d4" style="width: 100.0%; height: 100.0%;"><b>23-0015</b><br>원본 위치정보: 서울특별시 강남구 일원로5길 85 일반주택 도로 앞<br>검색된 주소: 서울 강남구 일원로5길 85<br>위도: 37.492997<br>경도: 127.086478<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_73d82263a2fdccf8c52c35f9731b7c8c.setContent(html_411830659eda65d111b6b3de9ed314d4);
+            
+        
+
+        circle_marker_9ac215f88f9c0219518e4b828a0660c1.bindPopup(popup_73d82263a2fdccf8c52c35f9731b7c8c)
+        ;
+
+        
+    
+    
+            circle_marker_9ac215f88f9c0219518e4b828a0660c1.bindTooltip(
+                `<div>
+                     23-0015
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_56df079fdbc9ab01ba56b97e865aec6e = L.circleMarker(
+                [37.4807037134168, 127.083957953079],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_5d663fb76c06137ea0a5b9392d56949f = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_ba59259c3d26343be1529434d10ca5d2 = $(`<div id="html_ba59259c3d26343be1529434d10ca5d2" style="width: 100.0%; height: 100.0%;"><b>23-0017</b><br>원본 위치정보: 서울특별시 강남구 광평로 20길 63 서울로봇고등학교 정문 앞<br>검색된 주소: 서울 강남구 광평로20길 63<br>위도: 37.480704<br>경도: 127.083958<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_5d663fb76c06137ea0a5b9392d56949f.setContent(html_ba59259c3d26343be1529434d10ca5d2);
+            
+        
+
+        circle_marker_56df079fdbc9ab01ba56b97e865aec6e.bindPopup(popup_5d663fb76c06137ea0a5b9392d56949f)
+        ;
+
+        
+    
+    
+            circle_marker_56df079fdbc9ab01ba56b97e865aec6e.bindTooltip(
+                `<div>
+                     23-0017
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f6e6c648a9115c21ddbbe84a2604b4fe = L.circleMarker(
+                [37.4883751535989, 127.102475755025],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_21a66439f49c8829d072f93d2515d0b5 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_30da3994b5b1f440fdde737da7ca1cc6 = $(`<div id="html_30da3994b5b1f440fdde737da7ca1cc6" style="width: 100.0%; height: 100.0%;"><b>23-0019</b><br>원본 위치정보: 서울특별시 강남구 광평로 51길 8 로얄프라자 도로 앞<br>검색된 주소: 서울 강남구 광평로51길 8<br>위도: 37.488375<br>경도: 127.102476<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_21a66439f49c8829d072f93d2515d0b5.setContent(html_30da3994b5b1f440fdde737da7ca1cc6);
+            
+        
+
+        circle_marker_f6e6c648a9115c21ddbbe84a2604b4fe.bindPopup(popup_21a66439f49c8829d072f93d2515d0b5)
+        ;
+
+        
+    
+    
+            circle_marker_f6e6c648a9115c21ddbbe84a2604b4fe.bindTooltip(
+                `<div>
+                     23-0019
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b686695d99f7c192418ec8ce92b06fa2 = L.circleMarker(
+                [37.509142280575, 127.022653821622],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_ff89211dd50a2e85ca5f8044d6560b37 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_f6bc487582037ea5dd7c140e0e13e7d5 = $(`<div id="html_f6bc487582037ea5dd7c140e0e13e7d5" style="width: 100.0%; height: 100.0%;"><b>23-0020</b><br>원본 위치정보: 서울특별시 강남구 논현동 143-14<br>검색된 주소: 서울 강남구 논현동 143-14<br>위도: 37.509142<br>경도: 127.022654<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_ff89211dd50a2e85ca5f8044d6560b37.setContent(html_f6bc487582037ea5dd7c140e0e13e7d5);
+            
+        
+
+        circle_marker_b686695d99f7c192418ec8ce92b06fa2.bindPopup(popup_ff89211dd50a2e85ca5f8044d6560b37)
+        ;
+
+        
+    
+    
+            circle_marker_b686695d99f7c192418ec8ce92b06fa2.bindTooltip(
+                `<div>
+                     23-0020
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_07cb7224cc633eeb4813b3bd0e20fa9d = L.circleMarker(
+                [37.4840309826118, 127.094990199181],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(map_85b9217b8a7c4cf724317b9ee3d9d993);
+        
+    
+        var popup_bb6185fa03184753d185efc8cf8bba7e = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_548f1e1409c7c81bd483b489612e8ce5 = $(`<div id="html_548f1e1409c7c81bd483b489612e8ce5" style="width: 100.0%; height: 100.0%;"><b>23-0021</b><br>원본 위치정보: 서울특별시 강남구 광평로 202 SK주유소 공원 도로 앞<br>검색된 주소: 서울 강남구 광평로 202<br>위도: 37.484031<br>경도: 127.094990<br>좌표 출처: ADDRESS<br>검토 필요: False<br>검증 경고: 없음</div>`)[0];
+                popup_bb6185fa03184753d185efc8cf8bba7e.setContent(html_548f1e1409c7c81bd483b489612e8ce5);
+            
+        
+
+        circle_marker_07cb7224cc633eeb4813b3bd0e20fa9d.bindPopup(popup_bb6185fa03184753d185efc8cf8bba7e)
+        ;
+
+        
+    
+    
+            circle_marker_07cb7224cc633eeb4813b3bd0e20fa9d.bindTooltip(
+                `<div>
+                     23-0021
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            map_85b9217b8a7c4cf724317b9ee3d9d993.fitBounds(
+                [[37.4807037134168, 127.022653821622], [37.5288584438343, 127.102475755025]],
+                {"padding": [30, 30]}
+            );
+        
+</script>
+</html>

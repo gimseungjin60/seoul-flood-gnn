@@ -1,0 +1,21 @@
+﻿node_id,district_code,district_name,search_keyword,location_source,geocoding_status,geocoding_method,latitude,longitude,n_results,matched_address,location_basis,needs_review,retry_query,matched_place
+23-0001,23,강남,강남구 압구정로20길 6앞 맨홀&lt;한스빌딩(더플랜성형외과)앞~백상빌딩간 횡단보도내&gt;,2025_original_location,OK,ADDRESS,37.5246926724877,127.024594802584,1,서울 강남구 압구정로20길 6,ADDRESS,False,,
+23-0002,23,강남,"강남구 압구정로128앞 맨홀(신사동주민센터앞 횡단보도내, 현대고 서측정문앞)",2025_original_location,OK,ADDRESS,37.5239873738344,127.022767362856,1,서울 강남구 압구정로 128,ADDRESS,False,,
+23-0003,23,강남,"강남구 남부순환로2947앞(재경빌딩앞 횡단보도내, 대치역사거리)",2025_original_location,OK,ADDRESS,37.4945603877761,127.062632515245,1,서울 강남구 남부순환로 2947,ADDRESS,False,,
+23-0004,23,강남,"강남구 삼성로212앞 맨홀(은마아파트1동~미도아파트208동간,중안차로 안전지대내)",2025_original_location,OK,ADDRESS,37.4996157705058,127.065915414443,1,서울 강남구 삼성로 212,ADDRESS,False,,
+23-0005,23,강남,테헤란로435앞 맨홀(대종빌딩~삼영빌딩간 횡단보도앞 테헤란로측),2025_original_location,OK,ADDRESS,37.5066259555806,127.054608224693,1,서울 강남구 테헤란로 435,ADDRESS,False,,
+23-0006,23,강남,강남구 역삼로 124앞 맨홀(청보빌딩앞 정지선앞~역삼로123 인정빌딩월편),2025_original_location,OK,ADDRESS,37.4937267992669,127.033275307218,1,서울 강남구 역삼로 124,ADDRESS,False,,
+23-0007,23,강남,서울특별시 강남구 성수대교남단 교차로 윤호병원 보도 앞,2025_original_location,OK,KEYWORD_FACILITY_RETRY,37.5288584438343,127.034383434065,2,서울 강남구 압구정로 304,FACILITY_PROXY,True,강남구 윤호병원,윤호병원
+23-0008,23,강남,서울특별시 강남구 압구정로 46길 4 스틱윗미 도로 앞,2025_original_location,OK,ADDRESS,37.528391947359,127.036640212616,1,서울 강남구 압구정로46길 4,ADDRESS,False,,
+23-0009,23,강남,서울특별시 강남구 도산대로49길 21 셀코스메트 도산 공원 부티크 도로 앞,2025_original_location,OK,ADDRESS,37.5242522547063,127.037053134925,1,서울 강남구 도산대로49길 21,ADDRESS,False,,
+23-0010,23,강남,서울특별시 강남구 도산대로85길 56 현대한강아파트 도로 옆,2025_original_location,OK,ADDRESS,37.5280778934736,127.050258887695,1,서울 강남구 도산대로85길 56,ADDRESS,False,,
+23-0011,23,강남,서울특별시 강남구 삼성로 148길 우락뽈락 보도 앞,2025_original_location,NOT_FOUND,KEYWORD_FACILITY_RETRY,,,0,,,True,강남구 우락뽈락,
+23-0012,23,강남,서울특별시 강남구 학동로 67길 14 이마트24 도로 앞,2025_original_location,OK,ADDRESS,37.5192294745262,127.04683575181,1,서울 강남구 학동로67길 14,ADDRESS,False,,
+23-0013,23,강남,서울특별시 강남구 학동로 413 보도 앞,2025_original_location,OK,ADDRESS,37.5181537765035,127.045191941905,1,서울 강남구 학동로 413,ADDRESS,False,,
+23-0014,23,강남,서울특별시 강남구 개포로 140길 현대블루핸즈 도로 앞,2025_original_location,OK,KEYWORD_FACILITY_RETRY,37.4944316258578,127.086240256651,1,서울 강남구 개포로140길 18,FACILITY_PROXY,True,개포로140길 현대블루핸즈,현대자동차블루핸즈 일원점
+23-0015,23,강남,서울특별시 강남구 일원로5길 85 일반주택 도로 앞,2025_original_location,OK,ADDRESS,37.4929972293278,127.086478108746,1,서울 강남구 일원로5길 85,ADDRESS,False,,
+23-0017,23,강남,서울특별시 강남구 광평로 20길 63 서울로봇고등학교 정문 앞,2025_original_location,OK,ADDRESS,37.4807037134168,127.083957953079,1,서울 강남구 광평로20길 63,ADDRESS,False,,
+23-0018,23,강남,서울특별시 강남구 대왕중교 교차로 일원본동 주민센터 도로 앞,2025_original_location,MULTIPLE,KEYWORD_FACILITY_RETRY,,,4,,,True,일원본동 주민센터,
+23-0019,23,강남,서울특별시 강남구 광평로 51길 8 로얄프라자 도로 앞,2025_original_location,OK,ADDRESS,37.4883751535989,127.102475755025,1,서울 강남구 광평로51길 8,ADDRESS,False,,
+23-0020,23,강남,서울특별시 강남구 논현동 143-14,2025_original_location,OK,ADDRESS,37.509142280575,127.022653821622,1,서울 강남구 논현동 143-14,ADDRESS,False,,
+23-0021,23,강남,서울특별시 강남구 광평로 202 SK주유소 공원 도로 앞,2025_original_location,OK,ADDRESS,37.4840309826118,127.094990199181,1,서울 강남구 광평로 202,ADDRESS,False,,

@@ -118,3 +118,28 @@ raw CSV (cp949, 22.5M행)
 
 Week 2:
 Kakao Local API 기반 지점 좌표 확보
+
+## 12. 강남구 분석 파이프라인 재현 순서 (2025-06~08)
+
+원본 `data/raw/tv_swm_wal_mea_2025{06,07,08}.csv`가 필요하다(git 제외, 열린데이터광장에서 직접 다운로드).
+
+```powershell
+python -m src.data.analyze_district_quality      # 자치구별 안정 노드 비교 → 강남 선정 근거
+python -m src.data.prepare_geocoding_input       # 강남 HIGH 20개 지오코딩 입력
+python -m src.data.geocoder                      # Kakao 지오코딩 (.env에 KAKAO_REST_API_KEY 필요)
+python -m src.data.geocode_retry                 # 실패 지점 시설명 재검색
+python -m src.data.validate_coordinates          # 좌표 검증 + 지도
+python -m src.data.build_road_network            # OSMnx 도로망 (Overpass 호출)
+python -m src.data.build_station_graph           # 도로거리 k-NN / 반경 그래프
+python -m src.data.prepare_station_timeseries    # 18개 노드 1분 수위 행렬 + 마스크 (약 3분)
+python -m src.data.build_forecast_dataset        # 10/30분 예측 샘플·시간순 분할·정규화 통계
+python -m src.models.baselines                   # 기준 모델(마지막 관측값, 노드별 Ridge) 평가
+python -m src.visualization.make_figures         # outputs/figures PNG + index.html
+```
+
+- 그래프 간선은 도로망 근접 기반 연구용 근사이며 실제 하수관로 연결이 아니다. GNN은 아직 학습하지 않았다.
+- 용량 때문에 git에 올리지 않은 재생성 가능 파일(`.gitignore` 참고):
+  `gangnam_station_timeseries.csv`, `gangnam_station_observation_mask.csv`(같은 내용이 커밋된 `gangnam_station_timeseries.npz`에 있음),
+  `gangnam_forecast_samples_h{10,30}.csv`(`build_forecast_dataset`로 수 초 내 재생성).
+- `gangnam_road_network.graphml`은 OSM 데이터가 시간에 따라 바뀌므로 재현성을 위해 커밋한다.
+- 테스트: `python -m tests.<테스트파일명>` (예: `python -m tests.test_baselines`)

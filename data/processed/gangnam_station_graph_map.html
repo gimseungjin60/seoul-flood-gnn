@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6905e6690461de1b838cd4b1428c1e4e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    <div style="position:fixed;bottom:24px;left:24px;z-index:9999;background:#fff;padding:10px 12px;border:1px solid #999;border-radius:6px;font:13px sans-serif;color:#111;max-width:340px"><b>관측 지점 그래프 (도로거리 k=3-NN, 무방향) — 연구용 근사</b><div>선 = 도로망 최단경로, 굵은 선 = 상호 k-NN</div><div><span style="color:#2563eb">━</span> 일반 간선 &nbsp;<span style="color:#f59e0b">━</span> 검토 노드 포함 &nbsp;<span style="color:#dc2626">━</span> 긴 간선/우회 큼</div><div><span style="color:#2563eb">●</span> 주소 기반 <span style="color:#f59e0b">●</span> 시설 대용 <span style="color:#7c3aed">●</span> 도로 구간 거리 큼</div><div>제외(좌표 없음): 23-0011, 23-0018</div><div style="color:#b91c1c;margin-top:4px">간선 ≠ 실제 하수관로 연결, 흐름 방향 없음</div></div>
+    
+            <div class="folium-map" id="map_6905e6690461de1b838cd4b1428c1e4e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6905e6690461de1b838cd4b1428c1e4e = L.map(
+                "map_6905e6690461de1b838cd4b1428c1e4e",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 1,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1ce3009630552fd625a4e9b7dea779d4 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1ce3009630552fd625a4e9b7dea779d4.addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            var poly_line_59a74f9d5b5d05df5b6ee79fd88438b1 = L.polyline(
+                [[37.5247096, 127.024925], [37.5249099, 127.0240738], [37.5248732, 127.0239974], [37.5244163, 127.023096], [37.5240493, 127.0223928]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_59a74f9d5b5d05df5b6ee79fd88438b1.bindTooltip(
+                `<div>
+                     23-0001 — 23-0002: 도로 255 m (직선 179 m, 선택: 23-0001|23-0002)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_c88ae9eeed79b60fa96616c7243af2cb = L.polyline(
+                [[37.5247096, 127.024925], [37.5251708, 127.0258037], [37.5254333, 127.0263225], [37.5257052, 127.0268735], [37.526158, 127.0277497], [37.5264521, 127.0283865], [37.5265875, 127.0283965], [37.5265834, 127.028635], [37.5266318, 127.028638], [37.5269211, 127.0292722], [37.5272642, 127.0299548], [37.5276785, 127.030746], [37.5278942, 127.0315273], [37.5281443, 127.0325627], [37.5284325, 127.0335808], [37.5284522, 127.033757], [37.5291262, 127.0338807]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_c88ae9eeed79b60fa96616c7243af2cb.bindTooltip(
+                `<div>
+                     23-0001 — 23-0007: 도로 982 m (직선 980 m, 선택: 23-0001|23-0007)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_85c41a759fd7434e147f647dd6807731 = L.polyline(
+                [[37.5247096, 127.024925], [37.5251708, 127.0258037], [37.5254333, 127.0263225], [37.5257052, 127.0268735], [37.526158, 127.0277497], [37.5264521, 127.0283865], [37.5265875, 127.0283965], [37.5265834, 127.028635], [37.5266318, 127.028638], [37.5269211, 127.0292722], [37.5272642, 127.0299548], [37.5276785, 127.030746], [37.5278942, 127.0315273], [37.5281443, 127.0325627], [37.5284325, 127.0335808], [37.5284522, 127.033757], [37.528268, 127.0354784], [37.5290169, 127.0357726], [37.5287343, 127.0369198]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_85c41a759fd7434e147f647dd6807731.bindTooltip(
+                `<div>
+                     23-0001 — 23-0008: 도로 1,253 m (직선 1,139 m, 선택: 23-0001|23-0008)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_eae53587c58cbc25112c0a2220ca6347 = L.polyline(
+                [[37.5247096, 127.024925], [37.5244324, 127.0243503], [37.5243164, 127.0241243], [37.5238368, 127.0231711], [37.5234865, 127.0224692], [37.522585, 127.0226178], [37.5221082, 127.0226964], [37.5218246, 127.0227432], [37.5216195, 127.022777], [37.5214712, 127.0228049], [37.5206014, 127.0229449], [37.5199463, 127.0230529], [37.5195149, 127.023124], [37.5193308, 127.0231544], [37.5183966, 127.0233084], [37.5178191, 127.0234013], [37.5175517, 127.0227668], [37.5175045, 127.0226566], [37.5173507, 127.0227518], [37.5170294, 127.0219744], [37.5162791, 127.0221848], [37.5157469, 127.0223298], [37.5152239, 127.0225744], [37.5149332, 127.0215759], [37.5148314, 127.0212443], [37.5139574, 127.021648], [37.5130975, 127.022043], [37.5124083, 127.0223806], [37.5116071, 127.0227501], [37.5114859, 127.0228138], [37.5110367, 127.0230224], [37.5100561, 127.023491], [37.5095517, 127.0237409], [37.5093574, 127.0231274]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_eae53587c58cbc25112c0a2220ca6347.bindTooltip(
+                `<div>
+                     23-0001 — 23-0020: 도로 2,081 m (직선 1,738 m, 선택: 23-0020)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a925d08837a6148b9a7d92deadcb9aa1 = L.polyline(
+                [[37.5240493, 127.0223928], [37.5244163, 127.023096], [37.5248732, 127.0239974], [37.5249099, 127.0240738], [37.5256276, 127.0254561], [37.526075, 127.0263376], [37.5261357, 127.02646], [37.5266062, 127.0274077], [37.5270686, 127.0282788], [37.5271932, 127.0285332], [37.5275603, 127.0292992], [37.5281331, 127.0303925], [37.5285605, 127.0313002], [37.5288721, 127.0323495], [37.5291136, 127.0336773], [37.5291262, 127.0338807]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_a925d08837a6148b9a7d92deadcb9aa1.bindTooltip(
+                `<div>
+                     23-0002 — 23-0007: 도로 1,169 m (직선 1,159 m, 선택: 23-0002)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b32b4ffd9dd315f870ccea5c1dea6c86 = L.polyline(
+                [[37.5240493, 127.0223928], [37.5244163, 127.023096], [37.5248732, 127.0239974], [37.5249099, 127.0240738], [37.5256276, 127.0254561], [37.526075, 127.0263376], [37.5261357, 127.02646], [37.5266062, 127.0274077], [37.5270686, 127.0282788], [37.5271932, 127.0285332], [37.5275603, 127.0292992], [37.5281331, 127.0303925], [37.5285605, 127.0313002], [37.5288721, 127.0323495], [37.5291136, 127.0336773], [37.5291262, 127.0338807], [37.5290839, 127.035268], [37.5290169, 127.0357726], [37.5287343, 127.0369198]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_b32b4ffd9dd315f870ccea5c1dea6c86.bindTooltip(
+                `<div>
+                     23-0002 — 23-0008: 도로 1,443 m (직선 1,318 m, 선택: 23-0002)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_90e6a3767017800b7fa279e09f5ab991 = L.polyline(
+                [[37.5240493, 127.0223928], [37.5234865, 127.0224692], [37.522585, 127.0226178], [37.5221082, 127.0226964], [37.5218246, 127.0227432], [37.5216195, 127.022777], [37.5214712, 127.0228049], [37.5206014, 127.0229449], [37.5199463, 127.0230529], [37.5195149, 127.023124], [37.5193308, 127.0231544], [37.5183966, 127.0233084], [37.5178191, 127.0234013], [37.5175517, 127.0227668], [37.5175045, 127.0226566], [37.5173507, 127.0227518], [37.5170294, 127.0219744], [37.5162791, 127.0221848], [37.5157469, 127.0223298], [37.5152239, 127.0225744], [37.5149332, 127.0215759], [37.5148314, 127.0212443], [37.5139574, 127.021648], [37.5130975, 127.022043], [37.5124083, 127.0223806], [37.5116071, 127.0227501], [37.5114859, 127.0228138], [37.5110367, 127.0230224], [37.5100561, 127.023491], [37.5095517, 127.0237409], [37.5093574, 127.0231274]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_90e6a3767017800b7fa279e09f5ab991.bindTooltip(
+                `<div>
+                     23-0002 — 23-0020: 도로 1,889 m (직선 1,651 m, 선택: 23-0020)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_6944ce8e4576ab2bd29d4247e078a8be = L.polyline(
+                [[37.4945211, 127.0631432], [37.4945554, 127.0632487], [37.4951536, 127.0629679], [37.4971977, 127.0618735], [37.4983606, 127.0612742], [37.4988614, 127.0628706], [37.4991695, 127.0638423], [37.4994697, 127.0647282], [37.4999759, 127.0663049]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_6944ce8e4576ab2bd29d4247e078a8be.bindTooltip(
+                `<div>
+                     23-0003 — 23-0004: 도로 946 m (직선 632 m, 선택: 23-0003|23-0004)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5d39fc9a3beccf618070ac9b2ccb6e54 = L.polyline(
+                [[37.4945211, 127.0631432], [37.4971652, 127.0617588], [37.4983149, 127.0611358], [37.498878, 127.0608334], [37.4995971, 127.0604666], [37.5001783, 127.0601547], [37.5012494, 127.0595803], [37.5013352, 127.0595341], [37.5014201, 127.0594885], [37.5025248, 127.0588989], [37.5030764, 127.058586], [37.5037492, 127.0582434], [37.5047935, 127.0576727], [37.5054331, 127.0573198], [37.5067233, 127.0566608], [37.5069402, 127.0565359], [37.5064628, 127.0549768]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_5d39fc9a3beccf618070ac9b2ccb6e54.bindTooltip(
+                `<div>
+                     23-0003 — 23-0005: 도로 1,647 m (직선 1,517 m, 선택: 23-0003|23-0005)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7d478f6b1f28266936f91e079239715f = L.polyline(
+                [[37.4945211, 127.0631432], [37.4971652, 127.0617588], [37.4983149, 127.0611358], [37.4980475, 127.0602982], [37.4976836, 127.0591657], [37.4975246, 127.0586195], [37.4979637, 127.0580187], [37.497417, 127.0563167], [37.4968938, 127.0546996], [37.4963229, 127.0528907], [37.495763, 127.0513194], [37.4952748, 127.0498694], [37.4942203, 127.0468095], [37.4941628, 127.0466199], [37.4937054, 127.0451542], [37.493294, 127.0438168], [37.4928837, 127.0424568], [37.4936147, 127.042107], [37.4937493, 127.0412351], [37.4935063, 127.0403719], [37.4932508, 127.0395386], [37.4933743, 127.0394806], [37.4931665, 127.0387514], [37.4939096, 127.0384008], [37.493913, 127.0384112], [37.4945846, 127.0376353], [37.4951535, 127.036949], [37.4948624, 127.0360018], [37.49483, 127.0358985], [37.4945983, 127.0351463], [37.4943673, 127.0343626], [37.4943548, 127.0343278], [37.4940827, 127.0334073]],
+                {"bubblingMouseEvents": true, "color": "#dc2626", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#dc2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_7d478f6b1f28266936f91e079239715f.bindTooltip(
+                `<div>
+                     23-0003 — 23-0006: 도로 3,274 m (직선 2,592 m, 선택: 23-0006)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7b8fa775d7539708798be269cd5b9d74 = L.polyline(
+                [[37.4945211, 127.0631432], [37.4945554, 127.0632487], [37.4947578, 127.0638301], [37.4964157, 127.0693725], [37.4965319, 127.0697541], [37.4965979, 127.0700247], [37.4964902, 127.0700875], [37.4961182, 127.0702864], [37.4959452, 127.0703887], [37.4917638, 127.0726956], [37.4915413, 127.0732013], [37.4925514, 127.0762603], [37.4930831, 127.0778706], [37.4936417, 127.0795624], [37.4941702, 127.0811725], [37.4946144, 127.0825056], [37.4951703, 127.0842864], [37.4948775, 127.084468], [37.4949376, 127.0846607], [37.4941581, 127.0850473], [37.4942837, 127.085456], [37.4941037, 127.0855439], [37.4942427, 127.0859794], [37.4944011, 127.0864673]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_7b8fa775d7539708798be269cd5b9d74.bindTooltip(
+                `<div>
+                     23-0003 — 23-0014: 도로 2,643 m (직선 2,083 m, 선택: 23-0003)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_227ac2abb5c55c33d961a39324adb0d4 = L.polyline(
+                [[37.4999759, 127.0663049], [37.5005561, 127.0660218], [37.5001816, 127.0648724], [37.5001379, 127.0647225], [37.5010621, 127.064742], [37.5007083, 127.063654], [37.5016053, 127.0626883], [37.5020965, 127.0621887], [37.5022874, 127.0619503], [37.5022742, 127.0615274], [37.5025486, 127.0599821], [37.5025631, 127.0590115], [37.5031288, 127.0587215], [37.5054792, 127.0574604], [37.5067702, 127.0567976], [37.5069844, 127.0566673], [37.5069402, 127.0565359], [37.5064628, 127.0549768]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_227ac2abb5c55c33d961a39324adb0d4.bindTooltip(
+                `<div>
+                     23-0004 — 23-0005: 도로 1,592 m (직선 1,266 m, 선택: 23-0004|23-0005)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e8dfd41250f85064df742301d2692d90 = L.polyline(
+                [[37.4999759, 127.0663049], [37.5003978, 127.0676454], [37.4985894, 127.0686478], [37.4984281, 127.069015], [37.4969145, 127.0698186], [37.4965979, 127.0700247], [37.4964902, 127.0700875], [37.4961182, 127.0702864], [37.4959452, 127.0703887], [37.4917638, 127.0726956], [37.4915413, 127.0732013], [37.4925514, 127.0762603], [37.4930831, 127.0778706], [37.4936417, 127.0795624], [37.4941702, 127.0811725], [37.4946144, 127.0825056], [37.4951703, 127.0842864], [37.4948775, 127.084468], [37.4949376, 127.0846607], [37.4941581, 127.0850473], [37.4942837, 127.085456], [37.4941037, 127.0855439], [37.4942427, 127.0859794], [37.4944011, 127.0864673]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_e8dfd41250f85064df742301d2692d90.bindTooltip(
+                `<div>
+                     23-0004 — 23-0014: 도로 2,604 m (직선 1,883 m, 선택: 23-0004)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f98d2e1b9fde92c9db8313eab8d3e2e1 = L.polyline(
+                [[37.5064628, 127.0549768], [37.5058282, 127.0529047], [37.5051715, 127.0507387], [37.5046312, 127.0489627], [37.5044038, 127.049065], [37.5038537, 127.047284], [37.5029961, 127.0444204], [37.5024987, 127.0427982], [37.5024458, 127.0426326], [37.5020387, 127.0412482], [37.501428, 127.0415676], [37.5009514, 127.0401974], [37.5005012, 127.0388284], [37.5001326, 127.0389904], [37.4996847, 127.0385641], [37.4993957, 127.0376016], [37.4991171, 127.036673], [37.4979005, 127.0366449], [37.4975725, 127.0367979], [37.4964472, 127.0363319], [37.495098, 127.035778], [37.49483, 127.0358985], [37.4945983, 127.0351463], [37.4943673, 127.0343626], [37.4943548, 127.0343278], [37.4940827, 127.0334073]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_f98d2e1b9fde92c9db8313eab8d3e2e1.bindTooltip(
+                `<div>
+                     23-0005 — 23-0006: 도로 2,699 m (직선 2,366 m, 선택: 23-0006)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_bbe3a92ad31ffb52bc8b9612a4c195ca = L.polyline(
+                [[37.5064628, 127.0549768], [37.5077756, 127.0542417], [37.5088065, 127.0536808], [37.5085782, 127.0530077], [37.5086978, 127.052864], [37.5088523, 127.0526702], [37.5094398, 127.0519384], [37.5104602, 127.0509062], [37.5112137, 127.0501464], [37.5119249, 127.0494417], [37.5124871, 127.048515], [37.5137584, 127.047928], [37.5150677, 127.0473209], [37.5174165, 127.0466448], [37.5180693, 127.0464621], [37.5182287, 127.0464207], [37.5189333, 127.0466004]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_bbe3a92ad31ffb52bc8b9612a4c195ca.bindTooltip(
+                `<div>
+                     23-0005 — 23-0012: 도로 1,686 m (직선 1,560 m, 선택: 23-0005)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_391c1295710df37c6b3a1a52674cd2ef = L.polyline(
+                [[37.4940827, 127.0334073], [37.4957224, 127.0326281], [37.4973549, 127.0318573], [37.4989338, 127.0310733], [37.4990814, 127.0310001], [37.4987176, 127.0298353], [37.4982952, 127.0284946], [37.4984961, 127.0274875], [37.4996021, 127.0269681], [37.5004088, 127.0265817], [37.5012243, 127.0262358], [37.5019758, 127.0258492], [37.5026483, 127.0255362], [37.5039452, 127.024893], [37.5044992, 127.0246034], [37.5051009, 127.0243011], [37.5052638, 127.0242223], [37.505917, 127.0239702], [37.5063749, 127.024524], [37.5070535, 127.0242091], [37.5076753, 127.0239221], [37.5093574, 127.0231274]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_391c1295710df37c6b3a1a52674cd2ef.bindTooltip(
+                `<div>
+                     23-0006 — 23-0020: 도로 2,238 m (직선 1,954 m, 선택: 23-0006|23-0020)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_338a825dc186c5c84346309fa87c9016 = L.polyline(
+                [[37.5291262, 127.0338807], [37.5290839, 127.035268], [37.5290169, 127.0357726], [37.5287343, 127.0369198]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_338a825dc186c5c84346309fa87c9016.bindTooltip(
+                `<div>
+                     23-0007 — 23-0008: 도로 274 m (직선 206 m, 선택: 23-0007|23-0008)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_14a57a757ae9bd5830e426cad742a45d = L.polyline(
+                [[37.5291262, 127.0338807], [37.5284522, 127.033757], [37.5278876, 127.0336762], [37.5275546, 127.0336359], [37.5271683, 127.0335892], [37.5265833, 127.0335263], [37.5263428, 127.0346977], [37.5260572, 127.0359707], [37.5255601, 127.0358216], [37.5246822, 127.0362103], [37.5240733, 127.0364869]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_14a57a757ae9bd5830e426cad742a45d.bindTooltip(
+                `<div>
+                     23-0007 — 23-0009: 도로 740 m (직선 564 m, 선택: 23-0007|23-0009)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_75e26a79cbd05e2d161ccaed91217502 = L.polyline(
+                [[37.5287343, 127.0369198], [37.5279303, 127.0366408], [37.5273065, 127.0364196], [37.5266174, 127.0361733], [37.5260572, 127.0359707], [37.5255601, 127.0358216], [37.5246822, 127.0362103], [37.5240733, 127.0364869]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_75e26a79cbd05e2d161ccaed91217502.bindTooltip(
+                `<div>
+                     23-0008 — 23-0009: 도로 542 m (직선 462 m, 선택: 23-0008|23-0009)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a94b0477406ddc9d176063326c8f2a57 = L.polyline(
+                [[37.5287343, 127.0369198], [37.528365, 127.0383726], [37.5281767, 127.0391339], [37.5279902, 127.039837], [37.5277685, 127.0406915], [37.527351, 127.0423146], [37.5269852, 127.0437724], [37.5270736, 127.0438111], [37.5266603, 127.0454306], [37.5273087, 127.0456993], [37.5286052, 127.0461881], [37.5284062, 127.0470324], [37.5282035, 127.0478922], [37.5280504, 127.0485416], [37.5278928, 127.04921], [37.5284091, 127.049408], [37.5282449, 127.0501424]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_a94b0477406ddc9d176063326c8f2a57.bindTooltip(
+                `<div>
+                     23-0008 — 23-0010: 도로 1,427 m (직선 1,202 m, 선택: 23-0010)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_6d34372839e7b2e63591b27ef18e65f7 = L.polyline(
+                [[37.5240733, 127.0364869], [37.5234458, 127.0367966], [37.5235898, 127.0372798], [37.5226994, 127.0373918], [37.5229701, 127.0382854], [37.5232494, 127.0391681], [37.523126, 127.0391626], [37.5216695, 127.039635], [37.520395, 127.0401108], [37.5192958, 127.0405147], [37.519495, 127.0413735], [37.5193623, 127.0422373], [37.5191735, 127.043357], [37.5190046, 127.0443588], [37.5185171, 127.0442398], [37.5189333, 127.0466004]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_6d34372839e7b2e63591b27ef18e65f7.bindTooltip(
+                `<div>
+                     23-0009 — 23-0012: 도로 1,461 m (직선 1,028 m, 선택: 23-0012)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_2f5d163ed8f98442432d5db6ff9f0fe2 = L.polyline(
+                [[37.5240733, 127.0364869], [37.5234458, 127.0367966], [37.5235898, 127.0372798], [37.5226994, 127.0373918], [37.5229701, 127.0382854], [37.5232494, 127.0391681], [37.523126, 127.0391626], [37.5216695, 127.039635], [37.520395, 127.0401108], [37.5192958, 127.0405147], [37.5188336, 127.0406941], [37.5186699, 127.0407563], [37.5183659, 127.0408711], [37.5179324, 127.0410381], [37.5180971, 127.0419131], [37.5174542, 127.0421361], [37.5177562, 127.0437491], [37.5175913, 127.0437876], [37.5178233, 127.0451228]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_2f5d163ed8f98442432d5db6ff9f0fe2.bindTooltip(
+                `<div>
+                     23-0009 — 23-0013: 도로 1,442 m (직선 987 m, 선택: 23-0009|23-0013)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_74d349bcfbfde98403ae64899e0c330b = L.polyline(
+                [[37.5282449, 127.0501424], [37.52772, 127.0499429], [37.5267173, 127.0495619], [37.5252199, 127.0489928], [37.5244523, 127.0487011], [37.5243857, 127.0482504], [37.5242725, 127.0474036], [37.5241572, 127.0474601], [37.5241384, 127.0473419], [37.5234471, 127.0477031], [37.5230092, 127.0479442], [37.5222937, 127.0475347], [37.5212161, 127.0469226], [37.5208659, 127.0467298], [37.5205661, 127.0465566], [37.5197116, 127.0468167], [37.5189333, 127.0466004]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_74d349bcfbfde98403ae64899e0c330b.bindTooltip(
+                `<div>
+                     23-0010 — 23-0012: 도로 1,202 m (직선 1,029 m, 선택: 23-0010|23-0012)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_02f5e4b3b8aed3ffdeae15f94e764015 = L.polyline(
+                [[37.5282449, 127.0501424], [37.52772, 127.0499429], [37.5267173, 127.0495619], [37.5252199, 127.0489928], [37.5244523, 127.0487011], [37.5243857, 127.0482504], [37.5242725, 127.0474036], [37.5241572, 127.0474601], [37.5241384, 127.0473419], [37.5234471, 127.0477031], [37.5230092, 127.0479442], [37.5222937, 127.0475347], [37.5212161, 127.0469226], [37.5208659, 127.0467298], [37.5205661, 127.0465566], [37.5197116, 127.0468167], [37.5189333, 127.0466004], [37.5182287, 127.0464207], [37.5180693, 127.0464621], [37.5178233, 127.0451228]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_02f5e4b3b8aed3ffdeae15f94e764015.bindTooltip(
+                `<div>
+                     23-0010 — 23-0013: 도로 1,421 m (직선 1,191 m, 선택: 23-0010|23-0013)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_054781c41e6bea3e878bbc200a2ac588 = L.polyline(
+                [[37.5189333, 127.0466004], [37.5182287, 127.0464207], [37.5180693, 127.0464621], [37.5178233, 127.0451228]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_054781c41e6bea3e878bbc200a2ac588.bindTooltip(
+                `<div>
+                     23-0012 — 23-0013: 도로 219 m (직선 188 m, 선택: 23-0012|23-0013)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_df31aedcdfa5ea5bffda1846c9958ff6 = L.polyline(
+                [[37.4944011, 127.0864673], [37.4934732, 127.0869294], [37.4931145, 127.0870951], [37.4929293, 127.0866173]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_df31aedcdfa5ea5bffda1846c9958ff6.bindTooltip(
+                `<div>
+                     23-0014 — 23-0015: 도로 200 m (직선 161 m, 선택: 23-0014|23-0015)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a71b248a9108d7eada09c475fa69b984 = L.polyline(
+                [[37.4944011, 127.0864673], [37.4934732, 127.0869294], [37.4931145, 127.0870951], [37.4929293, 127.0866173], [37.4927821, 127.0861976], [37.4926092, 127.0857636], [37.4925245, 127.0855402], [37.492455, 127.0853283], [37.4923214, 127.0849387], [37.4921856, 127.0845112], [37.4920506, 127.0840695], [37.4918925, 127.0836956], [37.4918001, 127.0834933], [37.4916952, 127.083276], [37.4915131, 127.0828983], [37.4913214, 127.0824892], [37.4907932, 127.081331], [37.4906483, 127.080938], [37.4902235, 127.0811207], [37.4893349, 127.0815532], [37.489087, 127.0816729], [37.4888106, 127.0818063], [37.4886775, 127.0818658], [37.4854936, 127.0833403], [37.484434, 127.083588], [37.4837019, 127.0837585], [37.4832797, 127.0838568], [37.4813888, 127.0842864]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_a71b248a9108d7eada09c475fa69b984.bindTooltip(
+                `<div>
+                     23-0014 — 23-0017: 도로 1,838 m (직선 1,540 m, 선택: 23-0014|23-0017)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f1d60cdc4637074fe072f4e8661f9578 = L.polyline(
+                [[37.4944011, 127.0864673], [37.4934732, 127.0869294], [37.4931145, 127.0870951], [37.4920557, 127.087615], [37.4912479, 127.0880472], [37.4907664, 127.0882877], [37.490633, 127.0883533], [37.491905, 127.0936799], [37.492043, 127.0955613], [37.490676, 127.0983278], [37.4893214, 127.0993483], [37.4880795, 127.100737], [37.4885118, 127.1021629], [37.4881233, 127.1023329]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_f1d60cdc4637074fe072f4e8661f9578.bindTooltip(
+                `<div>
+                     23-0014 — 23-0019: 도로 1,962 m (직선 1,583 m, 선택: 23-0014|23-0019)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5eddb2f93671f2c121ec3704853b0b06 = L.polyline(
+                [[37.4929293, 127.0866173], [37.4927821, 127.0861976], [37.4926092, 127.0857636], [37.4925245, 127.0855402], [37.492455, 127.0853283], [37.4923214, 127.0849387], [37.4921856, 127.0845112], [37.4920506, 127.0840695], [37.4918925, 127.0836956], [37.4918001, 127.0834933], [37.4916952, 127.083276], [37.4915131, 127.0828983], [37.4913214, 127.0824892], [37.4907932, 127.081331], [37.4906483, 127.080938], [37.4902235, 127.0811207], [37.4893349, 127.0815532], [37.489087, 127.0816729], [37.4888106, 127.0818063], [37.4886775, 127.0818658], [37.4854936, 127.0833403], [37.484434, 127.083588], [37.4837019, 127.0837585], [37.4832797, 127.0838568], [37.4813888, 127.0842864]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_5eddb2f93671f2c121ec3704853b0b06.bindTooltip(
+                `<div>
+                     23-0015 — 23-0017: 도로 1,638 m (직선 1,385 m, 선택: 23-0015|23-0017)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_aa8bce4d8af41f5e0f852378480f7907 = L.polyline(
+                [[37.4929293, 127.0866173], [37.4919121, 127.0871258], [37.4911188, 127.0875223], [37.4912479, 127.0880472], [37.4907664, 127.0882877], [37.490633, 127.0883533], [37.491905, 127.0936799], [37.492043, 127.0955613], [37.490676, 127.0983278], [37.4893214, 127.0993483], [37.4880795, 127.100737], [37.4885118, 127.1021629], [37.4881233, 127.1023329]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_aa8bce4d8af41f5e0f852378480f7907.bindTooltip(
+                `<div>
+                     23-0015 — 23-0019: 도로 1,850 m (직선 1,502 m, 선택: 23-0015|23-0019)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_4a6cee418ace1fa18e39b42020700776 = L.polyline(
+                [[37.4929293, 127.0866173], [37.4927821, 127.0861976], [37.4926092, 127.0857636], [37.4925245, 127.0855402], [37.492455, 127.0853283], [37.4923214, 127.0849387], [37.4921856, 127.0845112], [37.4920506, 127.0840695], [37.4918925, 127.0836956], [37.4918001, 127.0834933], [37.4916952, 127.083276], [37.4915131, 127.0828983], [37.4913214, 127.0824892], [37.4907932, 127.081331], [37.4906483, 127.080938], [37.4902235, 127.0811207], [37.4893349, 127.0815532], [37.489087, 127.0816729], [37.4888106, 127.0818063], [37.4886775, 127.0818658], [37.4854936, 127.0833403], [37.4858303, 127.0861706], [37.4844247, 127.0931659], [37.4843824, 127.094598]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_4a6cee418ace1fa18e39b42020700776.bindTooltip(
+                `<div>
+                     23-0015 — 23-0021: 도로 2,234 m (직선 1,248 m, 선택: 23-0021)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a8b60d28702b7c5af92605f5442beac7 = L.polyline(
+                [[37.4813888, 127.0842864], [37.4836874, 127.0866501], [37.4844247, 127.0931659], [37.4843824, 127.094598]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#f59e0b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_a8b60d28702b7c5af92605f5442beac7.bindTooltip(
+                `<div>
+                     23-0017 — 23-0021: 도로 1,149 m (직선 1,041 m, 선택: 23-0017|23-0021)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_9f74215142676b10d1fc8903aaafdc0d = L.polyline(
+                [[37.4881233, 127.1023329], [37.4875695, 127.1025584], [37.4874788, 127.1022275], [37.4873396, 127.1016903], [37.487192, 127.1011701], [37.4869721, 127.1003479], [37.4866706, 127.0994095], [37.4857175, 127.0979444], [37.4849937, 127.0969286], [37.4843824, 127.094598]],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563eb", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            poly_line_9f74215142676b10d1fc8903aaafdc0d.bindTooltip(
+                `<div>
+                     23-0019 — 23-0021: 도로 874 m (직선 818 m, 선택: 23-0019|23-0021)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bbf19ce81f5e29205dae4d765213f602 = L.circleMarker(
+                [37.5246926724877, 127.024594802584],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_bbf19ce81f5e29205dae4d765213f602.bindTooltip(
+                `<div>
+                     23-0001 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_54e0f031202cf25ff5194b1ecc73bef4 = L.circleMarker(
+                [37.5239873738344, 127.022767362856],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_54e0f031202cf25ff5194b1ecc73bef4.bindTooltip(
+                `<div>
+                     23-0002 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2d07b7619ba56fd4dcac38b652f0d443 = L.circleMarker(
+                [37.4945603877761, 127.062632515245],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_2d07b7619ba56fd4dcac38b652f0d443.bindTooltip(
+                `<div>
+                     23-0003 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_727f282ee93aba1ab1edd9944302afee = L.circleMarker(
+                [37.4996157705058, 127.065915414443],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_727f282ee93aba1ab1edd9944302afee.bindTooltip(
+                `<div>
+                     23-0004 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e3f5dd4a3a3e429a07a04604aa050e96 = L.circleMarker(
+                [37.5066259555806, 127.054608224693],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_e3f5dd4a3a3e429a07a04604aa050e96.bindTooltip(
+                `<div>
+                     23-0005 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c00ca3f779743c8060f0efdd1fb2b09 = L.circleMarker(
+                [37.4937267992669, 127.033275307218],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_4c00ca3f779743c8060f0efdd1fb2b09.bindTooltip(
+                `<div>
+                     23-0006 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_32621e1f61d0e29a1c3f63ac6682b1db = L.circleMarker(
+                [37.5288584438343, 127.034383434065],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_32621e1f61d0e29a1c3f63ac6682b1db.bindTooltip(
+                `<div>
+                     23-0007 (시설 위치 대용)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_749d9ee57f5b86ae9a0ce4891047fec4 = L.circleMarker(
+                [37.528391947359, 127.036640212616],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_749d9ee57f5b86ae9a0ce4891047fec4.bindTooltip(
+                `<div>
+                     23-0008 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a76354b432240d285cfa6f5643fa3811 = L.circleMarker(
+                [37.5242522547063, 127.037053134925],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_a76354b432240d285cfa6f5643fa3811.bindTooltip(
+                `<div>
+                     23-0009 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_132d5916ea0b95e1be080e0e0a038060 = L.circleMarker(
+                [37.5280778934736, 127.050258887695],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_132d5916ea0b95e1be080e0e0a038060.bindTooltip(
+                `<div>
+                     23-0010 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1b00dc2a071949074ee12545b9d221a4 = L.circleMarker(
+                [37.5192294745262, 127.04683575181],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_1b00dc2a071949074ee12545b9d221a4.bindTooltip(
+                `<div>
+                     23-0012 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_46f7d9ded252e113cdf2c2d7e488ed8f = L.circleMarker(
+                [37.5181537765035, 127.045191941905],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_46f7d9ded252e113cdf2c2d7e488ed8f.bindTooltip(
+                `<div>
+                     23-0013 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ebc48a2fc0559151db2c5c46fe8b5eea = L.circleMarker(
+                [37.4944316258578, 127.086240256651],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_ebc48a2fc0559151db2c5c46fe8b5eea.bindTooltip(
+                `<div>
+                     23-0014 (시설 위치 대용)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6d86f59cabda2b1c35b161573091148c = L.circleMarker(
+                [37.4929972293278, 127.086478108746],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_6d86f59cabda2b1c35b161573091148c.bindTooltip(
+                `<div>
+                     23-0015 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_37ed71bcad0e331f18ccbec0756ea525 = L.circleMarker(
+                [37.4807037134168, 127.083957953079],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7c3aed", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_37ed71bcad0e331f18ccbec0756ea525.bindTooltip(
+                `<div>
+                     23-0017 (도로 구간 거리 큼(검토))
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_538c3f3c50e877f022d7e10c380d4bce = L.circleMarker(
+                [37.4883751535989, 127.102475755025],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_538c3f3c50e877f022d7e10c380d4bce.bindTooltip(
+                `<div>
+                     23-0019 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4cf08b1115b4be27820d36cfa2e0b6ed = L.circleMarker(
+                [37.509142280575, 127.022653821622],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_4cf08b1115b4be27820d36cfa2e0b6ed.bindTooltip(
+                `<div>
+                     23-0020 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ae81922128993a2738f3e96d9c42dff9 = L.circleMarker(
+                [37.4840309826118, 127.094990199181],
+                {"bubblingMouseEvents": true, "color": "#111", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2563eb", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1.5}
+            ).addTo(map_6905e6690461de1b838cd4b1428c1e4e);
+        
+    
+            circle_marker_ae81922128993a2738f3e96d9c42dff9.bindTooltip(
+                `<div>
+                     23-0021 (주소 기반)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            map_6905e6690461de1b838cd4b1428c1e4e.fitBounds(
+                [[37.4807037134168, 127.022653821622], [37.5288584438343, 127.102475755025]],
+                {"padding": [30, 30]}
+            );
+        
+</script>
+</html>

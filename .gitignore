@@ -9,3 +9,12 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .vscode/
+
+# 재생성 가능한 대용량 처리 결과(>5MB) — 재현 방법은 README 12절
+data/processed/gangnam_station_timeseries.csv
+data/processed/gangnam_station_observation_mask.csv
+data/processed/gangnam_forecast_samples_h*.csv
+
+# 결과물은 figures만 추적
+outputs/*
+!outputs/figures/
