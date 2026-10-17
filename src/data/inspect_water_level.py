@@ -10,7 +10,8 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-RAW_CSV = PROJECT_ROOT / "data" / "raw" / "하수관로_수위_현황_202609.csv"
+from src.data.raw_paths import SEWER_202609_CSV  # noqa: E402
+RAW_CSV = SEWER_202609_CSV
 CHUNKSIZE = 1_000_000
 
 

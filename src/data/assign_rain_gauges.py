@@ -16,10 +16,11 @@ import pandas as pd
 
 from src.data.clean_nodes import PROCESSED
 from src.data.inspect_water_level import PROJECT_ROOT
+from src.data.raw_paths import RAIN_GAUGE_LOCATION_XLSX
 from src.data.prepare_rainfall import OUT_NPZ as RAIN_NPZ, VAL_END
 from src.data.prepare_station_timeseries import OUT_NPZ as SEWER_NPZ
 
-LOC_XLSX = PROJECT_ROOT / "data" / "raw" / "서울시 강우량계 위치정보.xlsx"
+LOC_XLSX = RAIN_GAUGE_LOCATION_XLSX
 NODES_CSV = PROCESSED / "gangnam_station_graph_nodes.csv"
 OUT_CSV = PROCESSED / "gangnam_station_rain_gauge.csv"
 REPORT = PROCESSED / "rainfall_gauge_assignment_report.txt"

@@ -1,4 +1,4 @@
-"""2026-06~08 강우 월별 파일(data/raw/rain2026/, gitignore)에서 강남 강우량계 이벤트를 2025와 같은 규칙으로 센다. 읽기 전용.
+"""2026-06~08 강우 월별 파일(data/raw/rain/2026/, gitignore)에서 강남 강우량계 이벤트를 2025와 같은 규칙으로 센다. 읽기 전용.
 
 실행: python -I src/analysis/rain_events_2026.py   (원본이 신뢰할 수 없는 다운로드라 -I 모드, 프로젝트 루트는 아래에서 추가)
 결과(2026-06~08): 전체 33개, 유의(>=10 mm) 14개, 50 mm 이상 5개. 마지막 이벤트(08-31)는 자료 끝(23:59)에서 잘려 있어 이어질 수 있음.
@@ -12,10 +12,10 @@ import pandas as pd
 
 from src.data.prepare_rainfall import DRY_GAP_STEPS, SIGNIFICANT_MM, find_events
 
-RAW = r"C:\seoul-flood-gnn\data\raw\rain2026"
+RAW = str(ROOT / "data" / "raw" / "rain" / "2026")
 parts = []
 for m in ("202606", "202607", "202608"):
-    d = pd.read_csv(f"{RAW}\\rain_{m}.csv", encoding="cp949", dtype=str)
+    d = pd.read_csv(f"{RAW}/rain_{m}.csv", encoding="cp949", dtype=str)
     names = ["gid", "gname", "gu_code", "gu", "gu_cd2", "r10", "ts"] if d.shape[1] == 7 else ["gid", "gname", "gu_code", "gu", "r10", "ts"]
     d.columns = names
     d["src"] = m

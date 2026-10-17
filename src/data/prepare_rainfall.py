@@ -18,11 +18,12 @@ import pandas as pd
 
 from src.data.clean_nodes import PROCESSED
 from src.data.inspect_water_level import PROJECT_ROOT
+from src.data.raw_paths import RAIN_2025, RAIN_2025_CSVS
 from src.data.prepare_station_timeseries import OUT_NPZ as SEWER_NPZ
 
-RAW = PROJECT_ROOT / "data" / "raw"
+RAW = RAIN_2025
 MONTHS = ("05", "06", "07", "08")
-FILES = [RAW / f"서울시_강우량_정보_2025년{m}월.csv" for m in MONTHS]
+FILES = [RAIN_2025_CSVS[m] for m in MONTHS]
 OUT_NPZ = PROCESSED / "rainfall_10min_2025.npz"
 OUT_EVENTS = PROCESSED / "gangnam_rain_events.csv"
 REPORT = PROCESSED / "rainfall_quality_report.txt"

@@ -49,7 +49,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 
 ## 5. 원본 데이터 파일명
 
-`data/raw/하수관로_수위_현황_202609.csv`
+`data/raw/sewer/2026/하수관로_수위_현황_202609.csv`
 
 - 크기 약 1.1GB, 22,565,058행 → **GitHub에 올리지 않는다** (`.gitignore` 처리, GitHub 100MB 제한 초과).
   팀원은 열린데이터광장에서 같은 파일을 받아 `data/raw/`에 넣는다.
@@ -60,7 +60,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 ```
 seoul-flood-gnn/
 ├── data/
-│   ├── raw/                  # 원본 (git 제외): 수위 CSV, 강우 월별 CSV, rain2026/ (2026-06~08 강우)
+│   ├── raw/                  # 원본 (git 제외): sewer/ (수위 2025·2026·스냅샷), rain/ (강우 2025·2026, gauges/). 안내는 data/README.md
 │   └── processed/            # 가공 결과: 지점 테이블, 매칭·품질 리포트, 강남 좌표·도로망·그래프·시계열·데이터셋·기준 모델·T2 진단 결과
 ├── src/
 │   ├── data/                 # 정제, 위치 매칭, 지오코딩, 도로망, 그래프, 시계열, 강우 정렬, 예측 데이터셋
@@ -151,7 +151,7 @@ raw CSV (cp949, 22.5M행)
 
 ## 12. 강남구 분석 파이프라인 재현 순서 (2025-06~08)
 
-원본 `data/raw/tv_swm_wal_mea_2025{06,07,08}.csv`가 필요하다(git 제외, 열린데이터광장에서 직접 다운로드).
+원본 `data/raw/sewer/2025/tv_swm_wal_mea_2025{06,07,08}.csv`가 필요하다(git 제외, 열린데이터광장에서 직접 다운로드).
 
 ```powershell
 python -m src.data.analyze_location_match       # 시계열 고유번호 ↔ 위치정보 매칭 검증 (data/raw/서울시 하수관로 수위 현황.csv 필요)
@@ -166,8 +166,8 @@ python -m src.data.build_station_graph           # 도로거리 k-NN / 반경 �
 python -m src.data.prepare_station_timeseries    # 18개 노드 1분 수위 행렬 + 마스크 (약 3분)
 python -m src.data.build_forecast_dataset        # 10/30분 예측 샘플·시간순 분할·정규화 통계
 python -m src.models.baselines                   # 기준 모델(마지막 관측값, 노드별 Ridge) 평가
-python -m src.data.prepare_rainfall             # 강우량 10분 격자·품질·이벤트·수위 반응 (data/raw/서울시_강우량_정보_2025년{05..08}월.csv 필요)
-python -m src.data.assign_rain_gauges          # 센서별 최근접 강우량계 배정 (data/raw/서울시 강우량계 위치정보.xlsx 필요)
+python -m src.data.prepare_rainfall             # 강우량 10분 격자·품질·이벤트·수위 반응 (data/raw/rain/2025/서울시_강우량_정보_2025년{05..08}월.csv 필요)
+python -m src.data.assign_rain_gauges          # 센서별 최근접 강우량계 배정 (data/raw/rain/gauges/서울시 강우량계 위치정보.xlsx 필요)
 python -m src.models.rain_baselines             # 강우 입력 효과(노드별 Ridge + 강우 특징) 비교
 python -m src.analysis.spatial_signal           # 공간 신호 진단 (GNN 학습 전, test 미사용) + fig5/fig6
 python -m src.analysis.spatial_signal_rain_adjusted  # 강우 제거 후 공간 진단 + fig7

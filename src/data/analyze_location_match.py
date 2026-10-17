@@ -16,10 +16,11 @@ import pandas as pd
 
 from src.data.clean_nodes import CODE_COL, ID_COL, NAME_COL, PROCESSED, TIME_COL, normalize_text
 from src.data.inspect_water_level import PROJECT_ROOT, read_chunks
+from src.data.raw_paths import SEWER_2025_CSVS, SEWER_SNAPSHOT, SEWER_SNAPSHOT_CSV
 
-RAW = PROJECT_ROOT / "data" / "raw"
-PERIOD_CSVS = [RAW / f"tv_swm_wal_mea_2025{m}.csv" for m in ("06", "07", "08")]
-LOCATION_CSV = RAW / "서울시 하수관로 수위 현황.csv"
+RAW = SEWER_SNAPSHOT  # 위치정보 마스터가 있는 폴더
+PERIOD_CSVS = SEWER_2025_CSVS
+LOCATION_CSV = SEWER_SNAPSHOT_CSV
 LOC_COL = "위치정보"
 # 202507/202508 파일은 영문 헤더(UTF-8), 202506은 한글 헤더(cp949). 컬럼 순서는 동일.
 EN_TO_KO = {"unq_no": ID_COL, "se_cd": CODE_COL, "se_nm": NAME_COL, "msrmt_ymd": TIME_COL,
