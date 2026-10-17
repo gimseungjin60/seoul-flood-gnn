@@ -171,6 +171,7 @@ python -m src.analysis.t2_loso_bootstrap       # 이벤트 부트스트랩 95% C
 python -m src.analysis.t2_harm_sensors         # 이웃이 해가 된 센서 4개 정리
 python -m src.analysis.t2_loso_sensitivity     # 민감도(사후): 23-0014 제외, 큰 사건 5·8 제외
 python -m src.analysis.t2_case_figure          # 사례 그림 fig10: 23-0014와 23-0021
+python -m src.analysis.rain_events_figure      # 이벤트 분포 그림 fig11 (일강우, train/val/test 구간, 유의 이벤트 10개)
 python -m src.visualization.make_figures         # outputs/figures PNG + index.html
 ```
 
