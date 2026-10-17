@@ -24,7 +24,8 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 
 - 대상: 서울 강남구 수위 센서 18개 × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
 - 기준 모델(test, m): h=10분 MAE 0.0073(persistence) / 0.0072(Ridge AR), h=30분 MAE 0.0106 / 0.0102. **개선 폭이 작다.** 평균 오차는 평상시 값이 지배하므로 성능 근거로 쓰지 않는다.
-- 강우 효과(선형 Ridge): 강우 특징을 더해도 평균 오차(MAE)는 개선되지 않고 극단(q99, RMSE)만 개선. 강우 제거 후에도 거리 감쇠는 약함 → [docs/07](docs/07_rain_effect_results.md).
+- 강우 효과(선형 Ridge): 강우 특징을 더해도 사전 기준(test 전체 MAE 5%↑, 이벤트 MAE 10%↑)을 충족하지 못함. 강우 제거 후에도 약한 거리 구조는 있으나 사전 기준(-0.30) 미달. T2의 그래프 엣지는 관측 없이 정의 가능한 것(거리·같은 구·배수구역·고도차)만 허용 → [docs/07](docs/07_rain_effect_results.md).
+- T2 LOSO 진단(센서 1개 제외): 사전 기준(이웃 사용 모델이 강우+시간대 대비 이벤트 MAE 10%↑ 센서 6개 이상) 충족 10/18 → "T2 공간 신호 있음". 단 기준선이 약하고, 학습 모델은 단순 IDW를 이기지 못함 → [docs/08](docs/08_t2_loso_diagnosis.md).
 - 강수량: 서울시 강우량계 10분 자료(2025-05~08) 정렬·검증 완료, 유의 강우 이벤트 10개(train 6 / val 2 / test 2). 모델 입력에는 아직 결합하지 않았다 → [docs/06](docs/06_rainfall_data.md).
 - **아직 없는 것:** GNN 모델, 침수·위험 라벨(수위만 있음), 관로 제원/DEM, 대시보드.
 - 그래프는 도로망 근접 기반 연구용 근사이며 실제 하수관로 연결·흐름 방향이 아니다.
@@ -164,6 +165,8 @@ python -m src.data.assign_rain_gauges          # 센서별 최근접 강우량�
 python -m src.models.rain_baselines             # 강우 입력 효과(노드별 Ridge + 강우 특징) 비교
 python -m src.analysis.spatial_signal           # 공간 신호 진단 (GNN 학습 전, test 미사용) + fig5/fig6
 python -m src.analysis.spatial_signal_rain_adjusted  # 강우 제거 후 공간 진단 + fig7
+python -m src.analysis.spatial_signal_profile_adjusted  # 일주기 제거 후 재진단(10분·1시간) + 3-NN 일치율 순열검정
+python -m src.analysis.t2_loso                  # T2 LOSO 진단(센서 1개 제외, 타깃 과거값 미사용) + fig8
 python -m src.visualization.make_figures         # outputs/figures PNG + index.html
 ```
 
@@ -190,3 +193,4 @@ md 문서는 `docs/`에서 관리한다.
 | [05_spatial_signal_result.md](docs/05_spatial_signal_result.md) | 공간 신호 진단 결과 (Phase A) |
 | [06_rainfall_data.md](docs/06_rainfall_data.md) | 강수량 데이터 명세, 품질, 이벤트, 수위 반응 시차, 입력 규칙 (Phase B) |
 | [07_rain_effect_results.md](docs/07_rain_effect_results.md) | 강우 효과: T1 Ridge+강우 비교(사전 규칙상 실패), 강우 제거 후 공간 진단 |
+| [08_t2_loso_diagnosis.md](docs/08_t2_loso_diagnosis.md) | 일주기 제거 재진단, T2 LOSO 진단(사전 기준 충족 10/18, 단 IDW와 동급) |

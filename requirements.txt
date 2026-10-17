@@ -6,3 +6,4 @@ osmnx>=2.0
 matplotlib>=3.8
 networkx>=3.2
 openpyxl>=3.1
+scikit-learn>=1.5
