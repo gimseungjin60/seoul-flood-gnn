@@ -4,3 +4,5 @@ python-dotenv>=1.0
 folium>=0.17
 osmnx>=2.0
 matplotlib>=3.8
+networkx>=3.2
+openpyxl>=3.1

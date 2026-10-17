@@ -29,23 +29,28 @@ FILL_OBSERVED, FILL_LOCF, FILL_MISSING = 0, 1, 2
 
 
 def load_and_verify():
-    """npz와 CSV 두 형식을 모두 읽어 시간축·열 순서·마스크 일치를 재검증."""
+    """npz(+CSV가 있으면 CSV 교차검증)로 시간축·열 순서·마스크 일치를 재검증."""
     z = np.load(OUT_NPZ)
     values, mask = z["values"].astype(np.float64), z["mask"].astype(bool)
     times = pd.DatetimeIndex(z["times"])
     nodes = list(z["node_ids"])
-    v_csv = pd.read_csv(OUT_VALUES, index_col=0, parse_dates=True)
-    m_csv = pd.read_csv(OUT_MASK, index_col=0, parse_dates=True)
     order = pd.read_csv(NODES_CSV).sort_values("idx")["node_id"].tolist()
     checks = {
-        "times_equal_csv": bool((v_csv.index == times).all() and (m_csv.index == times).all()),
         "times_1min_strict": bool((np.diff(times.to_numpy().astype("datetime64[s]").astype(np.int64)) == 60).all()),
         "range": f"{times[0]} ~ {times[-1]} ({len(times):,})",
-        "columns_equal_graph_order": list(v_csv.columns) == order == list(m_csv.columns) == nodes,
-        "values_equal_csv": bool(np.allclose(v_csv.to_numpy(), values, equal_nan=True, atol=1e-6)),
-        "mask_equal_csv": bool((m_csv.to_numpy().astype(bool) == mask).all()),
         "mask_equals_notnan": bool((np.isfinite(values) == mask).all()),
     }
+    if OUT_VALUES.exists() and OUT_MASK.exists():
+        v_csv = pd.read_csv(OUT_VALUES, index_col=0, parse_dates=True)
+        m_csv = pd.read_csv(OUT_MASK, index_col=0, parse_dates=True)
+        checks["times_equal_csv"] = bool((v_csv.index == times).all() and (m_csv.index == times).all())
+        checks["columns_equal_graph_order"] = list(v_csv.columns) == order == list(m_csv.columns) == nodes
+        checks["values_equal_csv"] = bool(np.allclose(v_csv.to_numpy(), values, equal_nan=True, atol=1e-6))
+        checks["mask_equal_csv"] = bool((m_csv.to_numpy().astype(bool) == mask).all())
+    else:
+        # CSV는 용량 때문에 git 제외(재생성은 prepare_station_timeseries, 원본 필요). npz만으로 재검증한다.
+        checks["columns_equal_graph_order"] = order == nodes
+        checks["csv_crosscheck"] = "생략 (CSV 없음, npz 기준)"
     return values, mask, times, nodes, checks
 
 
