@@ -1,0 +1,9 @@
+﻿model,point_mm,ci_lo_mm,ci_hi_mm,verdict
+mean_others,26.4375,18.9353,32.3627,
+idw_p1,25.3062,18.9722,30.6172,
+ridge_rain_time,29.5715,22.5801,35.0852,
+ridge_rain_time_nbr,26.2958,19.5871,31.4440,
+hgb_rain_time_nbr,26.6182,19.7830,32.0361,
+gnn,26.1026,19.5190,31.1083,
+diff_gnn_minus_idw,0.7964,-0.2863,2.0797,구분 불가
+diff_gnn_minus_ridge_nbr4,-0.1932,-0.5310,0.2159,인정하지 않음

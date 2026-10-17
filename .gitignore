@@ -25,3 +25,4 @@ data/processed/gangnam_t2_loso_predictions.npz
 
 # 언론사 사진 등 저작권 확인이 끝나지 않은 이미지는 올리지 않는다
 docs/assets/*.avif
+data/processed/gangnam_t2_gnn_predictions.npz
