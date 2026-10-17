@@ -133,7 +133,7 @@ def main() -> None:
         ax.set_xlabel("도로 최단거리 (km)")
     axes[0].set_ylabel("10분 수위 변화량 상관계수")
     axes[0].legend(frameon=False, loc="upper right")
-    _note(fig, "센서별 최근접 강우(3슬롯, 선형)를 train 구간에서 적합해 제거. train+val, 153개 지점 쌍, 이벤트=전 노드 anomaly 상위 5%.", y=-0.03)
+    _note(fig, "서울시 강남구 센서 18개. 센서별 최근접 강우(3슬롯, 선형)를 train 구간에서 적합해 제거. train+val, 153개 지점 쌍, 이벤트=전 노드 anomaly 상위 5%.", y=-0.03)
     _save(fig, "fig7_rain_adjusted_correlation.png")
 
     L = []

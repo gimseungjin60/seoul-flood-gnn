@@ -1,5 +1,7 @@
 # 06. 강수량 데이터 명세와 확인 결과 (Phase B)
 
+범위: 강우량계는 서울시 48개소 전체를 정렬했고, 분석은 **서울시 강남구 센서 18개**에 배정한 강우량계로 한정한다.
+
 실행: `python -m src.data.prepare_rainfall` (1초) / 전체 수치: `data/processed/rainfall_quality_report.txt`
 산출물: `rainfall_10min_2025.npz`(48개 지점 × 10분 격자), `gangnam_rain_events.csv`(유의 이벤트 10개)
 

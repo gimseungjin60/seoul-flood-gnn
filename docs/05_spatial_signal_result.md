@@ -1,5 +1,7 @@
 # 05. 공간 신호 진단 결과 (Phase A)
 
+범위: **서울시 강남구 센서 18개**(2025-06-01~08-31).
+
 실행: `python -m src.analysis.spatial_signal` (7초) / 전체 수치: `data/processed/gangnam_spatial_signal_report.txt`
 그림: `outputs/figures/fig5_distance_correlation.png`, `fig6_loo_vs_constant.png`
 

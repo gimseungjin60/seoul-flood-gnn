@@ -216,7 +216,7 @@ def build_figures(dist, c_calm, c_event, macro, nodes):
     ax.set_ylabel("5분 수위 변화량 상관계수")
     ax.set_title("센서 간 변동 상관은 도로거리와 함께 줄어드는가")
     ax.legend(frameon=False, loc="upper right")
-    _note(fig, "5분 평균의 변화량 상관, train+val 구간, 153개 지점 쌍.", y=-0.03)
+    _note(fig, "서울시 강남구 센서 18개. 5분 평균의 변화량 상관, train+val 구간, 153개 지점 쌍.", y=-0.03)
     _save(fig, "fig5_distance_correlation.png")
 
     order = ["mean_others", "idw_p1", "idw_p2", "knn3", "ridge_all"]
@@ -234,7 +234,7 @@ def build_figures(dist, c_calm, c_event, macro, nodes):
         for k, v in enumerate(vals):
             ax.text(v + 0.01, k, f"{v:.2f}", va="center", fontsize=9, color=C["ink2"])
     axes[0].invert_yaxis()
-    _note(fig, "val 구간 leave-one-node-out, 노드 평균. 점선=사전 기준(10% 개선), 실선=상수 추정(노드 train 중앙값).", y=-0.03)
+    _note(fig, "서울시 강남구 센서 18개. val 구간 leave-one-node-out, 노드 평균. 점선=사전 기준(10% 개선), 실선=상수 추정(노드 train 중앙값).", y=-0.03)
     _save(fig, "fig6_loo_vs_constant.png")
 
 

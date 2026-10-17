@@ -302,7 +302,7 @@ def make_figure(df: pd.DataFrame, v: dict):
     ax.set_title(f"이웃 센서를 쓰면 센서 없는 지점의 이벤트 오차가 줄어드는가: {v['n_or']}/{len(d)}개 센서가 10% 이상")
     ax.grid(axis="y", visible=False)
     ax.legend(frameon=False, loc="lower right")
-    _note(fig, "센서 1개를 통째로 제외(LOSO), 타깃 과거값 미사용. 시간순 5폴드 교차검증, train+val의 이벤트 8개. 점선=사전 기준 10%.\n"
+    _note(fig, "서울시 강남구 센서 18개. 센서 1개를 통째로 제외(LOSO), 타깃 과거값 미사용. 시간순 5폴드 교차검증, train+val의 이벤트 8개. 점선=사전 기준 10%.\n"
                "주의: 기준 (3)은 약한 기준선이다. 단순 이웃 평균(1)·IDW(2)도 (4)와 같은 수준이며 학습 모델이 이들보다 낫지는 않다(docs/08).", y=-0.045)
     _save(fig, "fig8_t2_loso_gain.png")
 

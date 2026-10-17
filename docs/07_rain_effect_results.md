@@ -1,5 +1,7 @@
 # 07. 강우의 효과: T1 예측 baseline과 공간 진단 2차
 
+범위: **서울시 강남구 센서 18개**(2025-06-01~08-31).
+
 작성: 2026-10-18. 모두 test 구간은 평가에만 썼고 모델 선택·진단 설계에는 쓰지 않았다. 판정 규칙은 두 실험 모두 **결과를 보기 전에** 코드 상단 docstring에 적었고 바꾸지 않았다.
 
 - 실험 1: `python -m src.models.rain_baselines` → `gangnam_rain_baseline_{metrics.csv,report.txt}`
