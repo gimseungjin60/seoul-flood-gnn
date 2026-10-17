@@ -1,0 +1,7 @@
+﻿model,label,macro_event_mae_m,ci_lo,ci_hi
+mean_others,(1) 전체 평균,0.026438,0.018935,0.032363
+idw_p1,(2) IDW,0.025306,0.018972,0.030617
+ridge_rain_time,(3) 강우+시간대,0.029572,0.022580,0.035085
+ridge_rain_time_nbr,(4) +이웃 Ridge,0.026296,0.019587,0.031444
+hgb_rain_time_nbr,(5) +이웃 HGB,0.026618,0.019783,0.032036
+hgb_rain_time,(3b) 강우+시간대 HGB,0.028910,0.020868,0.035351

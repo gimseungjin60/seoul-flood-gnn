@@ -25,7 +25,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 - 대상: 서울 강남구 수위 센서 18개 × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
 - 기준 모델(test, m): h=10분 MAE 0.0073(persistence) / 0.0072(Ridge AR), h=30분 MAE 0.0106 / 0.0102. **개선 폭이 작다.** 평균 오차는 평상시 값이 지배하므로 성능 근거로 쓰지 않는다.
 - 강우 효과(선형 Ridge): 강우 특징을 더해도 사전 기준(test 전체 MAE 5%↑, 이벤트 MAE 10%↑)을 충족하지 못함. 강우 제거 후에도 약한 거리 구조는 있으나 사전 기준(-0.30) 미달. T2의 그래프 엣지는 관측 없이 정의 가능한 것(거리·같은 구·배수구역·고도차)만 허용 → [docs/07](docs/07_rain_effect_results.md).
-- T2 LOSO 진단(센서 1개 제외): 사전 기준(이웃 사용 모델이 강우+시간대 대비 이벤트 MAE 10%↑ 센서 6개 이상) 충족 10/18 → "T2 공간 신호 있음". 단 기준선이 약하고, 학습 모델은 단순 IDW를 이기지 못함 → [docs/08](docs/08_t2_loso_diagnosis.md).
+- T2 LOSO 진단(센서 1개 제외): 사전 기준(이웃 사용 모델이 강우+시간대 대비 이벤트 MAE 10%↑ 센서 6개 이상) 충족 10/18 → "T2 공간 신호 있음"(이벤트 부트스트랩 95% 구간 8~13개, P(≥6)=100%). 단 기준선이 약하고, 학습 모델 (4)(5)는 단순 IDW보다 근소하게 나쁘다(IDW 대비 차이 95% CI가 0을 포함하지 않음, 방향은 IDW 우세) → [docs/08](docs/08_t2_loso_diagnosis.md). **범위: 이 T2 검증은 타깃의 기저선·규모를 알고 있다는 가정 하의 상대 상승폭 추정이며, 절대수위 추정이 아니다.** 발표용 메인 그림은 `outputs/figures/fig9_t2_loso_event_mae_ci.png`(fig8은 백업).
 - 강수량: 서울시 강우량계 10분 자료(2025-05~08) 정렬·검증 완료, 유의 강우 이벤트 10개(train 6 / val 2 / test 2). 모델 입력에는 아직 결합하지 않았다 → [docs/06](docs/06_rainfall_data.md).
 - **아직 없는 것:** GNN 모델, 침수·위험 라벨(수위만 있음), 관로 제원/DEM, 대시보드.
 - 그래프는 도로망 근접 기반 연구용 근사이며 실제 하수관로 연결·흐름 방향이 아니다.
@@ -167,6 +167,8 @@ python -m src.analysis.spatial_signal           # 공간 신호 진단 (GNN 학�
 python -m src.analysis.spatial_signal_rain_adjusted  # 강우 제거 후 공간 진단 + fig7
 python -m src.analysis.spatial_signal_profile_adjusted  # 일주기 제거 후 재진단(10분·1시간) + 3-NN 일치율 순열검정
 python -m src.analysis.t2_loso                  # T2 LOSO 진단(센서 1개 제외, 타깃 과거값 미사용) + fig8
+python -m src.analysis.t2_loso_bootstrap       # 이벤트 부트스트랩 95% CI + fig9 (t2_loso 의 예측 npz 필요, git 제외)
+python -m src.analysis.t2_harm_sensors         # 이웃이 해가 된 센서 4개 정리
 python -m src.visualization.make_figures         # outputs/figures PNG + index.html
 ```
 

@@ -88,6 +88,30 @@ def test_neighbor_features_exclude_missing_and_handle_all_missing_rows():
     assert nv.tolist() == [3, 0] and np.isfinite(f).all()                        # 유효 이웃 0이어도 NaN 없이 채움(행은 호출 쪽에서 제외)
 
 
+def test_nearest_neighbor_columns_are_ordered_by_distance_not_by_id():
+    R_c = np.array([[10.0, 20.0, 30.0, 40.0, 50.0]])
+    d = np.array([500.0, 100.0, 300.0, 200.0, 400.0])               # ID 순서(열 0..4)와 거리 순서가 다르다
+    f, _ = neighbor_features(R_c, d)
+    assert f[0, :3].tolist() == [20.0, 40.0, 30.0]                   # 거리 100, 200, 300 m 순서의 이웃 값
+    assert np.allclose(f[0, 3:6], np.log(np.array([100.0, 200.0, 300.0]) / 1000.0))
+
+
+def test_predictions_do_not_depend_on_sensor_id_order():
+    """센서 열 순서를 뒤섞어도(거리·강우·시계열을 함께) 평균·IDW·Ridge 예측이 같다 = ID 순서에 의존하지 않는다."""
+    R, dist, rf, tf = _synthetic(n=6, seed=5)
+    i = 3
+    base = _run(R, dist, rf, tf, i=i)
+    perm = np.array([4, 0, 5, 2, 1, 3])                              # 새 열 c 는 원래 센서 perm[c]
+    inv_i = int(np.where(perm == i)[0][0])
+    Rp, dp = R[:, perm], dist[np.ix_(perm, perm)]
+    rfp = [rf[j] for j in perm]
+    alt = _run(Rp, dp, rfp, tf, i=inv_i)
+    for m in ("mean_others", "idw_p1"):
+        assert np.allclose(base[m], alt[m], equal_nan=True, atol=1e-9), m
+    for m in ("ridge_rain_time", "ridge_rain_time_nbr"):
+        assert np.allclose(base[m], alt[m], equal_nan=True, atol=1e-6), m   # 풀링 학습 행 순서만 달라 수치 오차만 허용
+
+
 def test_nowcast_rain_uses_same_slot_and_rejects_short_history():
     rain = np.zeros(400)
     rain[300] = 4.0
@@ -117,6 +141,8 @@ if __name__ == "__main__":
     test_rain_time_models_ignore_neighbors_entirely()
     test_neighbors_help_when_signal_is_shared()
     test_neighbor_features_exclude_missing_and_handle_all_missing_rows()
+    test_nearest_neighbor_columns_are_ordered_by_distance_not_by_id()
+    test_predictions_do_not_depend_on_sensor_id_order()
     test_nowcast_rain_uses_same_slot_and_rejects_short_history()
     test_fold_purge_removes_buffer_around_eval_fold()
     print("ok")

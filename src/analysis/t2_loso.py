@@ -18,7 +18,7 @@ GNN 학습이 아니다(GNN 준비 단계도 아님). 이웃 정보가 강우+�
        (3) 타깃 지점 강우 + 시간대 특징만 Ridge  (4) (3) + 이웃 센서 현재 상승분 Ridge  (5) (4)와 같은 입력의 HistGradientBoosting
        (3b) 대조군(판정에 쓰지 않음): (3)과 같은 입력의 HistGradientBoosting — (5)-(3) 차이가 '이웃 정보'인지 '비선형'인지 가르기 위함.
        Ridge λ=10(표준화된 특징), HGB: max_iter=100, learning_rate=0.1, max_leaf_nodes=15, min_samples_leaf=100, l2=1.0,
-       early_stopping 없음, random_state=0, 학습 행은 시간 2블록 간격(자기상관 완화·속도).
+       early_stopping 없음, random_state=0, 풀링한 학습 행을 하나 걸러 사용(자기상관 완화·속도).
        강우 특징: 같은 시각 구간 포함 최근 6슬롯 log1p(mm), 결측 슬롯 수, 선행 누적 3h/6h/24h log1p(mm)(타깃 지점 최근접 강우량계).
        시간대 특징: 시각 sin/cos, 주말 여부. 이웃 특징: 도로거리 최근접 3개의 상승분과 log 거리, IDW 평균, 전체 평균, 유효 이웃 비율, 최근접 3개 중 결측 수.
 [판정] 센서별 개선율 = 1 - 이벤트MAE(모델)/이벤트MAE(3). (4) 또는 (5)가 10% 이상 줄이는 센서가 18개 중 6개 이상이면 'T2 공간 신호 있음'.
@@ -44,6 +44,7 @@ from src.data.prepare_rainfall import OUT_EVENTS, OUT_NPZ as RAIN_NPZ, VAL_END  
 from src.data.prepare_station_timeseries import OUT_NPZ as SEWER_NPZ  # noqa: E402
 
 OUT_SENSOR = PROCESSED / "gangnam_t2_loso_by_sensor.csv"
+OUT_PRED = PROCESSED / "gangnam_t2_loso_predictions.npz"   # 재생성 가능(약 1분), git 제외
 REPORT = PROCESSED / "gangnam_t2_loso_report.txt"
 N_FOLDS = 5
 PURGE = 144                      # 24시간(10분 블록)
@@ -312,6 +313,9 @@ def main() -> None:
     log = lambda s: print(s, flush=True)
     log(f"블록 {inp['blk'].shape[0]:,}개, 센서 {inp['blk'].shape[1]}개, 폴드 {N_FOLDS}")
     pred_m, act_m = run_loso(inp, Params(), log)
+    np.savez_compressed(OUT_PRED, bt=inp["bt"].to_numpy().astype("datetime64[s]"), nodes=np.array(inp["nodes"]),
+                        models=np.array(MODELS), actual_m=act_m.astype(np.float32),
+                        **{f"pred_{m}": pred_m[m].astype(np.float32) for m in MODELS})
     df, n_ev = summarize(pred_m, act_m, inp["bt"], inp["events"], inp["nodes"])
     df.to_csv(OUT_SENSOR, index=False, encoding="utf-8-sig", float_format="%.5f")
     v = verdict(df)

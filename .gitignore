@@ -18,3 +18,4 @@ data/processed/gangnam_forecast_samples_h*.csv
 # 결과물은 figures만 추적
 outputs/*
 !outputs/figures/
+data/processed/gangnam_t2_loso_predictions.npz
