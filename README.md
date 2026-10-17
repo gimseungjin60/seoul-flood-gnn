@@ -59,15 +59,20 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 ```
 seoul-flood-gnn/
 ├── data/
-│   ├── raw/                  # 원본 (git 제외)
-│   └── processed/            # 가공 결과: 지점 테이블, 매칭·품질 리포트, 강남 좌표·도로망·그래프·시계열·데이터셋·기준 모델 결과
+│   ├── raw/                  # 원본 (git 제외): 수위 CSV, 강우 월별 CSV, rain2026/ (2026-06~08 강우)
+│   └── processed/            # 가공 결과: 지점 테이블, 매칭·품질 리포트, 강남 좌표·도로망·그래프·시계열·데이터셋·기준 모델·T2 진단 결과
 ├── src/
-│   ├── data/                 # 정제, 위치 매칭, 지오코딩, 도로망, 그래프, 시계열, 예측 데이터셋
-│   ├── models/               # baselines.py (persistence, 노드별 Ridge AR). GNN은 아직 없음
+│   ├── data/                 # 정제, 위치 매칭, 지오코딩, 도로망, 그래프, 시계열, 강우 정렬, 예측 데이터셋
+│   ├── models/               # baselines.py, rain_baselines.py. GNN은 아직 없음
+│   ├── analysis/             # 공간 신호·T2 LOSO 진단, 부트스트랩, 민감도, 발표용 그림(slide_figures, story_figures), 2026 강우 이벤트
 │   └── visualization/        # make_figures.py
 ├── tests/                    # 모듈별 셀프 테스트 (test_*.py)
-├── outputs/figures/          # 그림 4종 PNG + index.html
-├── docs/                     # 진행 평가·로드맵·데이터셋 설계·발표 안 (md 문서는 여기서 관리)
+├── outputs/figures/          # 분석 그림 PNG (+ slide/ : 발표 슬라이드용 그림)
+├── docs/
+│   ├── 01~09_*.md            # 분석·설계·결과 문서(번호는 코드 주석에서 참조하므로 바꾸지 않는다)
+│   ├── presentation/         # 중간발표 자료(슬라이드 + 대본) md
+│   ├── assets/               # 문서·발표에 쓰는 외부 이미지 (출처를 확인해 사용)
+│   └── logs/                 # 주차별 실습일지 HWP (git 제외)
 ├── notebooks/
 ├── .env.example  .gitignore  requirements.txt  main.py
 ```
@@ -199,3 +204,5 @@ md 문서는 `docs/`에서 관리한다.
 | [06_rainfall_data.md](docs/06_rainfall_data.md) | 강수량 데이터 명세, 품질, 이벤트, 수위 반응 시차, 입력 규칙 (Phase B) |
 | [07_rain_effect_results.md](docs/07_rain_effect_results.md) | 강우 효과: T1 Ridge+강우 비교(사전 규칙상 실패), 강우 제거 후 공간 진단 |
 | [08_t2_loso_diagnosis.md](docs/08_t2_loso_diagnosis.md) | 일주기 제거 재진단, T2 LOSO 진단(사전 기준 충족 10/18, 단 IDW와 동급) |
+| [09_midterm_qa.md](docs/09_midterm_qa.md) | 중간발표 예상 질문과 답변 요지 |
+| [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |

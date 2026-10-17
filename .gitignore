@@ -19,3 +19,9 @@ data/processed/gangnam_forecast_samples_h*.csv
 outputs/*
 !outputs/figures/
 data/processed/gangnam_t2_loso_predictions.npz
+
+# 실습일지 등 HWP 문서는 저장소에 올리지 않는다
+*.hwp
+
+# 언론사 사진 등 저작권 확인이 끝나지 않은 이미지는 올리지 않는다
+docs/assets/*.avif
