@@ -2,7 +2,7 @@
 gangnam_rain_baseline_report.txt)의 값만 쓴다.
 
 실행: python -m src.analysis.story_figures
-출력: outputs/figures/slide/{s04_sensor_map,s10_before_after}.png
+출력: outputs/figures/slide/{s04_sensor_map,s10_before_after,s18_gnn_ci}.png
 - s04: 강남구 도로망 위에 분석에 쓴 센서 18개 위치 (도로망 © OpenStreetMap contributors는 슬라이드 각주에 표기)
 - s10: 시간 예측(T1) 오차 전/후 비교. test 구간, 예측 10분 후, 단위 mm
 """
@@ -61,6 +61,26 @@ def before_after():
     _save(fig, "s10_before_after")
 
 
+def gnn_ci():
+    """모델 4개의 이벤트 MAE 막대와 95% CI (gangnam_t2_gnn_ci.csv 의 값, 새로 계산하지 않는다)."""
+    d = pd.read_csv(PROCESSED / "gangnam_t2_gnn_ci.csv", encoding="utf-8-sig").set_index("model")
+    order = [("idw_p1", "IDW"), ("ridge_rain_time_nbr", "강우+이웃\n(선형)"), ("hgb_rain_time_nbr", "강우+이웃\n(트리)"), ("gnn", "GNN")]
+    fig, ax = plt.subplots(figsize=(9.2, 5.8), dpi=130)
+    for i, (m, lab) in enumerate(order):
+        v, lo, hi = d.loc[m, "point_mm"], d.loc[m, "ci_lo_mm"], d.loc[m, "ci_hi_mm"]
+        ax.bar(i, v, 0.58, color="#2A78D6" if m != "idw_p1" else "#8798B3", zorder=3)
+        ax.errorbar(i, v, yerr=[[v - lo], [hi - v]], fmt="none", ecolor=C["ink"], elinewidth=2, capsize=6, zorder=4)
+        ax.text(i, hi + 0.8, f"{v:.1f}", ha="center", fontsize=FS + 1, fontweight="bold", color=C["ink"])
+    ax.set_xticks(range(len(order)))
+    ax.set_xticklabels([lab for _, lab in order], fontsize=FS)
+    ax.set_ylabel("비 온 구간 오차 (mm)")
+    ax.set_ylim(0, 40)
+    ax.grid(axis="x", visible=False)
+    fig.tight_layout()
+    _save(fig, "s18_gnn_ci")
+
+
 if __name__ == "__main__":
     sensor_map()
     before_after()
+    gnn_ci()

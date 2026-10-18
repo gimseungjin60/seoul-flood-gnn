@@ -140,6 +140,13 @@ def main() -> None:
     keep = np.array([0.0 if e in big else 1.0 for e in ev_ids])[None]
     p, _ = macro_mae(S, N, keep)
     w(f"  큰 사건 {big} 제외({int(keep.sum())}개): GNN − IDW {1000 * (p[0, k['gnn']] - p[0, k['idw_p1']]):+.2f}, GNN − (4) {1000 * (p[0, k['gnn']] - p[0, k['ridge_rain_time_nbr']]):+.2f} mm")
+    ev6 = [i for i, e in enumerate(ev_ids) if e not in big]
+    boot6, _ = bootstrap(S[ev6], N[ev6], N_BOOT, BOOT_SEED)
+    for a_, lab in (("gnn", "GNN"), ("ridge_rain_time_nbr", "(4) 선형"), ("hgb_rain_time_nbr", "(5) 트리")):
+        d6 = boot6[:, k[a_]] - boot6[:, k["idw_p1"]]
+        lo6, hi6 = ci(d6)
+        pt6 = macro_mae(S[ev6], N[ev6], np.ones((1, len(ev6))))[0][0]
+        w(f"  큰 사건 {big} 제외 {lab} − IDW: {1000 * (pt6[k[a_]] - pt6[k['idw_p1']]):+.2f} mm, 95% CI [{lo6 * 1000:+.2f}, {hi6 * 1000:+.2f}] (이벤트 {len(ev6)}개 복원추출, 참고)")
     w("  이벤트 하나씩 뺐을 때 GNN − IDW (mm): " + ", ".join(
         f"-{e}:{1000 * (macro_mae(S, N, (1 - np.eye(E)[[ev_ids.index(e)]]))[0][0, k['gnn']] - macro_mae(S, N, (1 - np.eye(E)[[ev_ids.index(e)]]))[0][0, k['idw_p1']]):+.2f}" for e in ev_ids))
     sensors = list(z["nodes"])
