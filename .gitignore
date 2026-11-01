@@ -28,3 +28,4 @@ docs/assets/*.avif
 data/processed/gangnam_t2_gnn_predictions.npz
 data/processed/gangnam_t2_gnn_sens_*.npz
 data/processed/gangnam2026_road_network.graphml
+data/processed/gangnam2026_t2_*_predictions.npz

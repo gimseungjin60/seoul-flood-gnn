@@ -125,19 +125,21 @@ def _hgb(Xtr, ytr, n_iter):
 
 
 def loso_predict(R: np.ndarray, dist: np.ndarray, rain_feat: list, time_feat: np.ndarray, i: int,
-                 train_idx: np.ndarray, eval_idx: np.ndarray, params: Params | None = None) -> dict:
+                 train_idx: np.ndarray, eval_idx: np.ndarray, params: Params | None = None, labels=None) -> dict:
     """타깃 센서 i 를 뺀 LOSO 예측. 반환: {모델: (len(eval_idx),) 정규화 상승분 예측, NaN=이웃 정보 없음}.
-    R (B, N) 에서 i 열은 가장 먼저 제거되어 이후 어떤 계산에도 쓰이지 않는다(누수 방지 테스트가 이를 검증)."""
+    R (B, N) 에서 i 열은 가장 먼저 제거되어 이후 어떤 계산에도 쓰이지 않는다(누수 방지 테스트가 이를 검증).
+    labels: 가짜 타깃으로 쓸 노드 인덱스(2026: core만). None 이면 i 를 뺀 전 노드(2025와 같음). 이웃 후보는 항상 i 를 뺀 전 노드."""
     params = params or Params()
     n = R.shape[1]
     others = [j for j in range(n) if j != i]
     R_oth = np.delete(R, i, axis=1)                                   # (B, N-1): 타깃 열 제거
     pos_in = {j: c for c, j in enumerate(others)}
+    pseudo = others if labels is None else [j for j in others if j in set(labels)]
 
     def pooled_rows():
         """가짜 타깃 k(≠i)별로 학습 행을 쌓는다. 이웃 후보 = others - {k}."""
         Xa, Xb, y = [], [], []
-        for k in others:
+        for k in pseudo:
             cand = [j for j in others if j != k]
             Rk = R_oth[:, [pos_in[j] for j in cand]]
             nb, nv = neighbor_features(Rk[train_idx], dist[k, cand])

@@ -137,8 +137,9 @@ def make_eval_inputs(R_oth: np.ndarray, static_oth: np.ndarray, static_target: n
 
 
 def train_model(R_oth: np.ndarray, static_oth: np.ndarray, train_idx: np.ndarray, A17: np.ndarray, weights: np.ndarray, seed: int,
-                mu, sd, epochs: int = EPOCHS):
-    """17개 센서(타깃 제외)로 가림-맞히기 학습. 반환 모델."""
+                mu, sd, epochs: int = EPOCHS, label_mask: np.ndarray | None = None):
+    """17개 센서(타깃 제외)로 가림-맞히기 학습. 반환 모델.
+    label_mask (N_oth,) 1=손실 대상 노드(2026: core). None 이면 전 노드(2025와 같음). 가림은 전 노드에 똑같이 적용한다."""
     torch.manual_seed(seed)
     gen = torch.Generator().manual_seed(seed)
     in_dim = 2 + static_oth.shape[-1]
@@ -152,6 +153,7 @@ def train_model(R_oth: np.ndarray, static_oth: np.ndarray, train_idx: np.ndarray
     stat_t = torch.tensor(stat)
     w_t = torch.tensor(weights[train_idx], dtype=torch.float32)
     A = torch.tensor(A17, dtype=torch.float32)
+    lab = torch.ones(Rz.shape[1]) if label_mask is None else torch.tensor(label_mask, dtype=torch.float32)
     n = len(train_idx)
     for _ in range(epochs):
         perm = torch.randperm(n, generator=gen)
@@ -159,7 +161,7 @@ def train_model(R_oth: np.ndarray, static_oth: np.ndarray, train_idx: np.ndarray
             b = perm[s: s + BATCH]
             drop = (torch.rand(len(b), Rz.shape[1], generator=gen) < MASK_RATIO).float()
             m = obs_t[b] * (1 - drop)
-            tgt = obs_t[b] * drop                                         # 가려졌고 정답이 있는 노드
+            tgt = obs_t[b] * drop * lab[None, :]                          # 가려졌고 정답이 있는 (라벨) 노드
             x = torch.cat([(Rz[b] * m)[..., None], m[..., None], stat_t[b]], dim=2)
             pred = model(x, m, A)
             hub = nn.functional.huber_loss(pred, Rz[b], reduction="none", delta=HUBER_DELTA)
@@ -183,18 +185,20 @@ def prepare_target(R: np.ndarray, rain_feat: list, time_feat: np.ndarray, i: int
 
 
 def gnn_loso_predict(R: np.ndarray, dist: np.ndarray, rain_feat: list, time_feat: np.ndarray, i: int, train_idx: np.ndarray,
-                     eval_idx: np.ndarray, weights: np.ndarray, seeds=SEEDS, epochs: int = EPOCHS) -> np.ndarray:
+                     eval_idx: np.ndarray, weights: np.ndarray, seeds=SEEDS, epochs: int = EPOCHS, labels=None) -> np.ndarray:
     """타깃 센서 i 를 뺀 GNN 예측(정규화 상승분, (len(eval_idx),)). 이웃이 하나도 관측되지 않은 블록은 NaN(IDW 등과 같은 정의).
-    R (B, N) 의 i 열은 가장 먼저 제거되어 이후 어떤 계산에도 쓰이지 않는다(누수 방지 테스트가 검증)."""
+    R (B, N) 의 i 열은 가장 먼저 제거되어 이후 어떤 계산에도 쓰이지 않는다(누수 방지 테스트가 검증).
+    labels: 손실 대상 노드 인덱스(2026: core만). None 이면 i 를 뺀 전 노드(2025와 같음)."""
     c = prepare_target(R, rain_feat, time_feat, i)
     others, R_oth, static_oth = c["others"], c["R_oth"], c["static_oth"]
+    label_mask = None if labels is None else np.array([j in set(labels) for j in others], dtype=float)
     mu, sd = feature_stats(static_oth, train_idx)
     A17 = build_adjacency(dist, others, None)
     A18 = build_adjacency(dist, others, i)
     x_e, m_e = make_eval_inputs(R_oth, static_oth, c["static_tgt"], eval_idx, mu, sd)
     preds = []
     for sd_ in seeds:
-        model = train_model(R_oth, static_oth, train_idx, A17, weights, sd_, mu, sd, epochs)
+        model = train_model(R_oth, static_oth, train_idx, A17, weights, sd_, mu, sd, epochs, label_mask)
         with torch.no_grad():
             p = model(torch.tensor(x_e), torch.tensor(m_e), torch.tensor(A18, dtype=torch.float32))[:, -1].numpy()
         preds.append(p)
