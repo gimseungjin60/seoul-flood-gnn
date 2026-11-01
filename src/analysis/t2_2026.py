@@ -65,7 +65,9 @@ def build_inputs(node_ids: list[str]) -> dict:
     dist = np.zeros((len(node_ids), len(node_ids)))
     for r in pd.read_csv(OUT_PAIRS).itertuples():
         if r.node_a in nid and r.node_b in nid:
-            dist[nid[r.node_a], nid[r.node_b]] = dist[nid[r.node_b], nid[r.node_a]] = r.road_dist_m
+            # 같은 도로 노드로 연결된 쌍(도로거리 0, 현재 이웃 전용 23-0088·0089 하나)은 직선거리로 대체 (docs/11, 실행 전 추가)
+            d = r.road_dist_m if r.road_dist_m > 0 else r.straight_dist_m
+            dist[nid[r.node_a], nid[r.node_b]] = dist[nid[r.node_b], nid[r.node_a]] = d
     off = ~np.eye(len(node_ids), dtype=bool)
     if not (dist[off] > 0).all():
         raise ValueError("도로거리가 없거나 0인 센서 쌍이 있다")
