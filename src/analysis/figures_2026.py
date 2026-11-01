@@ -3,7 +3,7 @@
 실행: python -m src.analysis.figures_2026            # 둘 다 (모델 오차 그림은 gangnam2026_t2_ci.csv 가 있어야 한다)
 출력: outputs/figures/slide/{s2026_sensor_map,s2026_gnn_ci}.png
 - 지도: 2026 도로망(강남 범위) 위에 평가 대상(core, J2 통과)·이웃 후보·제외 센서 위치 (도로망 © OpenStreetMap contributors)
-- 오차: 모델 4개의 비 온 구간 오차(이벤트 MAE)와 95% CI (t2_2026_eval 결과)
+- 오차: 모델 5개(학습 없는 전체 평균·IDW 포함)의 비 온 구간 오차(이벤트 MAE)와 95% CI (t2_2026_eval 결과)
 """
 import sys
 
@@ -54,12 +54,12 @@ def sensor_map():
 
 def gnn_ci():
     d = pd.read_csv(CI_CSV).set_index("stat")
-    order = [("idw_p1", "IDW"), ("ridge_rain_time_nbr", "강우+이웃\n(선형)"), ("hgb_rain_time_nbr", "강우+이웃\n(트리)"), ("gnn", "GNN")]
-    vals = [(d.loc[f"mae_{m}", c] * 1000 for c in ("point_m", "lo_m", "hi_m")) for m, _ in order]
-    vals = [tuple(v) for v in vals]
-    fig, ax = plt.subplots(figsize=(9.2, 5.8), dpi=130)
+    order = [("mean_others", "전체 평균"), ("idw_p1", "IDW"), ("ridge_rain_time_nbr", "강우+이웃\n(선형)"),
+             ("hgb_rain_time_nbr", "강우+이웃\n(트리)"), ("gnn", "GNN")]
+    vals = [tuple(d.loc[f"mae_{m}", c] * 1000 for c in ("point_m", "lo_m", "hi_m")) for m, _ in order]
+    fig, ax = plt.subplots(figsize=(10.4, 5.8), dpi=130)
     for i, ((m, _), (v, lo, hi)) in enumerate(zip(order, vals)):
-        ax.bar(i, v, 0.58, color="#2A78D6" if m != "idw_p1" else "#8798B3", zorder=3)
+        ax.bar(i, v, 0.58, color="#8798B3" if m in ("mean_others", "idw_p1") else "#2A78D6", zorder=3)
         ax.errorbar(i, v, yerr=[[v - lo], [hi - v]], fmt="none", ecolor=C["ink"], elinewidth=2, capsize=6, zorder=4)
         ax.text(i, hi + max(hi for _, _, hi in vals) * 0.02, f"{v:.1f}", ha="center", fontsize=FS + 1, fontweight="bold", color=C["ink"])
     ax.set_xticks(range(len(order)))

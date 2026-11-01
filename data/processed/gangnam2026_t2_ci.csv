@@ -1,0 +1,10 @@
+﻿stat,point_m,lo_m,hi_m
+mae_mean_others,0.03350,0.02851,0.03916
+mae_idw_p1,0.03466,0.02897,0.04084
+mae_ridge_rain_time,0.03523,0.03081,0.04041
+mae_ridge_rain_time_nbr,0.03397,0.02930,0.03952
+mae_hgb_rain_time_nbr,0.03837,0.03224,0.04509
+mae_gnn,0.03647,0.03227,0.04147
+P1_gnn_minus_idw,0.00181,-0.00099,0.00472
+P2_gnn_minus_ridge_nbr,0.00250,0.00087,0.00411
+P3_peak_time_gnn_minus_idw_min,17.09428,-27.39533,59.68320
