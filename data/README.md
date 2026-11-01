@@ -41,6 +41,6 @@
 | `gangnam_spatial_signal_*`, `gangnam_t2_*` | 공간 신호 진단과 T2 센서 하나 가리고 맞히기(LOSO) 결과 |
 | `gangnam2026_*` | 2026-06~08 강남 시계열(품질 규칙 R1·R2 적용), 센서 선정(core 20 / neighbor 34 / excluded 62), 품질 리포트. `python -m src.data.prepare_station_timeseries_2026` |
 | `rainfall_10min_2026.npz`, `gangnam2026_rain_events.csv`, `gangnam2026_station_rain_gauge.csv`, `gangnam2026_rainfall_report.txt` | 2026 강우 격자, 이벤트(유의 14, 평가 13), 센서별 최근접 강우량계. `python -m src.data.prepare_rainfall_2026` |
-| `gangnam2026_geocoding_*`, `gangnam2026_station_*` | pool 54개 좌표(2025 재사용 17, Kakao 35, 실패 2), 도로거리, 역할(타깃 17 / pool 48), k=5 이웃 관측률. `python -m src.data.build_station_graph_2026` (도로망 graphml은 재생성 가능, git 제외) |
+| `gangnam2026_geocoding_*`, `gangnam2026_station_*` | pool 54개 좌표(2025 재사용 17, Kakao 35, 실패 2), 도로거리, 역할(타깃 17 / pool 48), k=5 이웃 관측률. `python -m src.data.build_station_graph_2026` (도로망 graphml은 OSM 변경 대비 재현성을 위해 커밋) |
 
 - 5 MB가 넘는 재생성 가능 결과와 예측 npz(`gangnam_t2_loso_predictions.npz`)는 `.gitignore`로 제외했다. 재생성 방법은 루트 `README.md` 12절이다.

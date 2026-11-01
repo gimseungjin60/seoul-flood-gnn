@@ -5,7 +5,7 @@
              gangnam_geocoding_result.csv(2025 좌표, 위치 문구가 같으면 재사용)
 출력: data/processed/gangnam2026_geocoding_result.csv, gangnam2026_station_nodes.csv,
       gangnam2026_station_pairwise_road_distance.csv, gangnam2026_station_graph_report.txt
-      data/processed/gangnam2026_road_network.graphml (재생성 가능, git 제외)
+      data/processed/gangnam2026_road_network.graphml (OSM은 시간에 따라 바뀌므로 재현성을 위해 커밋, 2025 graphml과 같음)
 
 - 좌표를 추측하지 않는다(2025 geocoder.decide 규칙 그대로: 결과 1건 + 강남구일 때만). 시설명 수동 재검색은 하지 않는다.
 - J2 좌표 검증 통과(docs/11): 좌표 있음 + 강남 범위 사각형 안 + 매칭 주소 강남구 + 최근접 도로 노드 100 m 이내(CANDIDATE).
