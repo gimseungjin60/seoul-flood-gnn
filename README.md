@@ -80,7 +80,7 @@ seoul-flood-gnn/
 ├── tests/                    # 모듈별 셀프 테스트 (test_*.py)
 ├── outputs/figures/          # 분석 그림 PNG (+ slide/ : 발표 슬라이드용 그림)
 ├── docs/
-│   ├── 01~11_*.md            # 분석·설계·결과 문서(번호는 코드 주석에서 참조하므로 바꾸지 않는다)
+│   ├── 01~12_*.md            # 분석·설계·결과·계획 문서(번호는 코드 주석에서 참조하므로 바꾸지 않는다)
 │   ├── presentation/         # 중간발표 자료(슬라이드 + 대본) md
 │   ├── assets/               # 문서·발표에 쓰는 외부 이미지 (출처를 확인해 사용)
 │   └── logs/                 # 주차별 실습일지 HWP (git 제외)
@@ -150,7 +150,7 @@ raw CSV (cp949, 22.5M행)
 
 ## 11. 다음 단계
 
-우선순위순 (완료된 단계의 근거는 2절과 [docs/](docs/), 판정 기준은 [docs/11](docs/11_2026_recomparison_rules.md)):
+우선순위순 (완료된 단계의 근거는 2절과 [docs/](docs/), 판정 기준은 [docs/11](docs/11_2026_recomparison_rules.md), 주간 체크리스트는 [docs/12](docs/12_week10_plan.md)):
 
 1. 2026 재비교 마무리: GNN 실행 → 사전 고정 판정(P1~P3, S1) → 결과 문서
 2. 관로 연결 근사 정보 수집: 지형 고도(DEM), 빗물펌프장 위치, 센서별 배수분구 소속 문의 → 관측 없이 정의할 수 있는 엣지 후보
@@ -237,4 +237,5 @@ md 문서는 `docs/`에서 관리한다.
 | [09_midterm_qa.md](docs/09_midterm_qa.md) | 중간발표 예상 질문과 답변 요지 (중간발표 시점 기준) |
 | [10_t2_gnn_result.md](docs/10_t2_gnn_result.md) | T2 GNN 결과(2025): 사전 고정 판정 구분 불가, 첨두 지표·사후 민감도(참고) |
 | [11_2026_recomparison_rules.md](docs/11_2026_recomparison_rules.md) | 2026 우기 재비교 사전 고정 규칙(P1~P3, S1, 센서 역할, H, J1·J2) |
+| [12_week10_plan.md](docs/12_week10_plan.md) | 10주차 계획(결과 정리, 관로 근사 정보 문의, 위험도 정의, 대시보드 뼈대) |
 | [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |
