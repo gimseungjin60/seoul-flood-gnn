@@ -27,3 +27,4 @@ data/processed/gangnam_t2_loso_predictions.npz
 docs/assets/*.avif
 data/processed/gangnam_t2_gnn_predictions.npz
 data/processed/gangnam_t2_gnn_sens_*.npz
+data/processed/gangnam2026_road_network.graphml
