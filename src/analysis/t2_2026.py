@@ -93,7 +93,7 @@ def run_baselines(inp: dict, targets: list[int], labels: list[int], log=print):
     return pred, act
 
 
-def run_gnn(inp: dict, targets: list[int], labels: list[int], log=print, folds=None, seeds=SEEDS):
+def run_gnn(inp: dict, targets: list[int], labels: list[int], log=print, folds=None, seeds=SEEDS, adjacency=None):
     B, N = inp["blk"].shape
     pred = np.full((B, N), np.nan)
     act = np.full((B, N), np.nan)
@@ -105,7 +105,7 @@ def run_gnn(inp: dict, targets: list[int], labels: list[int], log=print, folds=N
         t0 = time.time()
         for i in targets:
             p = gnn_loso_predict(R, inp["dist"], inp["rain_feat"], inp["time_feat"], i, train_idx, eval_idx, wv, seeds, EPOCHS,
-                                 labels=labels)
+                                 labels=labels, adjacency=adjacency)
             pred[eval_idx, i] = p * scale[i]
             act[eval_idx, i] = R[eval_idx, i] * scale[i]
         log(f"  GNN fold {f + 1}/{N_FOLDS} ({time.time() - t0:.0f}초)")

@@ -185,19 +185,23 @@ def prepare_target(R: np.ndarray, rain_feat: list, time_feat: np.ndarray, i: int
 
 
 def gnn_loso_predict(R: np.ndarray, dist: np.ndarray, rain_feat: list, time_feat: np.ndarray, i: int, train_idx: np.ndarray,
-                     eval_idx: np.ndarray, weights: np.ndarray, seeds=SEEDS, epochs: int = EPOCHS, labels=None) -> np.ndarray:
+                     eval_idx: np.ndarray, weights: np.ndarray, seeds=SEEDS, epochs: int = EPOCHS, labels=None,
+                     adjacency=None) -> np.ndarray:
     """타깃 센서 i 를 뺀 GNN 예측(정규화 상승분, (len(eval_idx),)). 이웃이 하나도 관측되지 않은 블록은 NaN(IDW 등과 같은 정의).
     R (B, N) 의 i 열은 가장 먼저 제거되어 이후 어떤 계산에도 쓰이지 않는다(누수 방지 테스트가 검증).
-    labels: 손실 대상 노드 인덱스(2026: core만). None 이면 i 를 뺀 전 노드(2025와 같음)."""
+    labels: 손실 대상 노드 인덱스(2026: core만). None 이면 i 를 뺀 전 노드(2025와 같음).
+    adjacency: (others, target, seed) -> 메시지 가중치 행렬. None 이면 도로거리 k-NN(build_adjacency, 2025·2026 재비교와 같음).
+    그래프 보완 실험(t2_graph_rules)에서만 쓴다. 관측(R)은 받지 않는다."""
     c = prepare_target(R, rain_feat, time_feat, i)
     others, R_oth, static_oth = c["others"], c["R_oth"], c["static_oth"]
     label_mask = None if labels is None else np.array([j in set(labels) for j in others], dtype=float)
     mu, sd = feature_stats(static_oth, train_idx)
-    A17 = build_adjacency(dist, others, None)
-    A18 = build_adjacency(dist, others, i)
+    if adjacency is None:
+        adjacency = lambda o, t, _seed: build_adjacency(dist, o, t)
     x_e, m_e = make_eval_inputs(R_oth, static_oth, c["static_tgt"], eval_idx, mu, sd)
     preds = []
     for sd_ in seeds:
+        A17, A18 = adjacency(others, None, sd_), adjacency(others, i, sd_)
         model = train_model(R_oth, static_oth, train_idx, A17, weights, sd_, mu, sd, epochs, label_mask)
         with torch.no_grad():
             p = model(torch.tensor(x_e), torch.tensor(m_e), torch.tensor(A18, dtype=torch.float32))[:, -1].numpy()

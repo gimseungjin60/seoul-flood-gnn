@@ -9,3 +9,4 @@ openpyxl>=3.1
 scikit-learn>=1.5
 # CPU 버전: pip install torch --index-url https://download.pytorch.org/whl/cpu  (T2 GNN 실험용, PyTorch Geometric 등 그래프 라이브러리는 쓰지 않는다)
 torch>=2.2
+rasterio>=1.3  # 그래프 보완 실험 G1의 센서 고도(DEM)
