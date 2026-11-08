@@ -28,3 +28,5 @@ docs/assets/*.avif
 data/processed/gangnam_t2_gnn_predictions.npz
 data/processed/gangnam_t2_gnn_sens_*.npz
 data/processed/gangnam2026_t2_*_predictions.npz
+# 실습일지 제출본(HWP·docx·문안)은 올리지 않는다. 그림은 docs/figures/ 에 용도별로 모은다
+docs/logs/
