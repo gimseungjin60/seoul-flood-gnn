@@ -23,7 +23,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 4 | 9주차 | 공간 신호 진단, 강수량 정렬·강우 효과, T2 센서 하나 가리고 맞히기(LOSO) 진단·부트스트랩·민감도, **T2 GNN 구현·판정(구분 불가)**, 중간발표 자료 | 완료 |
 | 5 | 9주차 | 2026-06~08 수위 확보(2026-11-01), 품질 규칙·센서 선정, 판정 규칙 사전 고정([docs/11](docs/11_2026_recomparison_rules.md)), 좌표·도로거리, 강우, 기준 모델·GNN 재비교 → **구분 불가**([docs/13](docs/13_2026_recomparison_result.md)) | 완료 |
 | 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대 | 진행 중 |
-| 다음 | | 대시보드 다듬기(IDW 기본 비교선, 설명 화면), 최종 발표 자료 | 예정 |
+| 다음 | | 시공간 GNN 단기 예측(센서 있는 곳 10·30분 뒤, 규칙 [docs/17](docs/17_t1_st_gnn_rules.md)) 판정과 결과 문서, 대시보드 다듬기, 최종 발표 자료. 이어서 할 일은 [docs/18](docs/18_week11_status.md) | 진행 중 |
 
 - 대상(2025): 서울시 강남구 센서 18개(하수관로 수위) × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
 - 대상(2026): 강남구 센서 116개 중 품질 규칙(오류 코드 −1, 시스템 이상 구간)과 커버리지 기준으로 평가 대상 17개(연속 기록) + 이웃 후보 31개(주기적으로 끊기는 센서 포함)를 골랐다. 좌표 검증 실패 5개, 이상 점프 1개는 제외 → [docs/11](docs/11_2026_recomparison_rules.md), [data/README.md](data/README.md).
@@ -255,5 +255,7 @@ md 문서는 `docs/`에서 관리한다.
 | [14_graph_alternatives_rules.md](docs/14_graph_alternatives_rules.md) | 그래프 보완 실험 사전 고정 규칙(G1 고도 방향, G2 랜덤 대조군, 판정 Q1~Q3)과 실행 전 진단 |
 | [15_graph_alternatives_result.md](docs/15_graph_alternatives_result.md) | 그래프 보완 결과: G1 도로거리보다 나쁨, 도로거리 = 랜덤(구조 기여 확인 안 됨) |
 | [16_rise_levels.md](docs/16_rise_levels.md) | 대시보드 표시 기준: 평소 대비 상승 단계(50/200/500 mm), 센서 없는 곳 표시 원칙 |
+| [17_t1_st_gnn_rules.md](docs/17_t1_st_gnn_rules.md) | 시공간 GNN 단기 예측(센서 있는 곳 10·30분 뒤) 사전 고정 규칙(F1~F5) |
+| [18_week11_status.md](docs/18_week11_status.md) | 11주차 진행 상황과 다음 할 일(이어서 작업할 때 먼저 읽기) |
 | [figures/README.md](docs/figures/README.md) | 발표·실습일지에 쓴 그림을 용도별로 모은 목록 |
 | [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |
