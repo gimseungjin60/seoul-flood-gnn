@@ -84,6 +84,17 @@ def estimate_agreement() -> list[str]:
     return L
 
 
+def unstable_nodes(r: np.ndarray, inev: np.ndarray, cols) -> list[tuple[int, float]]:
+    """기록 불안정 센서: 이벤트 밖 블록 중 상승 100 mm 이상 비율이 UNSTABLE_NONEVENT_SHARE 초과. 반환 [(열, 비율)]."""
+    out = []
+    for c in cols:
+        ok = np.isfinite(r[:, c]) & ~inev
+        share = float(np.mean(r[ok, c] >= 100))
+        if share > UNSTABLE_NONEVENT_SHARE:
+            out.append((c, share))
+    return out
+
+
 def inputs_2026_events():
     ev = pd.read_csv(OUT_EVENTS, parse_dates=["start", "end"])
     return ev[ev.is_eval].reset_index(drop=True)
@@ -105,14 +116,8 @@ def main() -> None:
     nb = [c for c in range(len(roles["pool"])) if c not in tg]
     L += describe("2026 평가 대상 17개 (확인용)", r26[:, tg], ev26, in26)
     L.append("\n[2026 이웃 전용 센서 기록 안정성] 이벤트 밖 블록 중 100 mm 이상 비율 "
-             f"(> {UNSTABLE_NONEVENT_SHARE:.0%}면 '기록 불안정', 단계 표시 대상에서 제외 제안)")
-    unstable = []
-    for c in nb:
-        r = r26[:, c]
-        out = np.isfinite(r) & ~in26
-        share = float(np.mean(r[out] >= 100))
-        if share > UNSTABLE_NONEVENT_SHARE:
-            unstable.append(f"{roles['pool'][c]} {share:.0%}")
+             f"(> {UNSTABLE_NONEVENT_SHARE:.0%}면 '기록 불안정', 단계 색 없이 회색 표시)")
+    unstable = [f"{roles['pool'][c]} {share:.0%}" for c, share in unstable_nodes(r26, in26, nb)]
     L.append(f"  불안정 {len(unstable)}/{len(nb)}개: " + ", ".join(unstable))
     L += estimate_agreement()
     OUT_REPORT.write_text("\n".join(L) + "\n", encoding="utf-8")
