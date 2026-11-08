@@ -13,7 +13,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 최진호 | 도로망/근접 그래프 구축, GNN 모델링(가림-맞히기 메시지 전달), 강수량 결합, 센서 가리기(LOSO) 실험, 평가, DEM(예정) |
 | 김승진 | 원본 데이터 관리, 지점 데이터 정제/검증, Kakao 좌표 확보, Streamlit + Folium 대시보드, 위험도 시각화 |
 
-## 2. 현재 개발 단계: 2026 우기 재비교 완료(구분 불가), 관로 근사 정보·대시보드 준비
+## 2. 현재 개발 단계: 그래프 보완 실험 완료(그래프 구조 기여 없음), 대시보드 뼈대
 
 | 단계 | 실습일지 | 내용 | 상태 |
 |---|---|---|---|
@@ -22,7 +22,8 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 3 | 7주차 (10/12~10/18) | 좌표 확보(18/20)·검증, 도로망, 공간 그래프, 1분 시계열(18노드), 예측 데이터셋, 기준 모델, 그림 4종 | 완료 |
 | 4 | 9주차 | 공간 신호 진단, 강수량 정렬·강우 효과, T2 센서 하나 가리고 맞히기(LOSO) 진단·부트스트랩·민감도, **T2 GNN 구현·판정(구분 불가)**, 중간발표 자료 | 완료 |
 | 5 | 9주차 | 2026-06~08 수위 확보(2026-11-01), 품질 규칙·센서 선정, 판정 규칙 사전 고정([docs/11](docs/11_2026_recomparison_rules.md)), 좌표·도로거리, 강우, 기준 모델·GNN 재비교 → **구분 불가**([docs/13](docs/13_2026_recomparison_result.md)) | 완료 |
-| 다음 | | 관로 연결 근사 정보(지형 고도, 빗물펌프장 위치, 센서별 배수분구 소속 문의), 위험도 정의, 대시보드(Streamlit + Folium) | 예정 |
+| 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대 | 진행 중 |
+| 다음 | | 대시보드 다듬기(IDW 기본 비교선, 설명 화면), 최종 발표 자료 | 예정 |
 
 - 대상(2025): 서울시 강남구 센서 18개(하수관로 수위) × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
 - 대상(2026): 강남구 센서 116개 중 품질 규칙(오류 코드 −1, 시스템 이상 구간)과 커버리지 기준으로 평가 대상 17개(연속 기록) + 이웃 후보 31개(주기적으로 끊기는 센서 포함)를 골랐다. 좌표 검증 실패 5개, 이상 점프 1개는 제외 → [docs/11](docs/11_2026_recomparison_rules.md), [data/README.md](data/README.md).
@@ -32,7 +33,9 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 - 강수량: 서울시 강우량계 10분 자료(서울시 48개소 중 서울시 강남구 센서 18개에 배정해 사용, 2025-05~08) 정렬·검증 완료, 유의 강우 이벤트 10개(train 6 / val 2 / test 2). T1 시간 예측에 강우 특징을 더해 봤으나 사전 기준을 충족하지 못했다 → [docs/06](docs/06_rainfall_data.md).
 - T2 GNN(2025): 센서 하나를 가리고 이웃의 현재 값·강우·시간대로 추정하는 GNN(가림-맞히기 학습, 도로거리 k=5 그래프)을 사전 고정 규칙으로 실행했다. 비 온 구간 오차 GNN 26.1 mm vs IDW 25.3 mm, 차이 +0.80 mm [−0.29, +2.08] → **구분 불가**, 그래프 구조 효과로 보고하지 않는다 → [docs/10](docs/10_t2_gnn_result.md).
 - T2 재비교(2026): 같은 설정으로 평가 이벤트 13개(2025는 8개), 이웃 후보 48개 조건에서 다시 비교했다(판정 규칙은 실행 전 고정, [docs/11](docs/11_2026_recomparison_rules.md)). GNN 36.5 mm vs IDW 34.7 mm, 차이 +1.81 mm [−0.99, +4.72] → **구분 불가**. GNN은 강우+이웃 선형 모델보다 오차가 컸다(+2.50 mm [+0.87, +4.11]). 이웃 정보 자체는 도움이 됨(7/17, 기준 6). **두 해 모두 도로거리 그래프의 구조 효과를 확인하지 못했다** → [docs/13](docs/13_2026_recomparison_result.md).
-- **아직 없는 것:** 침수·위험 라벨(수위만 있음), 관로 제원/DEM, 대시보드.
+- 그래프 보완(2026): 배수분구 소속은 받을 수 없어, 지형 고도(Copernicus 30 m)로 "높은 곳 → 낮은 곳" 방향 그래프(G1)와 랜덤 그래프(G2)를 사전 고정 규칙으로 비교했다. G1은 도로거리 GNN보다 나빴고(+1.03 mm [+0.52, +1.56]), **도로거리 그래프와 랜덤 그래프는 같았다**(−0.03 mm [−0.47, +0.49]). 지금 GNN은 어느 센서와 연결됐는지를 활용하지 못한다 → [docs/15](docs/15_graph_alternatives_result.md).
+- 대시보드 표시 기준: 관로 크기를 몰라 위험도 대신 **평소 대비 상승 단계**(50/200/500 mm)로 확정. 단계는 센서가 있는 곳에만 칠하고, 센서 없는 곳 추정은 비교선으로만 보여준다(추정이 실제 '매우 큰 상승'을 맞힌 비율 8~19%) → [docs/16](docs/16_rise_levels.md). 뼈대: `streamlit run dashboard.py`.
+- **아직 없는 것:** 침수·위험 라벨(수위만 있음), 관로 제원·실제 관로 연결.
 - 그래프는 도로망 근접 기반 연구용 근사이며 실제 하수관로 연결·흐름 방향이 아니다.
 - 상세 평가와 로드맵은 [docs/](docs/) 참고 (아래 13절).
 
@@ -152,9 +155,9 @@ raw CSV (cp949, 22.5M행)
 
 우선순위순 (완료된 단계의 근거는 2절과 [docs/](docs/), 판정 기준은 [docs/11](docs/11_2026_recomparison_rules.md), 주간 체크리스트는 [docs/12](docs/12_week10_plan.md)):
 
-1. 관로 연결 근사 정보 수집: 센서별 배수분구 소속 문의(가장 먼저), 지형 고도(DEM), 빗물펌프장 위치 → 관측 없이 정의할 수 있는 엣지 후보. 못 얻으면 대체 설계([docs/12](docs/12_week10_plan.md) 2-1절)
-2. 위험도 정의: 침수 이력·관로 제원(만관율) 확보 가능 여부 확인, 불가능하면 센서별 상대 기준임을 명시
-3. 대시보드(Streamlit + Folium): 실측/추정 비교(IDW·선형·GNN), 추정값임을 표시, 데이터 한계 고지
+1. 대시보드 다듬기: 센서 없는 곳 비교선은 IDW를 기본으로(GNN이 낫다는 근거 없음, [docs/15](docs/15_graph_alternatives_result.md)), 표시 원칙은 [docs/16](docs/16_rise_levels.md)
+2. 최종 발표: 2025·2026·그래프 보완 세 실험의 결론(근사 그래프로는 구조 효과 없음)과 실제 관로 정보가 필요한 이유
+3. 실제 관로 연결·배수구역 자료를 얻으면 같은 사전 고정 방식([docs/14](docs/14_graph_alternatives_rules.md))으로 다시 비교
 
 ## 12. 강남구 분석 파이프라인 재현 순서 (2025-06~08)
 
@@ -214,7 +217,18 @@ python -m src.analysis.t2_2026 --part loso           # 기준 모델 (1)~(5) (�
 python -m src.analysis.t2_2026 --part gnn            # GNN 17 타깃 x 5폴드 x 3시드 (약 1시간)
 python -m src.analysis.t2_2026 --part h              # 신규 센서 H 3개 분리 검증(참고)
 python -m src.analysis.t2_2026_eval                  # 사전 고정 판정 P1~P3, S1
-python -m src.analysis.figures_2026                  # 센서 지도, 모델별 오차 그림
+python -m src.analysis.figures_2026                  # 센서 지도, 모델별 오차 그림 (그래프 보완 판정 그림 포함)
+
+# 그래프 보완 실험 (docs/14, docs/15)
+python -m src.data.sensor_elevation_2026             # 센서 고도 (Copernicus GLO-30 타일을 data/raw/dem/ 에 내려받음)
+python -m src.analysis.t2_graph --part diag          # 실행 전 진단
+python -m src.analysis.t2_graph --part elev          # G1 고도 방향 GNN (약 55분)
+python -m src.analysis.t2_graph --part rand          # G2 랜덤 대조군 GNN (약 55분)
+python -m src.analysis.t2_graph_eval                 # 사전 고정 판정 Q1~Q3
+
+# 상승 단계와 대시보드 (docs/16)
+python -m src.analysis.rise_levels                   # 단계 근거 보고서
+streamlit run dashboard.py                           # 대시보드 뼈대 (loso·gnn 예측 파일이 있으면 비교선 표시)
 ```
 
 - 콘솔 출력에 한글이 깨지거나 인코딩 오류가 나면 `$env:PYTHONUTF8="1"` 후 실행한다.
@@ -238,4 +252,8 @@ md 문서는 `docs/`에서 관리한다.
 | [11_2026_recomparison_rules.md](docs/11_2026_recomparison_rules.md) | 2026 우기 재비교 사전 고정 규칙(P1~P3, S1, 센서 역할, H, J1·J2) |
 | [12_week10_plan.md](docs/12_week10_plan.md) | 10주차 계획(결과 정리, 관로 근사 정보 문의, 위험도 정의, 대시보드 뼈대), 관로 정보 미확보 시 대체 설계 |
 | [13_2026_recomparison_result.md](docs/13_2026_recomparison_result.md) | 2026 우기 재비교 결과: P1 구분 불가, P2 선형보다 나쁨, P3 구분 불가, S1 공간 신호 있음 |
+| [14_graph_alternatives_rules.md](docs/14_graph_alternatives_rules.md) | 그래프 보완 실험 사전 고정 규칙(G1 고도 방향, G2 랜덤 대조군, 판정 Q1~Q3)과 실행 전 진단 |
+| [15_graph_alternatives_result.md](docs/15_graph_alternatives_result.md) | 그래프 보완 결과: G1 도로거리보다 나쁨, 도로거리 = 랜덤(구조 기여 확인 안 됨) |
+| [16_rise_levels.md](docs/16_rise_levels.md) | 대시보드 표시 기준: 평소 대비 상승 단계(50/200/500 mm), 센서 없는 곳 표시 원칙 |
+| [figures/README.md](docs/figures/README.md) | 발표·실습일지에 쓴 그림을 용도별로 모은 목록 |
 | [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |

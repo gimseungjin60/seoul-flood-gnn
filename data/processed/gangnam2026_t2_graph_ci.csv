@@ -1,0 +1,9 @@
+﻿stat,point_m,lo_m,hi_m
+mae_idw_p1,0.03466,0.02897,0.04084
+mae_gnn_road,0.03647,0.03227,0.04147
+mae_gnn_elev,0.03750,0.03296,0.04298
+mae_gnn_rand,0.03651,0.03222,0.04150
+Q1_elev_minus_road,0.00103,0.00052,0.00156
+Q2_elev_minus_idw,0.00284,0.00006,0.00567
+Q3_road_minus_rand,-0.00003,-0.00047,0.00049
+ref_rand_minus_idw,0.00184,-0.00081,0.00471

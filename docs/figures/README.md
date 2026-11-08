@@ -26,5 +26,6 @@
 | `6주차_실습일지/` | 그림1 수위 데이터 품질 분석, 그림2 학습 대상 20개 지점 위치정보 | 편집기 화면 캡처(6주차 HWP에서 꺼냄, 원본 파일 없음) |
 | `7주차_실습일지/` | 그림1 공간 그래프 ~ 그림6 결측 현황 | `fig1_spatial_graph_k3`, `fig2_water_levels_full`, `fig2_water_levels_zoom`, `fig3_baseline_mae`, `fig3_baseline_rmse`, `fig4_observation_availability` (`src/visualization/make_figures.py`) |
 | `9주차_실습일지/` | 그림1 2026 센서 배치, 그림2 2026 모델별 오차 | `slide/s2026_sensor_map.png`, `slide/s2026_gnn_ci.png` (`src/analysis/figures_2026.py`) |
+| `11주차_실습일지/` | 그래프 보완 판정, 대시보드 뼈대 화면 | `slide/s2026_graph_diff.png` (`figures_2026.py`), 대시보드 캡처(`streamlit run dashboard.py`) |
 
 일지 문서(HWP·docx)는 `docs/logs/`에 있다.
