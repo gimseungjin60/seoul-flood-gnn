@@ -8,7 +8,9 @@ data/raw/
 ├── sewer/snapshot/서울시 하수관로 수위 현황.csv        최신 스냅샷(위치정보 컬럼 포함, 이력 아님)
 ├── rain/2025/서울시_강우량_정보_2025년{05..08}월.csv   강우량 월별(10분, cp949)
 ├── rain/2026/rain_2026{05,06,07,08}.csv               강우량 2026-05~08 (포털 OA-1168 월별 다운로드, 05는 선행 강수용)
-└── rain/gauges/*.xlsx                                 강우량계 위치·관측지점 정보
+├── rain/gauges/*.xlsx                                 강우량계 위치·관측지점 정보
+├── sewer/api2025/{구코드}_{YYYYMMDD}.csv              2025-08 피해 구 5곳 1분 수위(OpenAPI로 받음, fetch_sewer_api.py)
+└── flood/{침수예상도, 침수흔적도/<연도>, 컬럼 의미, 침수지구 CSV}  침수 공간정보(shp, 열린데이터광장)
 """
 from pathlib import Path
 
@@ -30,4 +32,9 @@ SEWER_2026_TIME_FMT = "%d-%b-%y %H:%M:%S"  # 예: 01-JUN-26 00:00:00 (2025 원�
 SEWER_SNAPSHOT_CSV = SEWER_SNAPSHOT / "서울시 하수관로 수위 현황.csv"
 RAIN_2025_CSVS = {m: RAIN_2025 / f"서울시_강우량_정보_2025년{m}월.csv" for m in ("05", "06", "07", "08")}
 RAIN_2026_CSVS = {m: RAIN_2026 / f"rain_2026{m}.csv" for m in ("05", "06", "07", "08")}  # 05는 선행 강수 계산용
+FLOOD = RAW / "flood"
+FLOOD_FORECAST_DIR = FLOOD / "침수예상도"            # 풍수해 침수예상도 shp 6개(침수심 구간별)
+FLOOD_TRACE_DIR = FLOOD / "침수흔적도"              # 연도별 폴더(2023, 2024, 2025)
+SEWER_API_2025 = SEWER_2025.parent / "api2025"
+RAIN_2026_09 = RAIN_2026 / "서울시_강우량_정보_2026년09월.csv"  # 포털 OA-1168 월별 다운로드(원본 이름 유지), 2026-09-01~30
 RAIN_GAUGE_LOCATION_XLSX =RAIN_GAUGES / "서울시 강우량계 위치정보.xlsx"

@@ -38,7 +38,7 @@ C = {"s1": "#2a78d6", "s2": "#eb6834", "s3": "#1baf7a", "s4": "#eda100", "s5": "
      "ink": "#0b0b0b", "ink2": "#52514e", "muted": "#8a8984", "grid": "#e4e3df", "surface": "#fcfcfb",
      "missing": "#e34948", "observed": "#b7d3f6"}
 plt.rcParams.update({
-    "font.family": ["Malgun Gothic", "DejaVu Sans"], "axes.unicode_minus": False,
+    "font.family": ["Malgun Gothic", "AppleGothic", "DejaVu Sans"], "axes.unicode_minus": False,
     "figure.facecolor": C["surface"], "axes.facecolor": C["surface"], "savefig.facecolor": C["surface"],
     "axes.edgecolor": C["muted"], "axes.labelcolor": C["ink2"], "xtick.color": C["ink2"], "ytick.color": C["ink2"],
     "axes.grid": True, "grid.color": C["grid"], "grid.linewidth": 0.6, "axes.spines.top": False,

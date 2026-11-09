@@ -12,3 +12,5 @@ torch>=2.2
 rasterio>=1.3  # 그래프 보완 실험 G1의 센서 고도(DEM)
 streamlit>=1.40  # 대시보드 뼈대 (streamlit run dashboard.py)
 streamlit-folium>=0.22
+geopandas>=1.0  # 침수예상도·침수흔적도 shp 읽기, 좌표 변환 (flood_overlay, t4_flood)
+scipy>=1.11  # 순위상관 (rain_vs_rise, rain_response)
