@@ -1,10 +1,11 @@
 """2026 재비교 그림 2장. 수치는 결과 파일의 값만 쓴다(새로 계산하지 않는다).
 
 실행: python -m src.analysis.figures_2026            # 둘 다 (모델 오차 그림은 gangnam2026_t2_ci.csv 가 있어야 한다)
-출력: outputs/figures/slide/{s2026_sensor_map,s2026_gnn_ci,s2026_graph_diff}.png
+출력: outputs/figures/slide/{s2026_sensor_map,s2026_gnn_ci,s2026_graph_diff,s2026_t1_diff}.png
 - 지도: 2026 도로망(강남 범위) 위에 평가 대상(core, J2 통과)·이웃 후보·제외 센서 위치 (도로망 © OpenStreetMap contributors)
 - 오차: 모델 5개(학습 없는 전체 평균·IDW 포함)의 비 온 구간 오차(이벤트 MAE)와 95% CI (t2_2026_eval 결과)
 - 그래프 보완 실험: 사전 판정 Q1~Q3의 차이와 95% CI (t2_graph_eval 결과, gangnam2026_t2_graph_ci.csv 가 있을 때만)
+- 시공간 GNN 단기 예측: 사전 판정 F1~F5의 차이와 95% CI (t1_st_eval 결과, gangnam2026_t1_st_ci.csv 가 있을 때만) → s2026_t1_diff.png
 """
 import sys
 
@@ -23,6 +24,7 @@ from src.visualization.make_figures import C  # noqa: E402
 
 CI_CSV = PROCESSED / "gangnam2026_t2_ci.csv"
 GRAPH_CI_CSV = PROCESSED / "gangnam2026_t2_graph_ci.csv"
+T1_CI_CSV = PROCESSED / "gangnam2026_t1_st_ci.csv"
 
 
 def sensor_map():
@@ -95,9 +97,35 @@ def graph_diff():
     _save(fig, "s2026_graph_diff")
 
 
+def t1_diff():
+    d = pd.read_csv(T1_CI_CSV).set_index("stat")
+    rows = [("F1_h3_road_minus_ar_rain", "F1 30분  도로거리 GNN − 선형(M2)"), ("F2_h3_corr_minus_ar_rain", "F2 30분  상관 GNN − 선형(M2)"),
+            ("F3_h3_road_minus_ar_rain_nbr", "F3 30분  도로거리 GNN − 선형+이웃(M3)"), ("F3_h3_corr_minus_ar_rain_nbr", "F3 30분  상관 GNN − 선형+이웃(M3)"),
+            ("F4_h1_road_minus_ar_rain", "F4 10분  도로거리 GNN − 선형(M2)"), ("F4_h1_corr_minus_ar_rain", "F4 10분  상관 GNN − 선형(M2)"),
+            ("F5_h3_ar_rain_minus_persist", "F5 30분  선형(M2) − 직전 값(M0)")]
+    fig, ax = plt.subplots(figsize=(10.4, 5.6), dpi=130)
+    for i, (k, _) in enumerate(rows):
+        v, lo, hi = (d.loc[k, c] * 1000 for c in ("point_m", "lo_m", "hi_m"))
+        col = "#2A78D6" if lo <= 0 <= hi else "#E8692E"
+        ax.plot([lo, hi], [i, i], color=col, lw=5, solid_capstyle="round", zorder=3)
+        ax.scatter([v], [i], s=160, color=col, edgecolor="white", linewidth=2, zorder=4)
+        ax.text(hi + 0.2, i, f"{v:+.2f}", va="center", fontsize=FS + 1, fontweight="bold", color=C["ink"])
+    ax.axvline(0, color=C["ink"], ls="--", lw=1.6)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([lab for _, lab in rows], fontsize=FS)
+    ax.invert_yaxis()
+    ax.set_xlim(-5.5, 2.5)
+    ax.set_xlabel("비 온 구간 오차 차이 (mm) · 선은 95% 범위 · 0보다 왼쪽이면 앞의 것이 오차가 작음")
+    ax.grid(axis="y", visible=False)
+    fig.tight_layout()
+    _save(fig, "s2026_t1_diff")
+
+
 if __name__ == "__main__":
     sensor_map()
     if CI_CSV.exists() or "--ci" in sys.argv:
         gnn_ci()
     if GRAPH_CI_CSV.exists():
         graph_diff()
+    if T1_CI_CSV.exists():
+        t1_diff()
