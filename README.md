@@ -13,7 +13,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 최진호 | 도로망/근접 그래프 구축, GNN 모델링(가림-맞히기 메시지 전달), 강수량 결합, 센서 가리기(LOSO) 실험, 평가, DEM(예정) |
 | 김승진 | 원본 데이터 관리, 지점 데이터 정제/검증, Kakao 좌표 확보, Streamlit + Folium 대시보드, 위험도 시각화 |
 
-## 2. 현재 개발 단계: 시공간 GNN 단기 예측 판정 완료(60분 뒤에서만 GNN이 근소하게 나음), 대시보드 뼈대
+## 2. 현재 개발 단계: 시공간 GNN 단기 예측 판정 완료(그래프 효과 없음, 미래 강우가 핵심), 대시보드 뼈대
 
 | 단계 | 실습일지 | 내용 | 상태 |
 |---|---|---|---|
@@ -22,7 +22,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 3 | 7주차 (10/12~10/18) | 좌표 확보(18/20)·검증, 도로망, 공간 그래프, 1분 시계열(18노드), 예측 데이터셋, 기준 모델, 그림 4종 | 완료 |
 | 4 | 9주차 | 공간 신호 진단, 강수량 정렬·강우 효과, T2 센서 하나 가리고 맞히기(LOSO) 진단·부트스트랩·민감도, **T2 GNN 구현·판정(구분 불가)**, 중간발표 자료 | 완료 |
 | 5 | 9주차 | 2026-06~08 수위 확보(2026-11-01), 품질 규칙·센서 선정, 판정 규칙 사전 고정([docs/11](docs/11_2026_recomparison_rules.md)), 좌표·도로거리, 강우, 기준 모델·GNN 재비교 → **구분 불가**([docs/13](docs/13_2026_recomparison_result.md)) | 완료 |
-| 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대, 시공간 GNN 단기 예측 판정(30분 뒤 구분 불가 [docs/19](docs/19_t1_st_gnn_result.md), 60분 뒤 GNN이 넘음 [docs/28](docs/28_t1_long_result.md)), 센서 간 시차·고도([docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md)), 큰 상승 30분 전 감지([docs/25](docs/25_t1_warning_result.md)), 연결 학습 GNN([docs/29](docs/29_t1_adapt_result.md)) | 진행 중 |
+| 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대, 시공간 GNN 단기 예측 판정(30분 뒤 구분 불가 [docs/19](docs/19_t1_st_gnn_result.md), 60분 뒤 GNN이 넘음 [docs/28](docs/28_t1_long_result.md)), 센서 간 시차·고도([docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md)), 큰 상승 30분 전 감지([docs/25](docs/25_t1_warning_result.md)), 연결 학습 GNN([docs/29](docs/29_t1_adapt_result.md)), 이웃 없는 GNN·시드 재현([docs/31](docs/31_t1_nbr_result.md)), 미래 강우 상한([docs/33](docs/33_t1_oracle_result.md)) | 진행 중 |
 | 다음 | | 2차 중간발표 자료, 대시보드 다듬기(팀원), 최종 발표 자료. 이어서 할 일은 [docs/18](docs/18_week11_status.md) | 진행 중 |
 
 - 대상(2025): 서울시 강남구 센서 18개(하수관로 수위) × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
@@ -36,7 +36,8 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 - 그래프 보완(2026): 배수분구 소속은 받을 수 없어, 지형 고도(Copernicus 30 m)로 "높은 곳 → 낮은 곳" 방향 그래프(G1)와 랜덤 그래프(G2)를 사전 고정 규칙으로 비교했다. G1은 도로거리 GNN보다 나빴고(+1.03 mm [+0.52, +1.56]), **도로거리 그래프와 랜덤 그래프는 같았다**(−0.03 mm [−0.47, +0.49]). 지금 GNN은 어느 센서와 연결됐는지를 활용하지 못한다 → [docs/15](docs/15_graph_alternatives_result.md).
 - 대시보드 표시 기준: 관로 크기를 몰라 위험도 대신 **평소 대비 상승 단계**(50/200/500 mm)로 확정. 단계는 센서가 있는 곳에만 칠하고, 센서 없는 곳 추정은 비교선으로만 보여준다(추정이 실제 '매우 큰 상승'을 맞힌 비율 8~19%) → [docs/16](docs/16_rise_levels.md). 뼈대: `streamlit run dashboard.py`.
 - 센서 간 시차(2026): 비 사건마다 센서가 오르기 시작하는 시점을 비교하면 10~60분 시차가 반복된다(사전 고정 판정 L1·L2 모두 "신호 있음", 반복되는 쌍 141개). 다만 대부분 센서별 반응 속도 차이로 설명되고, 지형 고도로는 설명되지 않았다(E1·E2 구분 불가) → [docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md).
-- 시공간 GNN 단기 예측(2026, 센서 있는 곳): 30분 뒤 GNN 22.2 mm vs 강우+자기이력 선형 22.7 mm, 차이 −0.51 mm [−1.81, +0.74] → **구분 불가**([docs/19](docs/19_t1_st_gnn_result.md)). 연결을 학습하는 GNN도 구분 불가([docs/29](docs/29_t1_adapt_result.md)). **입력 120분·60분 뒤에서는 GNN이 선형을 넘었다**(−1.58 mm [−3.13, −0.30], 약 5%) → [docs/28](docs/28_t1_long_result.md). 이긴 곳은 물이 빠지는 구간이고(사후 참고), 차오르는 구간은 모든 모델이 "직전 값 그대로"보다 낫지 않다.
+- 시공간 GNN 단기 예측(2026, 센서 있는 곳): 30분 뒤 GNN 22.2 mm vs 강우+자기이력 선형 22.7 mm, 차이 −0.51 mm [−1.81, +0.74] → **구분 불가**([docs/19](docs/19_t1_st_gnn_result.md)). 연결을 학습하는 GNN도 구분 불가([docs/29](docs/29_t1_adapt_result.md)). **입력 120분·60분 뒤에서는 GNN이 선형을 넘었다**(−1.58 mm [−3.13, −0.30], 약 5%) → [docs/28](docs/28_t1_long_result.md). 이긴 곳은 물이 빠지는 구간이고(사후 참고), 차오르는 구간은 모든 모델이 "직전 값 그대로"보다 낫지 않다. 이웃 연결을 끊은 GNN도 선형을 넘었고(−1.35 [−2.97, −0.12]) 이웃 있는 GNN과 구분되지 않아, **우위는 그래프가 아니라 시간 모델 효과**다. 시드를 바꿔도 재현됐다 → [docs/31](docs/31_t1_nbr_result.md).
+- 미래 강우 상한 실험: 실제로 내린 30분 강우를 선형 모델에 더하면 30분 뒤 오차 22.7 → 18.6 mm(−4.07 [−5.76, −2.06]), 큰 상승 첫 도달 1/94 → 25/94건. 그래프 효과(0.2~0.5 mm)의 약 8배다. **30분 앞 경보에는 강우 예보가 핵심**이다(실시간에 쓸 수 없는 상한) → [docs/33](docs/33_t1_oracle_result.md).
 - 큰 상승 미리 잡기: 30분 전에 200 mm 이상 상승이 처음 오는 순간을 잡은 모델이 사실상 없다(94건 중 0~1건). 10분 전이면 선형이 약 3분의 1을 잡는다(참고). **예상선을 경보로 쓰면 안 된다** → [docs/25](docs/25_t1_warning_result.md).
 - **아직 없는 것:** 침수·위험 라벨(수위만 있음), 관로 제원·실제 관로 연결.
 - 그래프는 도로망 근접 기반 연구용 근사이며 실제 하수관로 연결·흐름 방향이 아니다.
@@ -160,8 +161,9 @@ raw CSV (cp949, 22.5M행)
 
 1. 2차 중간발표 자료(1차 이후 진행: 시차 분석, 시공간 GNN 판정, 큰 상승 감지, 60분 뒤 결과)
 2. 대시보드 다듬기(팀원 담당): 센서 없는 곳 비교선은 IDW를 기본으로([docs/15](docs/15_graph_alternatives_result.md)), 30분 뒤 예상선은 M2 선형([docs/19](docs/19_t1_st_gnn_result.md)), 예상선은 경보가 아니라는 안내([docs/25](docs/25_t1_warning_result.md)), 표시 원칙은 [docs/16](docs/16_rise_levels.md)
-3. 최종 발표: 근사 그래프로는 구조 효과 없음, 시간 예측은 60분 뒤 배수 구간에서만 GNN이 근소하게 나음, 실제 관로 정보와 강우 예보가 필요한 이유
-4. 실제 관로 연결·배수구역 자료를 얻으면 같은 사전 고정 방식([docs/14](docs/14_graph_alternatives_rules.md))으로 다시 비교
+3. 실제 강우 예보(초단기 강수 예측·레이더)로 상한 실험 다시 확인([docs/33](docs/33_t1_oracle_result.md))
+4. 최종 발표: 근사 그래프로는 구조 효과 없음, GNN 우위(60분 뒤)는 시간 모델 효과, 실제 관로 정보와 강우 예보가 필요한 이유
+5. 실제 관로 연결·배수구역 자료를 얻으면 같은 사전 고정 방식([docs/14](docs/14_graph_alternatives_rules.md))으로 다시 비교
 
 ## 12. 강남구 분석 파이프라인 재현 순서 (2025-06~08)
 
@@ -246,6 +248,10 @@ python -m src.analysis.t1_long                       # 입력 120분, 30·60분 
 python -m src.analysis.t1_long_eval                  # 판정 D1·D2
 python -m src.analysis.t1_adapt                      # 연결 학습 GNN
 python -m src.analysis.t1_adapt_eval                 # 판정 A1·A2 (t1_st 예측 필요)
+python -m src.analysis.t1_nbr                       # 이웃 없는 GNN + G-road 시드 3·4·5 (약 1시간 45분)
+python -m src.analysis.t1_nbr_eval                  # 판정 N1·N2·R1 (t1_long 예측 필요)
+python -m src.analysis.t1_oracle                    # 미래 강우 상한 (10초)
+python -m src.analysis.t1_oracle_eval               # 판정 O1·O2
 python -m src.analysis.t1_error_breakdown [--long]   # 변화 크기별 오차 (사후 참고)
 ```
 
@@ -288,5 +294,9 @@ md 문서는 `docs/`에서 관리한다.
 | [27_t1_adapt_rules.md](docs/27_t1_adapt_rules.md) | 연결 학습 GNN(G-adapt) 사전 고정 규칙(A1·A2) |
 | [28_t1_long_result.md](docs/28_t1_long_result.md) | 60분 뒤 결과: D1·D2 GNN이 선형을 넘음(약 5%), 이긴 곳은 물 빠지는 구간(참고) |
 | [29_t1_adapt_result.md](docs/29_t1_adapt_result.md) | 연결 학습 GNN 결과: A1·A2 구분 불가, 학습된 연결이 균등 평균으로 수렴 |
+| [30_t1_nbr_rules.md](docs/30_t1_nbr_rules.md) | 60분 뒤 우위의 이웃 기여·시드 재현 사전 고정 규칙(N1·N2·R1) |
+| [31_t1_nbr_result.md](docs/31_t1_nbr_result.md) | 이웃 없는 GNN 결과: N1 구분 불가, N2 넘음, R1 재현됨 → 우위는 시간 모델 효과 |
+| [32_t1_oracle_rules.md](docs/32_t1_oracle_rules.md) | 미래 강우 상한 실험 사전 고정 규칙(O1·O2) |
+| [33_t1_oracle_result.md](docs/33_t1_oracle_result.md) | 미래 강우 상한 결과: 오차 18% 감소, 큰 상승 1/94 → 25/94(둘 다 충족) |
 | [figures/README.md](docs/figures/README.md) | 발표·실습일지에 쓴 그림을 용도별로 모은 목록 |
 | [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |
