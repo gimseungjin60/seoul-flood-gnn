@@ -67,14 +67,14 @@ def sensor_event_times(nodes: list[str]) -> pd.DataFrame:
 def pair_lags(df: pd.DataFrame, nodes: list[str], col: str, base_col: str | None, events=None) -> dict:
     """{(i, j): 사건별 시차 배열} (i<j, 두 센서 모두 유효한 사건). col − base_col 의 차이(강우 보정), base_col None 이면 col 차이."""
     v = df[df.valid]
-    if events is not None:
-        v = pd.concat([v[v.event_id == e] for e in events])
+    rep_id = None
+    if events is not None:                                                   # 복원추출: 중복 사건은 다른 사건으로 구분
+        parts = [v[v.event_id == e] for e in events]
+        rep_id = np.concatenate([np.full(len(p), k) for k, p in enumerate(parts)])
+        v = pd.concat(parts)
     val = v[col] - (v[base_col] if base_col else 0.0)
-    tab = pd.DataFrame({"event_id": v.event_id.to_numpy(), "node_id": v.node_id.to_numpy(),
+    tab = pd.DataFrame({"event_id": v.event_id.to_numpy() if rep_id is None else rep_id, "node_id": v.node_id.to_numpy(),
                         "x": val.to_numpy()})
-    if events is not None:                                                   # 복원추출 중복 사건 구분
-        rep_id = np.concatenate([np.full((v.event_id == e).sum(), k) for k, e in enumerate(events)])
-        tab["event_id"] = rep_id
     wide = tab.pivot_table(index="event_id", columns="node_id", values="x")
     out = {}
     for a in range(len(nodes)):
