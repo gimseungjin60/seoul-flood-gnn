@@ -27,5 +27,6 @@
 | `7주차_실습일지/` | 그림1 공간 그래프 ~ 그림6 결측 현황 | `fig1_spatial_graph_k3`, `fig2_water_levels_full`, `fig2_water_levels_zoom`, `fig3_baseline_mae`, `fig3_baseline_rmse`, `fig4_observation_availability` (`src/visualization/make_figures.py`) |
 | `9주차_실습일지/` | 그림1 2026 센서 배치, 그림2 2026 모델별 오차 | `slide/s2026_sensor_map.png`, `slide/s2026_gnn_ci.png` (`src/analysis/figures_2026.py`) |
 | `11주차_실습일지/` | 예측 오차 차이(선형 대비, 10주차와 겹치는 30분 GNN 줄 제외), 큰 상승 감지 건수 (그래프 보완 판정·대시보드 뼈대는 10주차 일지에 들어가 11주차 최종본에서는 뺌) | `slide/s_t1_diff_followup.png`·`slide/s_t1_warning.png` (`figures_t1.py`), 이전 초안용 `slide/s2026_graph_diff.png` (`figures_2026.py`), 대시보드 캡처 |
+| `12주차_실습일지/` | 그림1~10 대시보드 디자인 적용(재생 모드 전체·화면 머리·지도·그래프·과거 반응·사이드바, 로딩·연결 오류·실시간·빈 상태). 그림9·10은 실시간 API 응답을 테스트 자료로 바꿔 찍은 것 | 대시보드 캡처(Chrome, 2배 해상도, 둥근 틀은 캡처 뒤 덧씌움) |
 
 일지 문서(HWP·docx)는 `docs/logs/`에 있다.

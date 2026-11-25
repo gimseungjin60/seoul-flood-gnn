@@ -1,0 +1,16 @@
+# 대시보드 테마. 값은 src/dashboard/theme.css(디자인 토큰)와 같다: 기본 빨강 강조색이 '위험' 색과 헷갈리지 않게 파랑으로 바꿨다.
+[theme]
+base = "light"
+primaryColor = "#0071e3"            # --blue: 선택·포커스
+backgroundColor = "#ffffff"         # --bg
+secondaryBackgroundColor = "#f7f7f8"  # --fill-2: 사이드바, 입력 바탕
+textColor = "#1d1d1f"               # --ink
+linkColor = "#0066cc"               # --blue-link
+borderColor = "#e5e5ea"             # --line
+baseRadius = "12px"                 # --r-field
+buttonRadius = "full"               # --r-pill
+baseFontSize = 15                   # --text-base
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap, Noto Sans KR, sans-serif"   # 한글 Noto Sans KR 은 theme.css 에서 불러옴(설정은 URL 글꼴 하나만 받음)
+
+[theme.sidebar]
+backgroundColor = "#f7f7f8"

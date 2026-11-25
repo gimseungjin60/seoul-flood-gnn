@@ -1,0 +1,246 @@
+/* =========================================================================
+   서울 하수관로 침수 위험 대시보드 · 디자인 토큰
+   - 보이스 플래너 B안 토큰(흰 바탕 · Apple + GPT 느낌)을 그대로 가져왔어요.
+   - 바뀐 곳은 '과목 고유색' 대신 들어간 '위험 단계·추정·강우' 토큰뿐이에요.
+   - 시안에 없는 새 색·크기를 만들지 마세요.
+   ========================================================================= */
+
+/* 글꼴: <head>에 아래 한 줄을 넣으세요.
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+*/
+
+:root {
+  /* ---------- 글꼴과 본문 ---------- */
+  --font-sans: 'Pretendard Variable', Pretendard, 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  --text-base: 15px;            /* 본문 */
+  --leading-base: 1.5;
+  --tracking-base: -0.011em;    /* body 전체 */
+  --tracking-title: -0.035em;   /* 페이지 제목(h1 30~34px) */
+  --tracking-hero: -0.045em;    /* 대시보드 큰 날짜(48px) */
+
+  /* 글자 크기 단계 (시안에서 실제로 쓴 값) */
+  --fs-hero: 48px;      /* 대시보드 날짜 */
+  --fs-h1: 30px;        /* 페이지 제목 (과목 페이지 32px, 긴 제목인 메모 상세 28px) */
+  --fs-stat: 34px;      /* 숫자 카드의 큰 숫자 */
+  --fs-h2: 18px;        /* 카드 제목 */
+  --fs-lg: 17px;        /* 부제 */
+  --fs-md: 15px;        /* 본문, 큰 버튼 */
+  --fs-ui: 14px;        /* 내비, 버튼, 목록 */
+  --fs-sm: 13.5px;      /* 설명, 메타 */
+  --fs-xs: 13px;        /* 캡션, 라벨 */
+  --fs-2xs: 12px;       /* 칩, 배지 */
+  --fs-3xs: 11.5px;     /* AI 배지 */
+
+  /* ---------- 글자색 ---------- */
+  --ink: #1d1d1f;              /* 본문·제목·주요 버튼 바탕 */
+  --ink-2: #48484a;            /* 보조 글자, 내비 기본 글자 */
+  --ink-3: #6e6e73;            /* 설명·캡션·placeholder (흰 바탕 4.5:1 통과) */
+  --ink-4: #86868b;            /* 아이콘, 휴지통 아이콘 (글자에는 쓰지 않기) */
+  --ink-on-gray: #636366;      /* 회색 칩(#f2f2f5) 위 글자 */
+  --ink-disabled: #aeaeb2;     /* 꺼진 아이콘, 녹음 전 00:00 */
+
+  /* ---------- 바탕과 면 ---------- */
+  --bg: #ffffff;
+  --fill-1: #f2f2f5;           /* 회색 칩, 세그먼트 트랙, 선택된 내비, 취소 버튼, 빈 상태 아이콘 원 */
+  --fill-2: #f7f7f8;           /* 옅은 면: 칸반 열, 녹음 카드, 로그인 왼쪽 */
+  --fill-3: #fafafb;           /* 표 머리, 표 행 hover */
+  --fill-hover: #f5f5f7;       /* 흰 버튼 hover */
+  --bubble-user: #f4f4f6;      /* 비서 패널의 내 말풍선 */
+  --avatar: #e8e8ed;           /* 이니셜 동그라미 */
+
+  /* ---------- 선 ---------- */
+  --line: #e5e5ea;             /* 카드 테두리, 탭 밑줄 */
+  --line-2: #ececf0;           /* 헤더 아래 선, 안쪽 카드 링(0 0 0 1px) */
+  --line-3: #f0f0f3;           /* 목록 행 구분선 */
+  --line-strong: #d2d2d7;      /* 입력창·보조 버튼 테두리, 빈 열 점선 */
+
+  /* ---------- 파랑: 포커스·선택·AI·안내 ---------- */
+  --blue: #0071e3;             /* 포커스 테두리, 체크된 박스, 내비 배지, 진행 중 점 */
+  --blue-link: #0066cc;        /* 글자 링크, 실행 취소 */
+  --blue-ink: #0058b0;         /* 파랑 바탕 위 글자·아이콘 (AI 배지, 안내 배너) */
+  --blue-tint: #e6f0fb;        /* AI 배지, 진행 중·새 후보 배지, 방금 추가 배지 */
+  --blue-tint-2: #f2f7fe;      /* 안내 배너, AI 제안 박스 */
+  --blue-today: #f5f9ff;       /* 시간표 오늘 열 */
+  --blue-field-line: #d6e4f5;  /* 파랑 박스 안 입력창 테두리 (받은 편지함 AI 제안) */
+  --focus-ring: 0 0 0 4px rgba(0, 113, 227, .14);
+
+  /* ---------- 빨강: 24시간 이내 마감·입력 오류·삭제 ---------- */
+  --red: #d70015;              /* 삭제 버튼, D-day 큰 숫자, 마감 칩 글자, 오류 입력 테두리 */
+  --red-text: #b0000f;         /* 작은 오류 문장 */
+  --red-tint: #fdecee;         /* 마감 칩·오류 박스 바탕 */
+  --red-line: #f3c2c7;         /* 삭제(보조) 버튼 테두리 */
+  --red-live: #ff3b30;         /* 녹음 중 점, 지금 시각 선 */
+  --error-ring: 0 0 0 4px rgba(215, 0, 21, .1);
+
+  /* ---------- 주황: 3일 이내 마감·경고(연결 만료 등) ---------- */
+  --orange-text: #b25000;      /* 주황 칩 글자, 경고 아이콘 */
+  --orange-strong: #8a3e00;    /* 경고 문장(작은 글자) */
+  --orange-tint: #fff4e5;      /* 경고 배너, 주황 칩, 시험 포인트 박스 */
+  --orange-dot: #ff9f0a;       /* 연결 만료 상태 점 */
+
+  /* ---------- 초록: 완료·연결됨·사용 가능 ---------- */
+  --green: #34c759;            /* 상태 점 */
+  --green-text: #1f7a35;
+  --green-tint: #eaf7ed;
+
+  /* ---------- 회색 상태 점 ---------- */
+  --gray-dot: #8e8e93;         /* 연결 안 됨, 일정(과목 없음) 점 */
+  --gray-dot-2: #c7c7cc;       /* 과목 없음 칩 점 */
+
+  /* ---------- 위험 단계 (과목 고유색 자리를 대신함) ----------
+     기준은 '평소 수위 대비 상승폭'. 색만으로 구분하지 않도록 항상 글자(정상/주의/위험)와 함께 써요.
+     지도 점은 원색, 칩·배지 바탕은 기존 tint를 그대로 씀. 글자는 칩 규칙(red/orange-text/green-text) 그대로. */
+  --risk-high: var(--red);          --risk-high-tint: var(--red-tint);        /* 위험: 상승폭 ≥ 위험 기준 */
+  --risk-warn: var(--orange-dot);   --risk-warn-tint: var(--orange-tint);     /* 주의: 상승폭 ≥ 주의 기준 */
+  --risk-ok:   var(--green);        --risk-ok-tint:   var(--green-tint);      /* 정상 */
+  --risk-none: var(--gray-dot);                                               /* 자료 없음·결측 */
+
+  /* ---------- 추정(센서 없는 지점)과 강우 ----------
+     추정값은 기존 'AI' 자리의 파랑 계열을 씀: 실측 = 검정 실선, 추정 = 파랑 점선. */
+  --estimate: var(--blue);          --estimate-tint: var(--blue-tint);
+  --rain-bar: rgba(0, 113, 227, .35);   /* 10분 강우 막대 (파랑을 옅게) */
+  --rain-bar-hover: rgba(0, 113, 227, .6);
+  --map-road: #d2d2d7;              /* = --line-strong. 지도 도로선 */
+  --map-road-minor: #e5e5ea;        /* = --line */
+
+  /* ---------- 반경 ---------- */
+  --r-pill: 9999px;     /* 버튼, 칩, 배지, 내비, 세그먼트, 토스트 */
+  --r-composer: 26px;   /* 큰 입력 바 */
+  --r-dialog: 22px;     /* 확인 대화상자, 과목 시트, 음성 비서 패널 */
+  --r-panel: 18px;      /* 큰 카드(타임라인, 목록, 칸반 열) */
+  --r-card: 16px;       /* 숫자 카드, 비서 패널 안 카드 */
+  --r-item: 14px;       /* 칸반 카드, 배너, 빈 열 점선 상자 */
+  --r-field: 12px;      /* 입력창, 작은 박스, 아이콘 타일 */
+  --r-tile: 10px;
+
+  /* ---------- 그림자 ---------- */
+  --shadow-float: 0 2px 6px rgba(0, 0, 0, .12), 0 12px 32px rgba(0, 0, 0, .22);  /* 비서에게 말하기 버튼(FAB) */
+  --shadow-panel: 0 2px 8px rgba(0, 0, 0, .08), 0 24px 64px rgba(0, 0, 0, .2);   /* 음성 비서 패널 (+ 1px --line 테두리) */
+  --shadow-toast: 0 2px 6px rgba(0, 0, 0, .06), 0 12px 32px rgba(0, 0, 0, .12);
+  --shadow-dialog: 0 2px 8px rgba(0, 0, 0, .08), 0 30px 80px rgba(0, 0, 0, .24);
+  --shadow-card-hover: 0 4px 14px rgba(0, 0, 0, .06);
+  --shadow-seg: 0 1px 2px rgba(0, 0, 0, .08);                                    /* 세그먼트 선택 칸 */
+  --ring-inner: 0 0 0 1px #ececf0;                                               /* 회색 면 위 흰 카드 */
+  --overlay: rgba(0, 0, 0, .3);                                                  /* 대화상자 뒤 */
+
+  /* ---------- 레이아웃 ---------- */
+  --header-h: 64px;
+  --header-pad-x: 28px;
+  --content-max: 1200px;       /* main: max-width 1200, margin 0 auto */
+  --content-pad: 32px 40px 64px;   /* 비서 버튼(FAB)이 없어서 아래 여백을 줄임 */
+  
+  /* ---------- 움직임 ---------- */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur-fast: .15s;    /* hover 색 */
+  --dur-rise: .3s;     /* 카드·토스트 등장 */
+  --skeleton-cycle: 1.4s;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  letter-spacing: var(--tracking-base);
+  word-break: keep-all;               /* 한국어 단어 단위 줄바꿈 */
+  -webkit-font-smoothing: antialiased;
+}
+p, li, h1, h2, h3 { text-wrap: pretty; }  /* 마지막 줄 한 글자 방지 */
+button, input, select, textarea { font-family: inherit; letter-spacing: inherit; color: inherit; }
+input::placeholder, textarea::placeholder { color: var(--ink-3); opacity: 1; }
+a { color: var(--blue-link); text-decoration: none; }
+a:hover { color: var(--blue-ink); }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.tabular { font-variant-numeric: tabular-nums; }   /* 시간·날짜·숫자는 모두 고정폭 숫자 */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* =========================================================================
+   아래부터 대시보드 적용분: components.md 규칙을 Streamlit 요소에 입힌다.
+   Streamlit 내부 data-testid 이름에 기대므로 Streamlit 버전을 올리면 화면을 한 번 확인할 것.
+   ========================================================================= */
+
+/* 페이지 틀 (3) */
+.stApp, .stApp [data-testid="stMarkdownContainer"] { letter-spacing: var(--tracking-base); word-break: keep-all; }
+[data-testid="stMainBlockContainer"] { max-width: var(--content-max); padding: var(--content-pad); }
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p { font-size: var(--fs-xs); color: var(--ink-3); }
+[data-testid="stHeading"] h3 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em; padding: 0; }
+
+/* 상단 바 (1, 메뉴 없이 로고와 이름만) */
+.ui-header { display: flex; align-items: center; gap: 20px; height: var(--header-h); border-bottom: 1px solid var(--line-2); margin: -8px 0 0; }
+.ui-logo { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); white-space: nowrap; flex: 1; }
+.ui-logo .mark { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; }
+.ui-logo .mark svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 화면 머리: 모드 · 큰 시각 */
+.ui-hello { margin: 16px 0 0; font-size: var(--fs-lg); color: var(--ink-3); }
+.ui-hero { margin: 6px 0 0; padding: 0; font-size: var(--fs-hero); line-height: 1.1; font-weight: 700; letter-spacing: var(--tracking-hero); font-variant-numeric: tabular-nums; }
+
+/* 숫자 카드 (5): st.metric */
+[data-testid="stMetric"] { border: 1px solid var(--line); border-radius: var(--r-card); padding: 16px 18px; background: var(--bg); }
+[data-testid="stMetricLabel"] p { font-size: var(--fs-xs); font-weight: 500; color: var(--ink-3); }
+[data-testid="stMetricValue"] { margin-top: 4px; font-size: var(--fs-stat); line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+
+/* 큰 카드 (5): st.container(key="card_…") */
+[class*="st-key-card_"] { border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--bg); padding: 20px 22px; }
+[class*="st-key-card_"] iframe { border-radius: var(--r-item); box-shadow: var(--ring-inner); }
+
+/* 배너 (9): st.info = 안내(파랑), st.warning = 경고·연결 문제(주황), st.error = 고쳐야 할 입력(빨강) */
+[data-testid="stAlertContainer"] { border-radius: var(--r-item); padding: 12px 12px 12px 16px; font-size: var(--fs-ui); color: var(--ink); }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) { background: var(--blue-tint-2); }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentInfo"]) [data-testid="stIconMaterial"] { color: var(--blue-ink); }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentWarning"]) { background: var(--orange-tint); }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentWarning"]) [data-testid="stIconMaterial"] { color: var(--orange-text); }
+[data-testid="stAlertContentWarning"] p { color: var(--orange-strong); }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentError"]) { background: var(--red-tint); }
+[data-testid="stAlertContentError"] p { color: var(--red-text); }
+[data-testid="stAlertContainer"] p { font-size: var(--fs-ui); }
+[data-testid="stAlertContainer"] strong { color: var(--ink); font-weight: 600; }
+
+/* 버튼 (4): 보조 = 흰 바탕 테두리 알약 */
+[data-testid="stBaseButton-secondary"] { height: 40px; padding: 0 18px; border: 1px solid var(--line-strong); background: var(--bg); color: var(--ink);
+  font-size: var(--fs-ui); font-weight: 600; transition: transform .12s ease, background-color var(--dur-fast) ease; }
+[data-testid="stBaseButton-secondary"]:hover { background: var(--fill-hover); border-color: var(--line-strong); color: var(--ink); }
+[data-testid="stBaseButton-secondary"]:active { transform: scale(.96); background: var(--fill-hover); color: var(--ink); }
+[data-testid="stBaseButton-secondary"]:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* 사이드바 라벨 (7) */
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p { font-size: var(--fs-xs); font-weight: 600; }
+[data-testid="stSidebar"] h2 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em; }
+
+/* 칩 (6): 위험 단계는 색과 글자를 함께 */
+.ui-chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: var(--r-pill); font-size: var(--fs-2xs); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ui-chip .dot { width: 7px; height: 7px; border-radius: var(--r-pill); background: currentColor; box-sizing: border-box; }
+.ui-chip--high { background: var(--risk-high-tint); color: var(--red); }
+.ui-chip--warn { background: var(--risk-warn-tint); color: var(--orange-text); }
+.ui-chip--ok   { background: var(--risk-ok-tint); color: var(--green-text); }
+.ui-chip--gray { background: var(--fill-1); color: var(--ink-on-gray); }
+.ui-chip--gray .dot { background: var(--risk-none); }
+.ui-chip--hollow .dot { background: none; border: 1.5px dashed var(--ink-4); }
+.ui-chip--ring .dot { box-shadow: 0 0 0 2px var(--red-tint), 0 0 0 3.5px currentColor; }
+.ui-legend { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 4px 0; align-items: center; }
+.ui-legend .sep { width: 1px; height: 14px; background: var(--line); margin: 0 4px; }
+
+/* 빈 상태 · 스켈레톤 (10) */
+.ui-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 40px 20px; text-align: center; }
+.ui-empty .icon { width: 44px; height: 44px; border-radius: var(--r-pill); background: var(--fill-1); display: flex; align-items: center; justify-content: center; }
+.ui-empty .icon svg { width: 20px; height: 20px; fill: none; stroke: var(--ink-3); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ui-empty .title { margin-top: 6px; font-size: var(--fs-md); font-weight: 600; }
+.ui-empty .desc { font-size: var(--fs-sm); color: var(--ink-3); }
+@keyframes ui-shine { from { background-position: 200% 0 } to { background-position: -200% 0 } }
+.ui-skel { display: block; border-radius: 7px; background: linear-gradient(90deg, #f2f2f5 25%, #e8e8ed 37%, #f2f2f5 63%); background-size: 400% 100%; animation: ui-shine var(--skeleton-cycle) ease infinite; }
+.ui-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 28px; }
+.ui-stat { border: 1px solid var(--line); border-radius: var(--r-card); padding: 16px 18px; }
+.ui-stat .label { font-size: var(--fs-xs); font-weight: 500; color: var(--ink-3); }
+.ui-row { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; }
+.ui-card { border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px 22px; }
+.ui-card h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em; }
+
+/* 사이드바 시각 슬라이더 값이 한 글자씩 줄바꿈되지 않게 */
+[data-testid="stSlider"] p { white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* 배너 안 `코드` 글자가 작아지지 않게 */
+[data-testid="stAlertContainer"] code { font-size: inherit; background: none; padding: 0; color: inherit; }
