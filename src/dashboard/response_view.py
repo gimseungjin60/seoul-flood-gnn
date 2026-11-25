@@ -1,4 +1,4 @@
-"""대시보드 센서별 '과거 강우 반응' 패널. 자료는 src/analysis/rain_response.py 결과(CSV)만 읽는다(새로 계산하지 않음, docs/21).
+"""대시보드 센서별 '과거 강우 반응' 패널. 자료는 src/analysis/rain_response.py 결과(CSV)만 읽는다(새로 계산하지 않음, docs/35).
 CSV 가 없으면 아무것도 그리지 않는다. 예측이 아니라 과거 사건에서 이 센서가 얼마나 올랐는지의 요약이다."""
 import altair as alt
 import numpy as np

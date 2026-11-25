@@ -1,4 +1,4 @@
-"""강남구 하수관로 수위 현황. 표시 기준: docs/16, 강우 요약: docs/20.
+"""강남구 하수관로 수위 현황. 표시 기준: docs/16, 강우 요약: docs/34.
 
 실행: streamlit run dashboard.py   (실시간 모드는 .env 의 SEOUL_OPENAPI_KEY 필요, src/dashboard/live.py)
 - 모드 2개: **지금(실시간)** = 열린데이터광장 최신 수위·강우를 평소와 비교(src/dashboard/live_view.py), **재생** = 2026-06~08 기록.
@@ -20,7 +20,7 @@ from src.dashboard.data import load
 
 STAGE_COLORS = ("#CFE0F1", "#8DBFE2", "#3A86C0", "#0B3D78")   # 물 색 계열(경보색을 쓰지 않음)
 UNSTABLE = "#9AA5B5"
-HEAVY_MM = 50                                                   # docs/20: 총 50 mm 이상 사건 5개와 비교
+HEAVY_MM = 50                                                   # docs/34: 총 50 mm 이상 사건 5개와 비교
 
 st.set_page_config(page_title="강남구 하수관로 수위", layout="wide")
 

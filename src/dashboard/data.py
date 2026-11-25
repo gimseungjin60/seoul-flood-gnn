@@ -43,7 +43,7 @@ def load() -> dict:
     info = pd.read_csv(OUT_NODES).set_index("node_id").loc[nodes, ["lat", "lon"]].reset_index()
     info["role"] = ["평가 대상" if n in roles["targets"] else "이웃 센서" for n in nodes]
     info["unstable"] = info.node_id.isin(unstable)
-    info["flood_txt"] = ""                                                    # 침수예상도 위치 관계(docs/22), 파일이 있을 때만
+    info["flood_txt"] = ""                                                    # 침수예상도 위치 관계(docs/36), 파일이 있을 때만
     if OUT_FLOOD.exists():
         ov = pd.read_csv(OUT_FLOOD).set_index("node_id")
         info["flood_txt"] = [(" · 침수예상도: 영역 안(침수심1)" if ov.at[n, "flood_depth_class"] >= 1 else
