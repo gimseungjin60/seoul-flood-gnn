@@ -13,7 +13,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 최진호 | 도로망/근접 그래프 구축, GNN 모델링(가림-맞히기 메시지 전달), 강수량 결합, 센서 가리기(LOSO) 실험, 평가, DEM(예정) |
 | 김승진 | 원본 데이터 관리, 지점 데이터 정제/검증, Kakao 좌표 확보, Streamlit + Folium 대시보드, 위험도 시각화 |
 
-## 2. 현재 개발 단계: 시공간 GNN 단기 예측 판정 완료(그래프 효과 없음, 미래 강우가 핵심), 대시보드 뼈대
+## 2. 현재 개발 단계: 시공간 GNN 단기 예측 판정 완료(그래프 효과 없음, 미래 강우가 핵심), 경보형·침수 자료·사건 초반 예측 점검, 대시보드 실시간/재생
 
 | 단계 | 실습일지 | 내용 | 상태 |
 |---|---|---|---|
@@ -22,7 +22,7 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 | 3 | 7주차 (10/12~10/18) | 좌표 확보(18/20)·검증, 도로망, 공간 그래프, 1분 시계열(18노드), 예측 데이터셋, 기준 모델, 그림 4종 | 완료 |
 | 4 | 9주차 | 공간 신호 진단, 강수량 정렬·강우 효과, T2 센서 하나 가리고 맞히기(LOSO) 진단·부트스트랩·민감도, **T2 GNN 구현·판정(구분 불가)**, 중간발표 자료 | 완료 |
 | 5 | 9주차 | 2026-06~08 수위 확보(2026-11-01), 품질 규칙·센서 선정, 판정 규칙 사전 고정([docs/11](docs/11_2026_recomparison_rules.md)), 좌표·도로거리, 강우, 기준 모델·GNN 재비교 → **구분 불가**([docs/13](docs/13_2026_recomparison_result.md)) | 완료 |
-| 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대, 시공간 GNN 단기 예측 판정(30분 뒤 구분 불가 [docs/19](docs/19_t1_st_gnn_result.md), 60분 뒤 GNN이 넘음 [docs/28](docs/28_t1_long_result.md)), 센서 간 시차·고도([docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md)), 큰 상승 30분 전 감지([docs/25](docs/25_t1_warning_result.md)), 연결 학습 GNN([docs/29](docs/29_t1_adapt_result.md)), 이웃 없는 GNN·시드 재현([docs/31](docs/31_t1_nbr_result.md)), 미래 강우 상한([docs/33](docs/33_t1_oracle_result.md)) | 진행 중 |
+| 6 | 11주차 (11/9~11/15) | 배수분구 소속 문의(받을 수 없음), 그래프 보완 실험 G1 고도 방향·G2 랜덤 대조군(규칙 사전 고정 [docs/14](docs/14_graph_alternatives_rules.md)) → **도로거리 구조 기여 없음, 고도 방향은 더 나쁨**([docs/15](docs/15_graph_alternatives_result.md)), 평소 대비 상승 단계 확정([docs/16](docs/16_rise_levels.md)), 대시보드 뼈대, 시공간 GNN 단기 예측 판정(30분 뒤 구분 불가 [docs/19](docs/19_t1_st_gnn_result.md), 60분 뒤 GNN이 넘음 [docs/28](docs/28_t1_long_result.md)), 센서 간 시차·고도([docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md)), 큰 상승 30분 전 감지([docs/25](docs/25_t1_warning_result.md)), 연결 학습 GNN([docs/29](docs/29_t1_adapt_result.md)), 이웃 없는 GNN·시드 재현([docs/31](docs/31_t1_nbr_result.md)), 미래 강우 상한([docs/33](docs/33_t1_oracle_result.md)), 강우 강도별·센서별 과거 강우 반응([docs/34](docs/34_rain_vs_rise.md), [docs/35](docs/35_rain_response.md)), 경보형 평가·침수예상도 겹치기([docs/36](docs/36_alert_and_flood.md)), 실제 침수 피해(침수흔적도 2025, [docs/37](docs/37_real_flood_t4.md)), 사건 초반 최대 상승 예측 T5(사전 규칙 미통과, [docs/38](docs/38_peak_prediction.md)), 대시보드 실시간/재생 두 모드 | 진행 중 |
 | 다음 | | 2차 중간발표 자료, 대시보드 다듬기(팀원), 최종 발표 자료. 이어서 할 일은 [docs/18](docs/18_week11_status.md) | 진행 중 |
 
 - 대상(2025): 서울시 강남구 센서 18개(하수관로 수위) × 2025-06-01~08-31 (1분 간격, 132,480스텝). 20개 대상 지점 중 23-0011(NOT_FOUND), 23-0018(MULTIPLE)은 좌표를 만들지 않고 제외했다. 23-0007, 23-0014는 시설 위치 대용 좌표다.
@@ -34,6 +34,12 @@ GNN으로 센서가 없는 지점의 수위를 예측한 뒤 위험도를 지도
 - T2 GNN(2025): 센서 하나를 가리고 이웃의 현재 값·강우·시간대로 추정하는 GNN(가림-맞히기 학습, 도로거리 k=5 그래프)을 사전 고정 규칙으로 실행했다. 비 온 구간 오차 GNN 26.1 mm vs IDW 25.3 mm, 차이 +0.80 mm [−0.29, +2.08] → **구분 불가**, 그래프 구조 효과로 보고하지 않는다 → [docs/10](docs/10_t2_gnn_result.md).
 - T2 재비교(2026): 같은 설정으로 평가 이벤트 13개(2025는 8개), 이웃 후보 48개 조건에서 다시 비교했다(판정 규칙은 실행 전 고정, [docs/11](docs/11_2026_recomparison_rules.md)). GNN 36.5 mm vs IDW 34.7 mm, 차이 +1.81 mm [−0.99, +4.72] → **구분 불가**. GNN은 강우+이웃 선형 모델보다 오차가 컸다(+2.50 mm [+0.87, +4.11]). 이웃 정보 자체는 도움이 됨(7/17, 기준 6). **두 해 모두 도로거리 그래프의 구조 효과를 확인하지 못했다** → [docs/13](docs/13_2026_recomparison_result.md).
 - 그래프 보완(2026): 배수분구 소속은 받을 수 없어, 지형 고도(Copernicus 30 m)로 "높은 곳 → 낮은 곳" 방향 그래프(G1)와 랜덤 그래프(G2)를 사전 고정 규칙으로 비교했다. G1은 도로거리 GNN보다 나빴고(+1.03 mm [+0.52, +1.56]), **도로거리 그래프와 랜덤 그래프는 같았다**(−0.03 mm [−0.47, +0.49]). 지금 GNN은 어느 센서와 연결됐는지를 활용하지 못한다 → [docs/15](docs/15_graph_alternatives_result.md).
+- 시공간 GNN 단기 예측(2026): 센서 있는 곳의 10분·30분 뒤 수위를 이웃 센서의 지난 1시간 흐름으로 예측했다(도로거리·상관 그래프 2종, 규칙 사전 고정). 30분 뒤 이벤트 MAE: 선형(강우+자기이력) 22.70 mm, G-road 22.18, G-corr 22.22. 차이 −0.53 mm [−1.80, +0.70] → **구분 불가**, 그래프 구조 효과로 보고하지 않는다 → [docs/19](docs/19_t1_st_gnn_result.md).
+- 강우 강도별 과거 요약(2026): 사건 13개에서 총강우량과 센서 중앙 첨두 상승이 함께 움직였다(순위상관 0.90). 50 mm 이상 비 5건에서는 센서 중 13~22개가 '큰 상승' 이상이었으나 같은 강우라도 편차가 크다. 대시보드는 이를 과거 사례 요약으로만 보여준다(예측·경보 아님) → [docs/34](docs/34_rain_vs_rise.md).
+- 센서별 강우 반응(2026): 센서마다 사건 13개의 총강우와 최대 상승의 순위상관을 사전 고정 규칙으로 정리했다. 기록 안정 센서 39개 중 23개가 '강우와 함께 움직임'(95% 구간 하한>0), 16개는 '확인 안 됨'(사건이 적어 구분 불가). 같은 센서도 사건 편차가 크다. 대시보드에서 센서별 과거 반응(예측 아님)으로 보여준다 → [docs/35](docs/35_rain_response.md).
+- 경보형 평가(2026, 이후 60분 안 '큰 상승' 도달): 학습 모델(로지스틱)이 단순 기준(현재 상승폭, 추세 외삽)보다 나빴다 → **경보형으로도 예측이 된다고 말할 수 없다**. 침수예상도(shp) 겹치기: 센서 54개 중 25개가 침수심1 영역 안이고 침수심2 이상에는 센서가 없다. 영역 안/밖 센서의 강우 반응 차이는 구분 불가(+88 mm [−58, +317]). 지도 툴팁에 배경 정보로만 표시 → [docs/36](docs/36_alert_and_flood.md).
+- 실제 침수 피해와 수위(2025, 탐색): 강남은 피해 기록이 1건뿐이라 피해가 몰린 은평·강서·서대문·도봉·강북 센서 53개의 2025-08 수위(OpenAPI로 과거 1분 자료)를 침수흔적도와 맞췄다. 그 날 최대 상승이 큰 센서 근처에서 피해가 났는지는 08-13만 약하게 확인(AUC 0.68 [0.52, 0.82])되고 08-22·23은 구분 불가. **정정:** 08-21~24는 비가 오지 않은 날이라 그 날의 피해 기록은 접수 시각일 가능성이 높아 선행·예측 분석은 폐기했고, 실제 침수일은 08-13 하루뿐이다 → [docs/37](docs/37_real_flood_t4.md).
+- 사건 초반 정보로 센서별 최대 상승 예측(T5, 2026 학습 → 2025 검증): 사건 시작 2시간 뒤의 누적 강우·현재 상승폭으로 사건 최대 상승을 예측. 릿지 회귀가 점추정으로 일관되게 가장 낮은 오차(195.9 vs 기준 203.9~228.4 mm)였으나 구간이 0을 포함해 **사전 규칙상 예측이 된다고 보고하지 않는다**. 사후 추가 평가(방향 바꾸기, 두 해 합쳐 사건 하나 빼기 21개 사건, 센서별 강우량계)도 점추정은 모두 모델 쪽이지만 주 판정(두 해 합침)은 통과하지 못했다. 새 달(2026-09, 약한 비 사건 1개)에서는 모델이 오히려 크게 과대예측했다(MAE 271 vs 현재 최대 유지 98 mm) → [docs/38](docs/38_peak_prediction.md).
 - 대시보드 표시 기준: 관로 크기를 몰라 위험도 대신 **평소 대비 상승 단계**(50/200/500 mm)로 확정. 단계는 센서가 있는 곳에만 칠하고, 센서 없는 곳 추정은 비교선으로만 보여준다(추정이 실제 '매우 큰 상승'을 맞힌 비율 8~19%) → [docs/16](docs/16_rise_levels.md). 뼈대: `streamlit run dashboard.py`.
 - 센서 간 시차(2026): 비 사건마다 센서가 오르기 시작하는 시점을 비교하면 10~60분 시차가 반복된다(사전 고정 판정 L1·L2 모두 "신호 있음", 반복되는 쌍 141개). 다만 대부분 센서별 반응 속도 차이로 설명되고, 지형 고도로는 설명되지 않았다(E1·E2 구분 불가) → [docs/21](docs/21_lead_lag_result.md), [docs/23](docs/23_lead_elev_result.md).
 - 시공간 GNN 단기 예측(2026, 센서 있는 곳): 30분 뒤 GNN 22.2 mm vs 강우+자기이력 선형 22.7 mm, 차이 −0.51 mm [−1.81, +0.74] → **구분 불가**([docs/19](docs/19_t1_st_gnn_result.md)). 연결을 학습하는 GNN도 구분 불가([docs/29](docs/29_t1_adapt_result.md)). **입력 120분·60분 뒤에서는 GNN이 선형을 넘었다**(−1.58 mm [−3.13, −0.30], 약 5%) → [docs/28](docs/28_t1_long_result.md). 이긴 곳은 물이 빠지는 구간이고(사후 참고), 차오르는 구간은 모든 모델이 "직전 값 그대로"보다 낫지 않다. 이웃 연결을 끊은 GNN도 선형을 넘었고(−1.35 [−2.97, −0.12]) 이웃 있는 GNN과 구분되지 않아, **우위는 그래프가 아니라 시간 모델 효과**다. 시드를 바꿔도 재현됐다 → [docs/31](docs/31_t1_nbr_result.md).
@@ -232,9 +238,8 @@ python -m src.analysis.t2_graph --part elev          # G1 고도 방향 GNN (약
 python -m src.analysis.t2_graph --part rand          # G2 랜덤 대조군 GNN (약 55분)
 python -m src.analysis.t2_graph_eval                 # 사전 고정 판정 Q1~Q3
 
-# 상승 단계와 대시보드 (docs/16)
+# 상승 단계와 대시보드 (docs/16, docs/34)
 python -m src.analysis.rise_levels                   # 단계 근거 보고서
-streamlit run dashboard.py                           # 대시보드 뼈대 (loso·gnn 예측 파일이 있으면 비교선 표시)
 
 # 센서 간 시차·고도 (docs/20~23)
 python -m src.analysis.lead_lag                      # 시차 판정 L1·L2
@@ -253,6 +258,17 @@ python -m src.analysis.t1_nbr_eval                  # 판정 N1·N2·R1 (t1_long
 python -m src.analysis.t1_oracle                    # 미래 강우 상한 (10초)
 python -m src.analysis.t1_oracle_eval               # 판정 O1·O2
 python -m src.analysis.t1_error_breakdown [--long]   # 변화 크기별 오차 (사후 참고)
+
+# 강우 반응·경보형·침수 자료·사건 초반 예측 (docs/34~38)
+python -m src.analysis.rain_vs_rise                  # 강우 강도별 과거 상승 단계 요약
+python -m src.analysis.rain_response                 # 센서별 강우-상승 반응 (docs/35)
+python -m src.analysis.t3_alert                      # 경보형 평가 (규칙 t3_alert_rules.py, docs/36)
+python -m src.analysis.flood_overlay                 # 침수예상도 겹치기 (data/raw/flood/침수예상도/ 필요, docs/36)
+python -m src.data.fetch_sewer_api                   # 2025-08 피해 구 5곳 수위(OpenAPI, SEOUL_OPENAPI_KEY 필요)
+python -m src.data.geocode_sewer_api                 # 센서 주소 → 좌표 (KAKAO_REST_API_KEY, 지도/로컬 사용 설정 필요)
+python -m src.analysis.t5_peak                       # 사건 초반 정보로 센서별 최대 상승 예측 (docs/38)
+python -m src.analysis.t4_flood                      # 실제 침수 피해와 수위 (규칙 t4_flood_rules.py, 침수흔적도 2025 필요, docs/37)
+streamlit run dashboard.py                           # 대시보드: 지금(실시간, .env 의 SEOUL_OPENAPI_KEY 필요) / 재생(2026-06~08)
 ```
 
 - 실행은 하나씩 돌린다. 여러 개를 동시에 돌리면 CPU 스레드가 겹쳐 각각 2배 이상 느려진다.
@@ -298,5 +314,10 @@ md 문서는 `docs/`에서 관리한다.
 | [31_t1_nbr_result.md](docs/31_t1_nbr_result.md) | 이웃 없는 GNN 결과: N1 구분 불가, N2 넘음, R1 재현됨 → 우위는 시간 모델 효과 |
 | [32_t1_oracle_rules.md](docs/32_t1_oracle_rules.md) | 미래 강우 상한 실험 사전 고정 규칙(O1·O2) |
 | [33_t1_oracle_result.md](docs/33_t1_oracle_result.md) | 미래 강우 상한 결과: 오차 18% 감소, 큰 상승 1/94 → 25/94(둘 다 충족) |
+| [34_rain_vs_rise.md](docs/34_rain_vs_rise.md) | 강우 강도별 과거 상승 단계 요약(총강우량과 센서 상승 ρ=0.90, 편차 큼)과 대시보드 개편(재생 모드) |
+| [35_rain_response.md](docs/35_rain_response.md) | 센서별 강우-상승 반응(39개 중 23개 강우와 함께 움직임, 16개 확인 안 됨, 예측 아님) |
+| [36_alert_and_flood.md](docs/36_alert_and_flood.md) | 경보형 평가(학습 모델이 단순 기준보다 나쁨)와 침수예상도 겹치기(안/밖 센서 반응 구분 불가) |
+| [37_real_flood_t4.md](docs/37_real_flood_t4.md) | 실제 침수 피해(침수흔적도 2025)와 수위(탐색, 08-21~24 분석은 비가 없는 날이라 폐기 정정) |
+| [38_peak_prediction.md](docs/38_peak_prediction.md) | 사건 초반 정보로 센서별 최대 상승 예측(T5): 점추정은 일관되게 낫지만 사전 규칙 기준은 미충족 |
 | [figures/README.md](docs/figures/README.md) | 발표·실습일지에 쓴 그림을 용도별로 모은 목록 |
 | [presentation/midterm_presentation.md](docs/presentation/midterm_presentation.md) | 중간발표 슬라이드 18장 + 백업 6장, 슬라이드별 발표 대본 |

@@ -28,7 +28,7 @@ from src.visualization.make_figures import C  # noqa: E402
 OUT = PROJECT_ROOT / "outputs" / "figures" / "slide"
 FS = 17
 plt.rcParams.update({
-    "font.family": ["Malgun Gothic", "DejaVu Sans"], "axes.unicode_minus": False, "font.size": FS, "axes.titlesize": FS + 1,
+    "font.family": ["Malgun Gothic", "AppleGothic", "DejaVu Sans"], "axes.unicode_minus": False, "font.size": FS, "axes.titlesize": FS + 1,
     "axes.labelsize": FS, "xtick.labelsize": FS, "ytick.labelsize": FS - 1, "legend.fontsize": FS - 1,
     "figure.facecolor": C["surface"], "axes.facecolor": C["surface"], "savefig.facecolor": C["surface"],
     "axes.edgecolor": C["muted"], "axes.labelcolor": C["ink2"], "xtick.color": C["ink2"], "ytick.color": C["ink2"],
